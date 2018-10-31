@@ -3,23 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\BranchRepository;
-use App\Http\Requests\BranchRegistrationRequest;
+use App\Repositories\CourseRepository;
+use App\Http\Requests\CourseRegistrationRequest;
 use DB;
 use Exception;
 use App\Exceptions\AppCustomException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class BranchController extends Controller
+class CourseController extends Controller
 {
-    protected $branchRepo;
+    protected $courseRepo;
     public $errorHead = null, $noOfRecordsPerPage = null;
 
-    public function __construct(BranchRepository $branchRepo)
+    public function __construct(CourseRepository $courseRepo)
     {
-        $this->branchRepo           = $branchRepo;
+        $this->courseRepo           = $courseRepo;
         $this->noOfRecordsPerPage   = config('settings.no_of_record_per_page');
-        $this->errorHead            = config('settings.controller_code.BranchController');
+        $this->errorHead            = config('settings.controller_code.CourseController');
     }
     
     /**
@@ -29,8 +29,8 @@ class BranchController extends Controller
      */
     public function index()
     {
-        return view('branches.list', [
-                'branches'      => $this->branchRepo->getBranches([], null),
+        return view('courses.list', [
+                'courses'      => $this->courseRepo->getCourses([], null),
             ]);
     }
 
@@ -41,7 +41,7 @@ class BranchController extends Controller
      */
     public function create()
     {
-        return view('branches.register');
+        return view('courses.register');
     }
 
     /**
@@ -50,7 +50,7 @@ class BranchController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(BranchRegistrationRequest $request)
+    public function store(CourseRegistrationRequest $request)
     {
         $saveFlag       = false;
         $errorCode      = 0;
@@ -58,14 +58,14 @@ class BranchController extends Controller
         //wrappin db transactions
         DB::beginTransaction();
         try {
-            $response   = $this->branchRepo->saveBranch([
-                'name'              => $request->get('branch_name'),
+            $response   = $this->courseRepo->saveCourse([
+                'name'              => $request->get('course_name'),
                 'place'             => $request->get('place'),
                 'address'           => $request->get('address'),
                 'gstin'             => $request->get('gstin'),
                 'primary_phone'     => $request->get('primary_phone'),
                 'secondary_phone'   => $request->get('secondary_phone'),
-                'level'             => $request->get('branch_level'),
+                'level'             => $request->get('course_level'),
             ]);
 
             if(!$response['flag']) {
@@ -86,10 +86,10 @@ class BranchController extends Controller
         }
 
         if($saveFlag) {
-            return redirect(route('branch.index'))->with("message","Branch details saved successfully. Reference Number : ". $response['id'])->with("alert-class", "success");
+            return redirect(route('course.index'))->with("message","Course details saved successfully. Reference Number : ". $response['id'])->with("alert-class", "success");
         }
         
-        return redirect()->back()->with("message","Failed to save the branch details. Error Code : ". $this->errorHead. "/". $errorCode)->with("alert-class", "error");
+        return redirect()->back()->with("message","Failed to save the course details. Error Code : ". $this->errorHead. "/". $errorCode)->with("alert-class", "error");
     }
 
     /**
@@ -100,8 +100,8 @@ class BranchController extends Controller
      */
     public function show($id)
     {
-        return view('branches.details', [
-                'branch'       => $this->branchRepo->getBranch($id),
+        return view('courses.details', [
+                'course'       => $this->courseRepo->getCourse($id),
             ]);
     }
 
@@ -113,8 +113,8 @@ class BranchController extends Controller
      */
     public function edit($id)
     {
-        return view('branches.edit', [
-                'branch'       => $this->branchRepo->getBranch($id),
+        return view('courses.edit', [
+                'course'       => $this->courseRepo->getCourse($id),
             ]);
     }
 
@@ -125,7 +125,7 @@ class BranchController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(BranchRegistrationRequest $request, $id)
+    public function update(CourseRegistrationRequest $request, $id)
     {
         $saveFlag       = false;
         $errorCode      = 0;
@@ -133,18 +133,18 @@ class BranchController extends Controller
         //wrappin db transactions
         DB::beginTransaction();
         try {
-            //get branch
-            $branch = $this->branchRepo->getBranch($id);
+            //get course
+            $course = $this->courseRepo->getCourse($id);
 
-            $response   = $this->branchRepo->saveBranch([
-                'name'              => $request->get('branch_name'),
+            $response   = $this->courseRepo->saveCourse([
+                'name'              => $request->get('course_name'),
                 'place'             => $request->get('place'),
                 'address'           => $request->get('address'),
                 'gstin'             => $request->get('gstin'),
                 'primary_phone'     => $request->get('primary_phone'),
                 'secondary_phone'   => $request->get('secondary_phone'),
-                'level'             => $request->get('branch_level'),
-            ], $branch);
+                'level'             => $request->get('course_level'),
+            ], $course);
 
             if(!$response['flag']) {
                 throw new AppCustomException("CustomError", $response['errorCode']);
@@ -164,10 +164,10 @@ class BranchController extends Controller
         }
 
         if($saveFlag) {
-            return redirect(route('branch.index'))->with("message","Branch details updated successfully. Updated Record Number : ". $response['id'])->with("alert-class", "success");
+            return redirect(route('course.index'))->with("message","Course details updated successfully. Updated Record Number : ". $response['id'])->with("alert-class", "success");
         }
         
-        return redirect()->back()->with("message","Failed to update the branch details. Error Code : ". $this->errorHead. "/". $errorCode)->with("alert-class", "error");
+        return redirect()->back()->with("message","Failed to update the course details. Error Code : ". $this->errorHead. "/". $errorCode)->with("alert-class", "error");
     }
 
     /**
@@ -178,6 +178,6 @@ class BranchController extends Controller
      */
     public function destroy($id)
     {
-        return redirect()->back()->with("message", "Branch deletion restricted.")->with("alert-class", "error");
+        return redirect()->back()->with("message", "Course deletion restricted.")->with("alert-class", "error");
     }
 }

@@ -34,8 +34,8 @@ Route::group(['middleware' => 'auth.check'], function () {
         //product
         Route::resource('product', 'ProductController');
 
-        //account
-        Route::resource('account', 'AccountController');
+        //student
+        Route::resource('student', 'StudentController');
 
         //staff
         Route::resource('employee', 'EmployeeController');
@@ -55,12 +55,12 @@ Route::group(['middleware' => 'auth.check'], function () {
         Route::resource('voucher', 'VoucherController');
 
         //reports
-        Route::get('reports/account-statement', 'ReportController@accountStatement')->name('report.account-statement');
+        Route::get('reports/student-statement', 'ReportController@studentStatement')->name('report.student-statement');
         Route::get('reports/credit-list', 'ReportController@creditList')->name('report.credit.list');
 
         //ajax urls
         Route::group(['middleware' => 'is.ajax'], function () {
-            Route::get('/ajax/account/details/{id}', 'AccountController@getDetails')->name('ajax.account.details');
+            Route::get('/ajax/student/details/{id}', 'StudentController@getDetails')->name('ajax.student.details');
             Route::get('/ajax/last/sale', 'SaleController@getLastSale')->name('ajax.lastsale.bybranch');
         });
     });

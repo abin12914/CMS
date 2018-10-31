@@ -81,13 +81,6 @@
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
-                        <ul class="treeview-menu">
-                            <li class="{{ Request::is('reports/account-statement')? 'active' : '' }}">
-                                <a href="{{ route('report.account-statement') }}">
-                                    <i class="fa fa-circle-o text-green"></i> Account Statement
-                                </a>
-                            </li>
-                        </ul>
                     </li>
                     <li class="treeview {{ ( Request::is('purchase/*') || Request::is('purchase') )? 'active' : '' }}">
                         <a href="#">
@@ -173,22 +166,22 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="treeview {{ Request::is('account/*') || Request::is('account') ? 'active' : '' }}">
+                    <li class="treeview {{ Request::is('student/*') || Request::is('student') ? 'active' : '' }}">
                         <a href="#">
                             <i class="fa fa-book"></i>
-                            <span>Accounts</span>
+                            <span>Students</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="{{ Request::is('account/create')? 'active' : '' }}">
-                                <a href="{{route('account.create') }}">
+                            <li class="{{ Request::is('student/create')? 'active' : '' }}">
+                                <a href="{{route('student.create') }}">
                                     <i class="fa fa-circle-o text-yellow"></i> Register
                                 </a>
                             </li>
-                            <li class="{{ Request::is('account')? 'active' : '' }}">
-                                <a href="{{route('account.index') }}">
+                            <li class="{{ Request::is('student')? 'active' : '' }}">
+                                <a href="{{route('student.index') }}">
                                     <i class="fa fa-circle-o text-aqua"></i> List
                                 </a>
                             </li>

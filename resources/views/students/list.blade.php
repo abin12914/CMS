@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Account List')
+@section('title', 'Student List')
 @section('content')
 <div class="content-wrapper">
      <section class="content-header">
         <h1>
-            Account
+            Student
             <small>List</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a> Accounts</a></li>
+            <li><a> Students</a></li>
             <li class="active"> List</li>
         </ol>
     </section>
@@ -24,7 +24,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-header">
-                        <form action="{{ route('account.index') }}" method="get" class="form-horizontal" autocomplete="off">
+                        <form action="{{ route('student.index') }}" method="get" class="form-horizontal" autocomplete="off">
                             <div class="row">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
@@ -44,12 +44,12 @@
                                             @endcomponent
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="account_id" class="control-label">Account : </label>
-                                            {{-- adding account select component --}}
-                                            @component('components.selects.accounts', ['selectedAccountId' => $params['id'], 'cashAccountFlag' => false, 'selectName' => 'account_id', 'activeFlag' => false, 'tabindex' => 2])
+                                            <label for="student_id" class="control-label">Student : </label>
+                                            {{-- adding student select component --}}
+                                            @component('components.selects.students', ['selectedStudentId' => $params['id'], 'cashStudentFlag' => false, 'selectName' => 'student_id', 'activeFlag' => false, 'tabindex' => 2])
                                             @endcomponent
                                             {{-- adding error_message p tag component --}}
-                                            @component('components.paragraph.error_message', ['fieldName' => 'account_id'])
+                                            @component('components.paragraph.error_message', ['fieldName' => 'student_id'])
                                             @endcomponent
                                         </div>
                                         <div class="col-md-4">
@@ -97,9 +97,9 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 5%;">#</th>
-                                            <th style="width: 20%;">Account Name</th>
+                                            <th style="width: 20%;">Student Name</th>
                                             <th style="width: 15%;">Relation</th>
-                                            <th style="width: 20%;">Account Holder</th>
+                                            <th style="width: 20%;">Student Holder</th>
                                             <th style="width: 15%;">Phone</th>
                                             <th style="width: 10%;">Opening Credit</th>
                                             <th style="width: 10%;">Opening Debit</th>
@@ -107,25 +107,25 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if(!empty($accounts))
-                                            @foreach($accounts as $index => $account)
+                                        @if(!empty($students))
+                                            @foreach($students as $index => $student)
                                                 <tr>
-                                                    <td>{{ $index + $accounts->firstItem() }}</td>
+                                                    <td>{{ $index + $students->firstItem() }}</td>
                                                     <td title="Inative/Suspended">
-                                                        {{ $account->account_name }}
-                                                        @if($account->status != 1)
+                                                        {{ $student->student_name }}
+                                                        @if($student->status != 1)
                                                             &emsp;<i class="fa fa-exclamation-triangle text-orange no-print"></i>
                                                         @endif
                                                     </td>
                                                     <td>
-                                                        {{ (!empty($relationTypes) && !empty($relationTypes[$account->relation])) ? $relationTypes[$account->relation] : "Error!" }}
+                                                        {{ (!empty($relationTypes) && !empty($relationTypes[$student->relation])) ? $relationTypes[$student->relation] : "Error!" }}
                                                     </td>
-                                                    <td>{{ $account->name }}</td>
-                                                    <td>{{ $account->phone }}</td>
-                                                    <td>{{ $account->financial_status == 1 ? $account->opening_balance : "-" }}</td>
-                                                    <td>{{ $account->financial_status == 2 ? $account->opening_balance : "-" }}</td>
+                                                    <td>{{ $student->name }}</td>
+                                                    <td>{{ $student->phone }}</td>
+                                                    <td>{{ $student->financial_status == 1 ? $student->opening_balance : "-" }}</td>
+                                                    <td>{{ $student->financial_status == 2 ? $student->opening_balance : "-" }}</td>
                                                     <td class="no-print">
-                                                        <a href="{{ route('account.show', $account->id) }}">
+                                                        <a href="{{ route('student.show', $student->id) }}">
                                                             <button type="button" class="btn btn-info">Details</button>
                                                         </a>
                                                     </td>
@@ -138,12 +138,12 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                @if(!empty($accounts))
+                                @if(!empty($students))
                                     <div>
-                                        Showing {{ $accounts->firstItem(). " - ". $accounts->lastItem(). " of ". $accounts->total() }}
+                                        Showing {{ $students->firstItem(). " - ". $students->lastItem(). " of ". $students->total() }}
                                     </div>
                                     <div class=" no-print pull-right">
-                                        {{ $accounts->appends(Request::all())->links() }}
+                                        {{ $students->appends(Request::all())->links() }}
                                     </div>
                                 @endif
                             </div>

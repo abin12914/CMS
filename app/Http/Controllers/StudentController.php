@@ -3,26 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Repositories\AccountRepository;
+use App\Repositories\StudentRepository;
 use App\Repositories\TransactionRepository;
-use App\Http\Requests\AccountRegistrationRequest;
-use App\Http\Requests\AccountFilterRequest;
+use App\Http\Requests\StudentRegistrationRequest;
+use App\Http\Requests\StudentFilterRequest;
 use \Carbon\Carbon;
 use DB;
 use Exception;
 use App\Exceptions\AppCustomException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 
-class AccountController extends Controller
+class StudentController extends Controller
 {
-    protected $accountRepo;
+    protected $studentRepo;
     public $errorHead = null, $noOfRecordsPerPage = null;
 
-    public function __construct(AccountRepository $accountRepo)
+    public function __construct(StudentRepository $studentRepo)
     {
-        $this->accountRepo          = $accountRepo;
+        $this->studentRepo          = $studentRepo;
         $this->noOfRecordsPerPage   = config('settings.no_of_record_per_page');
-        $this->errorHead            = config('settings.controller_code.AccountController');
+        $this->errorHead            = config('settings.controller_code.StudentController');
     }
 
     /**
@@ -30,18 +30,18 @@ class AccountController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(AccountFilterRequest $request)
+    public function index(StudentFilterRequest $request)
     {
         $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
                 'relation'      => $request->get('relation_type'),
-                'id'            => $request->get('account_id'),
+                'id'            => $request->get('student_id'),
             ];
         
-        return view('accounts.list', [
-            'accounts'      => $this->accountRepo->getAccounts($params, $noOfRecords, true, false),
-            'relationTypes' => config('constants.accountRelationTypes'),
+        return view('students.list', [
+            'students'      => $this->studentRepo->getStudents($params, $noOfRecords, true, false),
+            'relationTypes' => config('constants.studentRelationTypes'),
             'params'        => $params,
             'noOfRecords'   => $noOfRecords,
         ]);
@@ -54,12 +54,8 @@ class AccountController extends Controller
      */
     public function create()
     {
-        $relationTypes = config('constants.accountRelationTypes');
-        //excluding the relationtype 'employee'[index = 1] for new account registration
-        unset($relationTypes[1]);
-
-        return view('accounts.register', [
-                'relationTypes' => $relationTypes,
+        return view('students.register', [
+                'genderTypes' => config('constants.genderTypes'),
             ]);
     }
 
@@ -70,22 +66,22 @@ class AccountController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(
-        AccountRegistrationRequest $request,
+        StudentRegistrationRequest $request,
         TransactionRepository $transactionRepo,
         $id=null
     ) {
         $saveFlag           = false;
         $errorCode          = 0;
-        $account            = null;
-        $accountTransaction = null;
+        $student            = null;
+        $studentTransaction = null;
 
-        $openingBalanceAccountId = config('constants.accountConstants.AccountOpeningBalance.id');
+        $openingBalanceStudentId = config('constants.studentConstants.StudentOpeningBalance.id');
 
         $financialStatus    = $request->get('financial_status');
         $openingBalance     = $request->get('opening_balance');
         $name               = $request->get('name');
 
-        $destination    = '/images/accounts/'; // image file upload path
+        $destination    = '/images/students/'; // image file upload path
         $fileName       = "";
 
         //upload image
@@ -101,29 +97,29 @@ class AccountController extends Controller
         DB::beginTransaction();
         try {
             //confirming opening balance existency.
-            $openingBalanceAccount = $this->accountRepo->getAccount($openingBalanceAccountId);
+            $openingBalanceStudent = $this->studentRepo->getStudent($openingBalanceStudentId);
 
             if(!empty($id)) {
-                $account = $this->accountRepo->getAccount($id);
+                $student = $this->studentRepo->getStudent($id);
 
-                if($account->financial_status == 2){
+                if($student->financial_status == 2){
                     $searchTransaction = [
-                        ['paramName' => 'debit_account_id', 'paramOperator' => '=', 'paramValue' => $account->id],
-                        ['paramName' => 'credit_account_id', 'paramOperator' => '=', 'paramValue' => $openingBalanceAccountId],
+                        ['paramName' => 'debit_student_id', 'paramOperator' => '=', 'paramValue' => $student->id],
+                        ['paramName' => 'credit_student_id', 'paramOperator' => '=', 'paramValue' => $openingBalanceStudentId],
                     ];
                 } else {
                     $searchTransaction = [
-                        ['paramName' => 'debit_account_id', 'paramOperator' => '=', 'paramValue' => $openingBalanceAccountId],
-                        ['paramName' => 'credit_account_id', 'paramOperator' => '=', 'paramValue' => $account->id],
+                        ['paramName' => 'debit_student_id', 'paramOperator' => '=', 'paramValue' => $openingBalanceStudentId],
+                        ['paramName' => 'credit_student_id', 'paramOperator' => '=', 'paramValue' => $student->id],
                     ];
                 }
 
-                $accountTransaction = $transactionRepo->getTransactions($searchTransaction)->first();
+                $studentTransaction = $transactionRepo->getTransactions($searchTransaction)->first();
             }
 
-            //save to account table
-            $accountResponse   = $this->accountRepo->saveAccount([
-                'account_name'      => $request->get('account_name'),
+            //save to student table
+            $studentResponse   = $this->studentRepo->saveStudent([
+                'student_name'      => $request->get('student_name'),
                 'description'       => $request->get('description'),
                 'relation'          => $request->get('relation_type'),
                 'financial_status'  => $financialStatus,
@@ -133,37 +129,37 @@ class AccountController extends Controller
                 'address'           => $request->get('address'),
                 'image'             => $fileName,
                 'status'            => 1,
-            ], $account);
+            ], $student);
 
-            if($accountResponse['flag']) {
+            if($studentResponse['flag']) {
                 //opening balance transaction details
-                if($financialStatus == 1) { //incoming [account holder gives cash to company] [Creditor]
-                    $debitAccountId     = $openingBalanceAccountId; //cash flow into the opening balance account
-                    $creditAccountId    = $accountResponse['id']; //newly created account id [flow out from new account]
+                if($financialStatus == 1) { //incoming [student holder gives cash to company] [Creditor]
+                    $debitStudentId     = $openingBalanceStudentId; //cash flow into the opening balance student
+                    $creditStudentId    = $studentResponse['id']; //newly created student id [flow out from new student]
                     $particulars        = "Opening balance of ". $name . " - Debit [Creditor]";
-                } else if($financialStatus == 2){ //outgoing [company gives cash to account holder] [Debitor]
-                    $debitAccountId     = $accountResponse['id']; //newly created account id [flow into new account]
-                    $creditAccountId    = $openingBalanceAccountId; //flow out from the opening balance account
+                } else if($financialStatus == 2){ //outgoing [company gives cash to student holder] [Debitor]
+                    $debitStudentId     = $studentResponse['id']; //newly created student id [flow into new student]
+                    $creditStudentId    = $openingBalanceStudentId; //flow out from the opening balance student
                     $particulars        = "Opening balance of ". $name . " - Credit [Debitor]";
                 } else {
-                    $debitAccountId     = $openingBalanceAccountId;
-                    $creditAccountId    = $accountResponse['id']; //newly created account id
+                    $debitStudentId     = $openingBalanceStudentId;
+                    $creditStudentId    = $studentResponse['id']; //newly created student id
                     $particulars        = "Opening balance of ". $name . " - None";
                     $openingBalance     = 0;
                 }
             } else {
-                throw new AppCustomException("CustomError", $accountResponse['errorCode']);
+                throw new AppCustomException("CustomError", $studentResponse['errorCode']);
             }
 
             //save to transaction table
             $transactionResponse   = $transactionRepo->saveTransaction([
-                'debit_account_id'  => $debitAccountId,
-                'credit_account_id' => $creditAccountId,
+                'debit_student_id'  => $debitStudentId,
+                'credit_student_id' => $creditStudentId,
                 'amount'            => $openingBalance,
                 'transaction_date'  => Carbon::now()->format('Y-m-d'),
                 'particulars'       => $particulars,
                 'branch_id'         => 0,
-            ], $accountTransaction);
+            ], $studentTransaction);
 
             if(!$transactionResponse['flag']) {
                 throw new AppCustomException("CustomError", $transactionResponse['errorCode']);
@@ -186,10 +182,10 @@ class AccountController extends Controller
             if(!empty($id)) {
                 return [
                     'flag'  => true,
-                    'id'    => $accountResponse['id']
+                    'id'    => $studentResponse['id']
                 ];
             }
-            return redirect(route('account.show', $accountResponse['id']))->with("message","Account details saved successfully. Reference Number : ". $accountResponse['id'])->with("alert-class", "success");
+            return redirect(route('student.show', $studentResponse['id']))->with("message","Student details saved successfully. Reference Number : ". $studentResponse['id'])->with("alert-class", "success");
         }
 
         if(!empty($id)) {
@@ -199,7 +195,7 @@ class AccountController extends Controller
             ];
         }
         
-        return redirect()->back()->with("message","Failed to save the account details. Error Code : ". $this->errorHead. "/". $errorCode)->with("alert-class", "error");
+        return redirect()->back()->with("message","Failed to save the student details. Error Code : ". $this->errorHead. "/". $errorCode)->with("alert-class", "error");
     }
 
     /**
@@ -211,10 +207,10 @@ class AccountController extends Controller
     public function show($id)
     {
         $errorCode  = 0;
-        $account    = [];
+        $student    = [];
 
         try {
-            $account = $this->accountRepo->getAccount($id, false);
+            $student = $this->studentRepo->getStudent($id, false);
         } catch (\Exception $e) {
             if($e->getMessage() == "CustomError") {
                 $errorCode = $e->getCode();
@@ -222,13 +218,13 @@ class AccountController extends Controller
                 $errorCode = 2;
             }
             //throwing model not found exception when no model is fetched
-            throw new ModelNotFoundException("Account", $errorCode);
+            throw new ModelNotFoundException("Student", $errorCode);
         }
 
-        return view('accounts.details', [
-            'account'       => $account,
-            'relationTypes' => config('constants.accountRelationTypes'),
-            'accountTypes'  => config('constants.$accountTypes'),
+        return view('students.details', [
+            'student'       => $student,
+            'relationTypes' => config('constants.studentRelationTypes'),
+            'studentTypes'  => config('constants.$studentTypes'),
         ]);
     }
 
@@ -241,14 +237,14 @@ class AccountController extends Controller
     public function edit($id)
     {
         $errorCode  = 0;
-        $account    = [];
+        $student    = [];
 
-        $relationTypes = config('constants.accountRelationTypes');
-        //excluding the relationtype 'employee'[index = 1] for account update
+        $relationTypes = config('constants.studentRelationTypes');
+        //excluding the relationtype 'employee'[index = 1] for student update
         unset($relationTypes[1]);
 
         try {
-            $account = $this->accountRepo->getAccount($id, false);
+            $student = $this->studentRepo->getStudent($id, false);
         } catch (\Exception $e) {
             if($e->getMessage() == "CustomError") {
                 $errorCode = $e->getCode();
@@ -256,11 +252,11 @@ class AccountController extends Controller
                 $errorCode = 3;
             }
             //throwing methodnotfound exception when no model is fetched
-            throw new ModelNotFoundException("Account", $errorCode);
+            throw new ModelNotFoundException("Student", $errorCode);
         }
 
-        return view('accounts.edit', [
-            'account'       => $account,
+        return view('students.edit', [
+            'student'       => $student,
             'relationTypes' => $relationTypes,
         ]);
     }
@@ -273,17 +269,17 @@ class AccountController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(
-        AccountRegistrationRequest $request,
+        StudentRegistrationRequest $request,
         TransactionRepository $transactionRepo,
         $id)
     {
         $updateResponse = $this->store($request, $transactionRepo, $id);
 
         if($updateResponse['flag']) {
-            return redirect(route('account.show', $updateResponse['id']))->with("message","Account details updated successfully. Updated Record Number : ". $updateResponse['id'])->with("alert-class", "success");
+            return redirect(route('student.show', $updateResponse['id']))->with("message","Student details updated successfully. Updated Record Number : ". $updateResponse['id'])->with("alert-class", "success");
         }
         
-        return redirect()->back()->with("message","Failed to update the account details. Error Code : ". $this->errorHead. "/". $updateResponse['errorCode'])->with("alert-class", "error");
+        return redirect()->back()->with("message","Failed to update the student details. Error Code : ". $this->errorHead. "/". $updateResponse['errorCode'])->with("alert-class", "error");
     }
 
     /**
@@ -315,10 +311,10 @@ class AccountController extends Controller
             ];
         }
         $errorCode  = 0;
-        $account    = [];
+        $student    = [];
 
         try {
-            $account    = $this->accountRepo->getAccount($id,false);
+            $student    = $this->studentRepo->getStudent($id,false);
             $oldBalance = $transactionRepo->getOldBalance($id, null, null);
         } catch (\Exception $e) {
             if($e->getMessage() == "CustomError") {
@@ -335,11 +331,11 @@ class AccountController extends Controller
 
         return [
             'flag'      => true,
-            'account'   => [
-                'name'      => $account->name,
-                'phone'     => $account->phone,
-                'address'   => $account->address,
-                'type'      => $account->type,
+            'student'   => [
+                'name'      => $student->name,
+                'phone'     => $student->phone,
+                'address'   => $student->address,
+                'type'      => $student->type,
             ],
             'oldBalance' => [
                 'oldDebit'  => $oldBalance['debit'] ?: 0,

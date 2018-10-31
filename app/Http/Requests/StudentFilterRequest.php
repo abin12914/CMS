@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\Models\Account;
+use App\Models\Student;
 
-class AccountFilterRequest extends FormRequest
+class StudentFilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,16 +25,16 @@ class AccountFilterRequest extends FormRequest
      */
     public function rules()
     {
-        $relationTypes  = config('constants.accountRelationTypes');
+        $relationTypes  = config('constants.studentRelationTypes');
 
         return [
             'relation_type' =>  [
                                     'nullable',
                                     Rule::in(array_keys($relationTypes)),
                                 ],
-            'account_id'    =>  [
+            'student_id'    =>  [
                                     'nullable',
-                                    Rule::in(Account::pluck('id')->toArray()),
+                                    Rule::in(Student::pluck('id')->toArray()),
                                 ],
             'no_of_records' =>  [
                                     'nullable',

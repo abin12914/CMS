@@ -8,12 +8,10 @@ return [
         'user'       => 2,
     ],
 
-    'accountRelationTypes' => [
-        1 => 'Employees',
-        2 => 'Supplier',
-        3 => 'Customer',
-        4 => 'Contractor',
-        5 => 'General',
+    'genderTypes' => [
+        -1 => 'Not Specified',
+        1 => 'Male',
+        2 => 'Female',
     ],
 
     'accountTypes' => [

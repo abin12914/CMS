@@ -2,38 +2,38 @@
 
 namespace App\Repositories;
 
-use App\Models\Branch;
+use App\Models\Course;
 use Exception;
 use App\Exceptions\AppCustomException;
 
-class BranchRepository
+class CourseRepository
 {
     public $repositoryCode, $errorCode = 0;
 
     public function __construct()
     {
-        $this->repositoryCode = config('settings.repository_code.BranchRepository');
+        $this->repositoryCode = config('settings.repository_code.CourseRepository');
     }
 
     /**
-     * Return branches.
+     * Return courses.
      */
-    public function getBranches($params=[], $noOfRecords=null)
+    public function getCourses($params=[], $noOfRecords=null)
     {
-        $branches = [];
+        $courses = [];
 
         try {
-            $branches = Branch::active();
+            $courses = Course::active();
             
             foreach ($params as $key => $value) {
                 if(!empty($value)) {
-                    $branches = $branches->where($key, $value);
+                    $courses = $courses->where($key, $value);
                 }
             }
             if(!empty($noOfRecords)) {
-                $branches = $branches->paginate($noOfRecords);
+                $courses = $courses->paginate($noOfRecords);
             } else {
-                $branches= $branches->get();
+                $courses= $courses->get();
             }
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
@@ -41,35 +41,34 @@ class BranchRepository
             } else {
                 $this->errorCode = $this->repositoryCode + 1;
             }
-            
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        return $branches;
+        return $courses;
     }
 
     /**
-     * Action for saving branch.
+     * Action for saving course.
      */
-    public function saveBranch($inputArray=[], $branch=null)
+    public function saveCourse($inputArray=[], $course=null)
     {
         $saveFlag = false;
 
         try {
             //employee saving
-            if(empty($branch)) {
-                $branch = new Branch;
+            if(empty($course)) {
+                $course = new Course;
             }
-            $branch->name               = $inputArray['name'];
-            $branch->place              = $inputArray['place'];
-            $branch->address            = $inputArray['address'];
-            $branch->gstin              = $inputArray['gstin'];
-            $branch->primary_phone      = $inputArray['primary_phone'];
-            $branch->secondary_phone    = $inputArray['secondary_phone'];
-            $branch->level              = $inputArray['level'];
-            $branch->status             = 1;
-            //branch save
-            $branch->save();
+            $course->name               = $inputArray['name'];
+            $course->place              = $inputArray['place'];
+            $course->address            = $inputArray['address'];
+            $course->gstin              = $inputArray['gstin'];
+            $course->primary_phone      = $inputArray['primary_phone'];
+            $course->secondary_phone    = $inputArray['secondary_phone'];
+            $course->level              = $inputArray['level'];
+            $course->status             = 1;
+            //course save
+            $course->save();
 
             $saveFlag = true;
         } catch (Exception $e) {
@@ -85,7 +84,7 @@ class BranchRepository
         if($saveFlag) {
             return [
                 'flag'  => true,
-                'id'    => $branch->id,
+                'id'    => $course->id,
             ];
         }
 
@@ -96,14 +95,14 @@ class BranchRepository
     }
 
     /**
-     * return branch.
+     * return course.
      */
-    public function getBranch($id)
+    public function getCourse($id)
     {
-        $branch = [];
+        $course = [];
 
         try {
-            $branch = Branch::active()->findOrFail($id);
+            $course = Course::active()->findOrFail($id);
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
                 $this->errorCode = $e->getCode();
@@ -114,10 +113,10 @@ class BranchRepository
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        return $branch;
+        return $course;
     }
 
-    public function deleteBranch($id, $forceFlag=false)
+    public function deleteCourse($id, $forceFlag=false)
     {
         return [
             'flag'          => false,

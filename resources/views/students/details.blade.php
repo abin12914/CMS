@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Account Details')
+@section('title', 'Student Details')
 @section('content')
 <div class="content-wrapper">
      <section class="content-header">
         <h1>
-            Account
+            Student
             <small>Details</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ route('account.index') }}"> Accounts</a></li>
+            <li><a href="{{ route('student.index') }}"> Students</a></li>
             <li class="active"> Details</li>
         </ol>
     </section>
@@ -22,16 +22,16 @@
                 <div class="col-md-8">
                     <!-- Widget: user widget style 1 -->
                     <div class="box box-widget widget-user-2">
-                        @if(!empty($account))
+                        @if(!empty($student))
                             <!-- Add the bg color to the header using any of the bg-* classes -->
-                            <div class="widget-user-header bg-{{ $account->status == 1 ? 'yellow' : 'gray' }}">
+                            <div class="widget-user-header bg-{{ $student->status == 1 ? 'yellow' : 'gray' }}">
                                 <div class="widget-user-image">
-                                    <img class="img-circle" src="{{ $account->image ?: "/images/accounts/default_account.png" }}" alt="User Avatar">
+                                    <img class="img-circle" src="{{ $student->image ?: "/images/students/default_student.png" }}" alt="User Avatar">
                                 </div>
                                 <!-- /.widget-user-image -->
-                                <h3 class="widget-user-username">{{ $account->account_name }} {{ $account->status != 1 ? '(Suspended Account)' : '' }}</h3>
+                                <h3 class="widget-user-username">{{ $student->student_name }} {{ $student->status != 1 ? '(Suspended Student)' : '' }}</h3>
                                 <h5 class="widget-user-desc">
-                                    {{ (!empty($relationTypes) && !empty($relationTypes[$account->relation])) ? $relationTypes[$account->relation] : "Error" }}
+                                    {{ (!empty($relationTypes) && !empty($relationTypes[$student->relation])) ? $relationTypes[$student->relation] : "Error" }}
                                 </h5>
                             </div>
                             <div class="box box-primary">
@@ -42,16 +42,16 @@
                                                 <i class="fa fa-paperclip margin-r-5"></i> Reference Number
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                #{{ $account->id }}
+                                                #{{ $student->id }}
                                             </p>
                                             <hr>
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-book margin-r-5"></i> Account Name
+                                                <i class="fa fa-book margin-r-5"></i> Student Name
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $account->account_name }}
+                                                {{ $student->student_name }}
                                             </p>
                                             <hr>
                                         </div>
@@ -62,7 +62,7 @@
                                                 <i class="fa fa-file-text-o margin-r-5"></i> Description
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $account->description or "-" }}
+                                                {{ $student->description or "-" }}
                                             </p>
                                             <hr>
                                         </div>
@@ -71,7 +71,7 @@
                                                 <i class="fa fa-user-o margin-r-5"></i> Name
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $account->name }}
+                                                {{ $student->name }}
                                             </p>
                                             <hr>
                                         </div>
@@ -82,7 +82,7 @@
                                                 <i class="fa fa-phone margin-r-5"></i> Phone
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $account->phone or "-" }}
+                                                {{ $student->phone or "-" }}
                                             </p>
                                             <hr>
                                         </div>
@@ -91,7 +91,7 @@
                                                 <i class="fa fa-map-marker margin-r-5"></i> Address
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $account->address or "-" }}
+                                                {{ $student->address or "-" }}
                                             </p>
                                             <hr>
                                         </div>
@@ -102,7 +102,7 @@
                                                 <i class="fa fa-link margin-r-5"></i> Relation
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ (!empty($relationTypes) && !empty($relationTypes[$account->relation])) ? $relationTypes[$account->relation] : "Error" }}
+                                                {{ (!empty($relationTypes) && !empty($relationTypes[$student->relation])) ? $relationTypes[$student->relation] : "Error" }}
                                             </p>
                                             <hr>
                                         </div>
@@ -111,12 +111,12 @@
                                                 <i class="fa fa-calculator margin-r-5"></i> Opening Balance
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                @if($account->financial_status == 1)
+                                                @if($student->financial_status == 1)
                                                     Creditor - 
-                                                @elseif($account->financial_status == 2)
+                                                @elseif($student->financial_status == 2)
                                                     Debitor - 
                                                 @endif
-                                                {{ $account->opening_balance }}
+                                                {{ $student->opening_balance }}
                                             </p>
                                             <hr>
                                         </div>
@@ -128,18 +128,18 @@
                                     <div class="row">
                                         <div class="col-md-4"></div>
                                         <div class="col-md-4">
-                                            <div class="col-md-{{ $account->status == 1 ? '12' : '6' }}">
-                                                @if($account->relation == 1)
-                                                    <a href="{{ route('employee.show', $account->employee->id) }}">
+                                            <div class="col-md-{{ $student->status == 1 ? '12' : '6' }}">
+                                                @if($student->relation == 1)
+                                                    <a href="{{ route('employee.show', $student->employee->id) }}">
                                                         <button type="button" class="btn btn-info btn-block btn-flat">Employee Details</button>
                                                     </a>
                                                 @else
-                                                    <form action="{{ route('account.edit', $account->id) }}" method="get" class="form-horizontal">
+                                                    <form action="{{ route('student.edit', $student->id) }}" method="get" class="form-horizontal">
                                                         <button type="submit" class="btn btn-primary btn-block btn-flat">Edit</button>
                                                     </form>
                                                 @endif
                                             </div>
-                                            @if($account->status != 1)
+                                            @if($student->status != 1)
                                                 <div class="col-md-6">
                                                     <form action="#" method="get" class="form-horizontal">
                                                         <button type="button" class="btn btn-warning btn-block btn-flat">Activate</button>

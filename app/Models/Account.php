@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Account extends Model
+class Student extends Model
 {
     use SoftDeletes;
 
@@ -17,7 +17,7 @@ class Account extends Model
     protected $dates = ['deleted_at'];
 
     /**
-     * Scope a query to only include active accounts.
+     * Scope a query to only include active students.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -28,26 +28,26 @@ class Account extends Model
     }
     
     /**
-     * Get the employee record associated with the account.
+     * Get the employee record associated with the student.
      */
     public function employee()
     {
-        return $this->hasOne('App\Models\Employee', 'account_id');
+        return $this->hasOne('App\Models\Employee', 'student_id');
     }
 
     /**
-     * Get the debit transaction records associated with the account.
+     * Get the debit transaction records associated with the student.
      */
     public function debitTransactions()
     {
-        return $this->hasMany('App\Models\Transaction', 'debit_account_id');
+        return $this->hasMany('App\Models\Transaction', 'debit_student_id');
     }
 
     /**
-     * Get the credit transaction records associated with the account.
+     * Get the credit transaction records associated with the student.
      */
     public function creditTransactions()
     {
-        return $this->hasMany('App\Models\Transaction', 'credit_account_id');
+        return $this->hasMany('App\Models\Transaction', 'credit_student_id');
     }
 }

@@ -3,27 +3,27 @@
 namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
-use App\Repositories\BranchRepository;
+use App\Repositories\CourseRepository;
 use Exception;
 //use App\Exceptions\AppCustomException;
 
-class BranchComponentComposer
+class CourseComponentComposer
 {
-    protected $branches = [], $errorHead = null;
+    protected $courses = [], $errorHead = null;
 
     /**
-     * Create a new branches partial composer.
+     * Create a new courses partial composer.
      *
-     * @param  BranchRepository  $branches
+     * @param  CourseRepository  $courses
      * @return void
      */
-    public function __construct(BranchRepository $branchRepo)
+    public function __construct(CourseRepository $courseRepo)
     {
         $errorCode          = 0;
-        $this->errorHead    = config('settings.composer_code.BranchComponentComposer');
+        $this->errorHead    = config('settings.composer_code.CourseComponentComposer');
 
         try {
-            $this->branches = $branchRepo->getBranches();
+            $this->courses = $courseRepo->getCourses();
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
                 $errorCode = $e->getCode();
@@ -43,6 +43,6 @@ class BranchComponentComposer
      */
     public function compose(View $view)
     {
-        $view->with(['branchesCombo' => $this->branches]);
+        $view->with(['coursesCombo' => $this->courses]);
     }
 }
