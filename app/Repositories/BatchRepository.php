@@ -2,47 +2,47 @@
 
 namespace App\Repositories;
 
-use App\Models\Expense;
+use App\Models\Batch;
 use Exception;
 use App\Exceptions\AppCustomException;
 
-class ExpenseRepository
+class BatchRepository
 {
     public $repositoryCode, $errorCode = 0;
 
     public function __construct()
     {
-        $this->repositoryCode = config('settings.repository_code.ExpenseRepository');
+        $this->repositoryCode = config('settings.repository_code.BatchRepository');
     }
 
     /**
-     * Return expenses.
+     * Return batches.
      */
-    public function getExpenses($params=[], $relationalParams=[], $noOfRecords=null)
+    public function getBatches($params=[], $relationalParams=[], $noOfRecords=null)
     {
-        $expenses = [];
+        $batches = [];
 
         try {
-            $expenses = Expense::with(['branch', 'transaction.debitAccount'])->active();
+            $batches = Batch::with(['branch', 'transaction.debitAccount'])->active();
 
             foreach ($params as $param) {
                 if(!empty($param) && !empty($param['paramValue'])) {
-                    $expenses = $expenses->where($param['paramName'], $param['paramOperator'], $param['paramValue']);
+                    $batches = $batches->where($param['paramName'], $param['paramOperator'], $param['paramValue']);
                 }
             }
 
             foreach ($relationalParams as $param) {
                 if(!empty($param) && !empty($param['paramValue'])) {
-                    $expenses = $expenses->whereHas($param['relation'], function($qry) use($param) {
+                    $batches = $batches->whereHas($param['relation'], function($qry) use($param) {
                         $qry->where($param['paramName'], $param['paramValue']);
                     });
                 }
             }
 
             if(!empty($noOfRecords) && $noOfRecords > 0) {
-                $expenses = $expenses->paginate($noOfRecords);
+                $batches = $batches->paginate($noOfRecords);
             } else {
-                $expenses= $expenses->get();
+                $batches= $batches->get();
             }
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
@@ -53,29 +53,29 @@ class ExpenseRepository
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        return $expenses;
+        return $batches;
     }
 
     /**
-     * Action for expense save.
+     * Action for batch save.
      */
-    public function saveExpense($inputArray=[], $expense=null)
+    public function saveBatch($inputArray=[], $batch=null)
     {
         $saveFlag   = false;
 
         try {
-            //expense saving
-            if(empty($expense)) {
-                $expense = new Expense;
+            //batch saving
+            if(empty($batch)) {
+                $batch = new Batch;
             }
-            $expense->transaction_id = $inputArray['transaction_id'];
-            $expense->date           = $inputArray['date'];
-            $expense->service_id     = $inputArray['service_id'];
-            $expense->bill_amount    = $inputArray['bill_amount'];
-            $expense->branch_id      = $inputArray['branch_id'];
-            $expense->status         = 1;
-            //expense save
-            $expense->save();
+            $batch->transaction_id = $inputArray['transaction_id'];
+            $batch->date           = $inputArray['date'];
+            $batch->service_id     = $inputArray['service_id'];
+            $batch->bill_amount    = $inputArray['bill_amount'];
+            $batch->branch_id      = $inputArray['branch_id'];
+            $batch->status         = 1;
+            //batch save
+            $batch->save();
 
             $saveFlag = true;
         } catch (Exception $e) {
@@ -90,7 +90,7 @@ class ExpenseRepository
         if($saveFlag) {
             return [
                 'flag'  => true,
-                'id'    => $expense->id,
+                'id'    => $batch->id,
             ];
         }
         return [
@@ -100,14 +100,14 @@ class ExpenseRepository
     }
 
     /**
-     * return expense.
+     * return batch.
      */
-    public function getExpense($id)
+    public function getBatch($id)
     {
-        $expense = [];
+        $batch = [];
 
         try {
-            $expense = Expense::active()->findOrFail($id);
+            $batch = Batch::active()->findOrFail($id);
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
                 $this->errorCode = $e->getCode();
@@ -118,23 +118,23 @@ class ExpenseRepository
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        return $expense;
+        return $batch;
     }
 
-    public function deleteExpense($id, $forceFlag=false)
+    public function deleteBatch($id, $forceFlag=false)
     {
         $deleteFlag = false;
 
         try {
-            //get expense
-            $expense = $this->getExpense($id);
+            //get batch
+            $batch = $this->getBatch($id);
 
             //force delete or soft delete
             //related models will be deleted by deleting event handlers
             if($forceFlag) {
-                $expense->forceDelete();
+                $batch->forceDelete();
             } else {
-                $expense->delete();
+                $batch->delete();
             }
             
             $deleteFlag = true;

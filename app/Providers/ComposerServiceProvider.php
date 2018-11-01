@@ -19,7 +19,7 @@ class ComposerServiceProvider extends ServiceProvider
         //accounts to views
         View::composer('components.selects.students', "App\Http\ViewComposers\StudentComponentComposer");
         //employees to views
-        View::composer('components.selects.employees', "App\Http\ViewComposers\EmployeeComponentComposer");
+        View::composer('components.selects.batches', "App\Http\ViewComposers\BatchComponentComposer");
         //branches to views
         View::composer('components.selects.courses', "App\Http\ViewComposers\CourseComponentComposer");
         //products to views

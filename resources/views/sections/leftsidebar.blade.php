@@ -26,54 +26,11 @@
                         <i class="fa fa-dashboard"></i> <span>Dashboard</span>
                     </a>
                 </li>
-                @if($loggedUser->isSuperAdmin())
-                    <li class="treeview {{ (Request::is('branch/*') || Request::is('branch'))? 'active' : '' }}">
-                        <a href="#">
-                            <i class="fa fa-industry"></i>
-                            <span>Branch</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="{{ Request::is('branch/create')? 'active' : '' }}">
-                                <a href="{{ route('branch.create') }}">
-                                    <i class="fa fa-circle-o text-yellow"></i> Register
-                                </a>
-                            </li>
-                            <li class="{{ Request::is('branch')? 'active' : '' }}">
-                                <a href="{{ route('branch.index') }}">
-                                    <i class="fa fa-circle-o text-aqua"></i> List
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                {{-- @if($loggedUser->isSuperAdmin())
                 @endif
                 @if($loggedUser->isSuperAdmin() || $loggedUser->isAdmin())
-
-                @endif
+                @endif --}}
                 @if($loggedUser->isSuperAdmin() || $loggedUser->isAdmin() || $loggedUser->isUser())
-                    <li class="treeview {{ Request::is('student/*') || Request::is('student') ? 'active' : '' }}">
-                        <a href="#">
-                            <i class="fa fa-users"></i>
-                            <span>Students</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="{{ Request::is('student/create')? 'active' : '' }}">
-                                <a href="{{route('student.create') }}">
-                                    <i class="fa fa-circle-o text-yellow"></i> Register
-                                </a>
-                            </li>
-                            <li class="{{ Request::is('student')? 'active' : '' }}">
-                                <a href="{{route('student.index') }}">
-                                    <i class="fa fa-circle-o text-aqua"></i> List
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                     <li class="treeview {{ Request::is('certificate/*') || Request::is('certificate') ? 'active' : '' }}">
                         <a href="#">
                             <i class="fa fa-clipboard"></i>
@@ -102,7 +59,7 @@
                     </li>
                     <li class="treeview {{ Request::is('course/*') || Request::is('course') ? 'active' : '' }}">
                         <a href="#">
-                            <i class="fa fa-tag"></i>
+                            <i class="fa fa-graduation-cap"></i>
                             <span>Courses</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
@@ -116,6 +73,48 @@
                             </li>
                             <li class="{{ Request::is('course')? 'active' : '' }}">
                                 <a href="{{route('course.index') }}">
+                                    <i class="fa fa-circle-o text-aqua"></i> List
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treeview {{ Request::is('batch/*') || Request::is('batch') ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="fa fa-building-o"></i>
+                            <span>Batches</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ Request::is('batch/create')? 'active' : '' }}">
+                                <a href="{{route('batch.create') }}">
+                                    <i class="fa fa-circle-o text-yellow"></i> Register
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('batch')? 'active' : '' }}">
+                                <a href="{{route('batch.index') }}">
+                                    <i class="fa fa-circle-o text-aqua"></i> List
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treeview {{ Request::is('student/*') || Request::is('student') ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="fa fa-users"></i>
+                            <span>Students</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ Request::is('student/create')? 'active' : '' }}">
+                                <a href="{{route('student.create') }}">
+                                    <i class="fa fa-circle-o text-yellow"></i> Register
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('student')? 'active' : '' }}">
+                                <a href="{{route('student.index') }}">
                                     <i class="fa fa-circle-o text-aqua"></i> List
                                 </a>
                             </li>

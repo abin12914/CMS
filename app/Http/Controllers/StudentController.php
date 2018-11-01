@@ -88,11 +88,7 @@ class StudentController extends Controller
                 'phone'         => $request->get('phone'),
                 'gender'        => $request->get('gender'),
                 'title'         => $request->get('title'),
-                'course_id'     => $request->get('course_id'),
-                'from_year'     => $request->get('from_year'),
-                'to_year'       => $request->get('to_year'),
-                'fee'           => $request->get('fee'),
-                'class_id'      => $request->get('class_id'),
+                'batch_id'      => $request->get('batch_id'),
                 'status'        => 1,
             ], $student);
 

@@ -3,34 +3,34 @@
 namespace App\Http\ViewComposers;
 
 use Illuminate\View\View;
-use App\Repositories\EmployeeRepository;
+use App\Repositories\BatchRepository;
 use Exception;
 //use App\Exceptions\AppCustomException;
 
-class EmployeeComponentComposer
+class BatchComponentComposer
 {
-    protected $employees = [], $errorHead = null;
+    protected $batches = [], $errorHead = null;
 
     /**
-     * Create a new employees partial composer.
+     * Create a new batches partial composer.
      *
-     * @param  EmployeeRepository  $employees
+     * @param  BatchRepository  $batches
      * @return void
      */
-    public function __construct(EmployeeRepository $employeeRepo)
+    public function __construct(BatchRepository $batchRepo)
     {
         $errorCode          = 0;
-        $this->errorHead    = config('settings.composer_code.EmployeeComponentComposer');
+        $this->errorHead    = config('settings.composer_code.BatchComponentComposer');
 
         try {
-            $this->employees = $employeeRepo->getEmployees();
+            $this->batches = $batchRepo->getBatches();
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
                 $errorCode = $e->getCode();
             } else {
                 $errorCode = 1;
             }
-            
+
             //throw new AppCustomException("CustomError", ($this->errorHead + $errorCode));
         }
     }
@@ -43,6 +43,6 @@ class EmployeeComponentComposer
      */
     public function compose(View $view)
     {
-        $view->with(['employeesCombo' => $this->employees]);
+        $view->with(['batchesCombo' => $this->batches]);
     }
 }

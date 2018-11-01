@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Events\DeletingBatchEvent;
 
-class Student extends Model
+class Batch extends Model
 {
     use SoftDeletes;
 
@@ -14,10 +15,12 @@ class Student extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['date', 'deleted_at'];
+
+    public $timestamps = false;
 
     /**
-     * Scope a query to only include active students.
+     * Scope a query to only include active expenses.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -26,12 +29,12 @@ class Student extends Model
     {
         return $query->where('status', 1);
     }
-    
+
     /**
-     * Get the batch record associated with the student.
+     * Get the course details associated with the batch
      */
-    public function batch()
+    public function course()
     {
-        return $this->belongsTo('App\Models\Batch', 'batch_id');
+        return $this->belongsTo('App\Models\Course','course_id');
     }
 }

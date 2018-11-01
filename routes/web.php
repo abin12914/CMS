@@ -31,6 +31,9 @@ Route::group(['middleware' => 'auth.check'], function () {
         //course
         Route::resource('course', 'CourseController');
 
+        //batch
+        Route::resource('batch', 'BatchController');
+
         //student
         Route::resource('student', 'StudentController');
 
