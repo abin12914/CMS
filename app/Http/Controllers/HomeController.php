@@ -44,11 +44,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function dashboard(
-        PurchaseRepository $purchaseRepo,
-        SaleRepository $saleRepo,
-        AccountRepository $accountRepo
-    ){
+    public function dashboard(){
         return view('users.dashboard');
     }
 

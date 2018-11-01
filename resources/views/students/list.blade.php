@@ -30,18 +30,13 @@
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <div class="col-md-4">
-                                            <label for="relation_type" class="control-label">Relation : </label>
-                                            <select class="form-control select2" name="relation_type" id="relation_type" style="width: 100%" tabindex="1">
-                                                <option value="">Select relation type</option>
-                                                @if(!empty($relationTypes) && (count($relationTypes) > 0))
-                                                    @foreach($relationTypes as $key => $relationType)
-                                                        <option value="{{ $key }}" {{ (old('relation_type') == $key || $params['relation'] == $key) ? 'selected' : '' }}>{{ $relationType }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                            {{-- adding error_message p tag component --}}
-                                            @component('components.paragraph.error_message', ['fieldName' => 'relation_type'])
-                                            @endcomponent
+                                            <label for="relation_type" class="control-label">Course : </label>
+                                            {{-- adding course select component --}}
+                                                @component('components.selects.courses', ['selectedCourseId' => old('course_id'), 'selectName' => 'course_id', 'activeFlag' => false, 'tabindex' => 7])
+                                                @endcomponent
+                                                {{-- adding error_message p tag component --}}
+                                                @component('components.paragraph.error_message', ['fieldName' => 'course_id'])
+                                                @endcomponent
                                         </div>
                                         <div class="col-md-4">
                                             <label for="student_id" class="control-label">Student : </label>
@@ -97,12 +92,10 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 5%;">#</th>
-                                            <th style="width: 20%;">Student Name</th>
-                                            <th style="width: 15%;">Relation</th>
-                                            <th style="width: 20%;">Student Holder</th>
-                                            <th style="width: 15%;">Phone</th>
-                                            <th style="width: 10%;">Opening Credit</th>
-                                            <th style="width: 10%;">Opening Debit</th>
+                                            <th style="width: 30%;">Student Name</th>
+                                            <th style="width: 15%;">Code</th>
+                                            <th style="width: 30%;">Course</th>
+                                            <th style="width: 15%;">Year</th>
                                             <th style="width: 5%;" class="no-print">Details</th>
                                         </tr>
                                     </thead>
@@ -111,19 +104,10 @@
                                             @foreach($students as $index => $student)
                                                 <tr>
                                                     <td>{{ $index + $students->firstItem() }}</td>
-                                                    <td title="Inative/Suspended">
-                                                        {{ $student->student_name }}
-                                                        @if($student->status != 1)
-                                                            &emsp;<i class="fa fa-exclamation-triangle text-orange no-print"></i>
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        {{ (!empty($relationTypes) && !empty($relationTypes[$student->relation])) ? $relationTypes[$student->relation] : "Error!" }}
-                                                    </td>
                                                     <td>{{ $student->name }}</td>
-                                                    <td>{{ $student->phone }}</td>
-                                                    <td>{{ $student->financial_status == 1 ? $student->opening_balance : "-" }}</td>
-                                                    <td>{{ $student->financial_status == 2 ? $student->opening_balance : "-" }}</td>
+                                                    <td>{{ $student->student_code }}</td>
+                                                    <td>{{ $student->course->course_name }} - {{ $student->course->university }}</td>
+                                                    <td>{{ $student->from_year }} - {{ $student->to_year }}</td>
                                                     <td class="no-print">
                                                         <a href="{{ route('student.show', $student->id) }}">
                                                             <button type="button" class="btn btn-info">Details</button>

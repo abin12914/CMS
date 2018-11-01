@@ -41,7 +41,9 @@ class CourseController extends Controller
      */
     public function create()
     {
-        return view('courses.register');
+        $courseDurationTypes  = config('constants.courseDurationTypes');
+
+        return view('courses.register', compact('courseDurationTypes'));
     }
 
     /**
@@ -59,13 +61,12 @@ class CourseController extends Controller
         DB::beginTransaction();
         try {
             $response   = $this->courseRepo->saveCourse([
-                'name'              => $request->get('course_name'),
-                'place'             => $request->get('place'),
-                'address'           => $request->get('address'),
-                'gstin'             => $request->get('gstin'),
-                'primary_phone'     => $request->get('primary_phone'),
-                'secondary_phone'   => $request->get('secondary_phone'),
-                'level'             => $request->get('course_level'),
+                'name'              => $request->get('name'),
+                'descriptive_name'  => $request->get('descriptive_name'),
+                'university'        => $request->get('university'),
+                'center_code'       => $request->get('center_code'),
+                'duration_type'     => $request->get('duration_type'),
+                'duration'          => $request->get('duration'),
             ]);
 
             if(!$response['flag']) {
@@ -113,8 +114,9 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
+        return redirect()->back()->with("message","Editing disabled!")->with("alert-class", "error");
         return view('courses.edit', [
-                'course'       => $this->courseRepo->getCourse($id),
+                'course' => $this->courseRepo->getCourse($id),
             ]);
     }
 

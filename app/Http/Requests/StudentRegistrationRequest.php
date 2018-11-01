@@ -72,14 +72,12 @@ class StudentRegistrationRequest extends FormRequest
                                     'integer',
                                     'min:1990',
                                     'max:2030',
-                                    /*'gte:from_year',*/
                                 ],
             'fee'           =>  [
                                     'required',
-                                    'digits:4',
                                     'integer',
-                                    'min:1990',
-                                    'max:2030',
+                                    'min:1',
+                                    'max:999999',
                                 ],
         ];
     }

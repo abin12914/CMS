@@ -59,13 +59,12 @@ class CourseRepository
             if(empty($course)) {
                 $course = new Course;
             }
-            $course->name               = $inputArray['name'];
-            $course->place              = $inputArray['place'];
-            $course->address            = $inputArray['address'];
-            $course->gstin              = $inputArray['gstin'];
-            $course->primary_phone      = $inputArray['primary_phone'];
-            $course->secondary_phone    = $inputArray['secondary_phone'];
-            $course->level              = $inputArray['level'];
+            $course->course_name        = $inputArray['name'];
+            $course->descriptive_name   = $inputArray['descriptive_name'];
+            $course->university         = $inputArray['university'];
+            $course->center_code        = $inputArray['center_code'];
+            $course->duration           = $inputArray['duration'];
+            $course->duration_type      = $inputArray['duration_type'];
             $course->status             = 1;
             //course save
             $course->save();
@@ -77,7 +76,7 @@ class CourseRepository
             } else {
                 $this->errorCode = $this->repositoryCode + 2;
             }
-            
+            dd($e);
             throw new AppCustomException("CustomError", $this->errorCode);
         }
         

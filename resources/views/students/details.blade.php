@@ -24,25 +24,23 @@
                     <div class="box box-widget widget-user-2">
                         @if(!empty($student))
                             <!-- Add the bg color to the header using any of the bg-* classes -->
-                            <div class="widget-user-header bg-{{ $student->status == 1 ? 'yellow' : 'gray' }}">
+                            <div class="widget-user-header bg-yellow">
                                 <div class="widget-user-image">
-                                    <img class="img-circle" src="{{ $student->image ?: "/images/students/default_student.png" }}" alt="User Avatar">
+                                    <img class="img-circle" src="/images/public/default_student.jpg" alt="User Avatar">
                                 </div>
                                 <!-- /.widget-user-image -->
-                                <h3 class="widget-user-username">{{ $student->student_name }} {{ $student->status != 1 ? '(Suspended Student)' : '' }}</h3>
-                                <h5 class="widget-user-desc">
-                                    {{ (!empty($relationTypes) && !empty($relationTypes[$student->relation])) ? $relationTypes[$student->relation] : "Error" }}
-                                </h5>
+                                <h3 class="widget-user-username">Student Details</h3>
+                                <h5 class="widget-user-desc">{{ $student->student_code }}</h5>
                             </div>
                             <div class="box box-primary">
                                 <div class="box-body">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-paperclip margin-r-5"></i> Reference Number
+                                                <i class="fa fa-paperclip margin-r-5"></i> Reference Code
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                #{{ $student->id }}
+                                                #{{ $student->student_code }}
                                             </p>
                                             <hr>
                                         </div>
@@ -51,7 +49,7 @@
                                                 <i class="fa fa-book margin-r-5"></i> Student Name
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $student->student_name }}
+                                                {{ $student->title }} {{ $student->name }}
                                             </p>
                                             <hr>
                                         </div>
@@ -59,64 +57,59 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-file-text-o margin-r-5"></i> Description
-                                            </strong>
-                                            <p class="text-muted multi-line">
-                                                {{ $student->description or "-" }}
-                                            </p>
-                                            <hr>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <strong>
-                                                <i class="fa fa-user-o margin-r-5"></i> Name
-                                            </strong>
-                                            <p class="text-muted multi-line">
-                                                {{ $student->name }}
-                                            </p>
-                                            <hr>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <strong>
-                                                <i class="fa fa-phone margin-r-5"></i> Phone
-                                            </strong>
-                                            <p class="text-muted multi-line">
-                                                {{ $student->phone or "-" }}
-                                            </p>
-                                            <hr>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <strong>
-                                                <i class="fa fa-map-marker margin-r-5"></i> Address
+                                                <i class="fa fa-file-text-o margin-r-5"></i> Address
                                             </strong>
                                             <p class="text-muted multi-line">
                                                 {{ $student->address or "-" }}
                                             </p>
                                             <hr>
                                         </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-phone margin-r-5"></i> Phone
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $student->phone ?: '-' }}
+                                            </p>
+                                            <hr>
+                                        </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-link margin-r-5"></i> Relation
+                                                <i class="fa fa-user-o margin-r-5"></i> Gender
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ (!empty($relationTypes) && !empty($relationTypes[$student->relation])) ? $relationTypes[$student->relation] : "Error" }}
+                                                {{ !empty(config('constants.genderTypes')[$student->gender]) ? config('constants.genderTypes')[$student->gender] : '-' }}
                                             </p>
                                             <hr>
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-calculator margin-r-5"></i> Opening Balance
+                                                <i class="fa fa-map-marker margin-r-5"></i> Course
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                @if($student->financial_status == 1)
-                                                    Creditor - 
-                                                @elseif($student->financial_status == 2)
-                                                    Debitor - 
-                                                @endif
-                                                {{ $student->opening_balance }}
+                                                {{ $student->course->course_name or "-" }} - {{ $student->course->university }} / {{ $student->class_id }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-link margin-r-5"></i> Year
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $student->from_year }} - {{ $student->to_year }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-inr margin-r-5"></i> Fee per Year
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $student->fee_per_duration_unit }}
                                             </p>
                                             <hr>
                                         </div>

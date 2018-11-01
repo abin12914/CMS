@@ -28,40 +28,20 @@ Route::group(['middleware' => 'auth.check'], function () {
 
     //user routes
     Route::group(['middleware' => ['user.role:0,1,2']], function () {
-        //branch
-        Route::resource('branch', 'BranchController');
-
-        //product
-        Route::resource('product', 'ProductController');
+        //course
+        Route::resource('course', 'CourseController');
 
         //student
         Route::resource('student', 'StudentController');
 
-        //staff
-        Route::resource('employee', 'EmployeeController');
+        //address
+        Route::resource('address', 'AddressController');
 
-        //purchases
-        Route::get('/purchase/{id}/invoice', 'PurchaseController@invoice')->name('purchase.invoice');
-        Route::resource('purchase', 'PurchaseController');
+        //certificate
+        Route::get('/certificate/issue', 'CertificateController@issue')->name('certificate.issue');
+        Route::resource('certificate', 'CertificateController');
 
-        //sales
-        Route::get('/sale/{id}/invoice', 'SaleController@invoice')->name('sale.invoice');
-        Route::resource('sale', 'SaleController');
-
-        //expenses
-        Route::resource('expense', 'ExpenseController');
-
-        //vouchers
-        Route::resource('voucher', 'VoucherController');
-
-        //reports
-        Route::get('reports/student-statement', 'ReportController@studentStatement')->name('report.student-statement');
-        Route::get('reports/credit-list', 'ReportController@creditList')->name('report.credit.list');
-
-        //ajax urls
-        Route::group(['middleware' => 'is.ajax'], function () {
-            Route::get('/ajax/student/details/{id}', 'StudentController@getDetails')->name('ajax.student.details');
-            Route::get('/ajax/last/sale', 'SaleController@getLastSale')->name('ajax.lastsale.bybranch');
-        });
+        //history
+        Route::resource('history', 'HistoryController');
     });
 });

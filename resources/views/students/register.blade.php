@@ -41,7 +41,7 @@
                                         <div class="form-group">
                                             <label for="student_code" class="col-md-3 control-label"><b style="color: red;">* </b> Unique Code : </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="student_code" class="form-control alpha_only" id="student_code" placeholder="Student unique code" value="{{ old('student_code') }}" tabindex="1" maxlength="100">
+                                                <input type="text" name="student_code" class="form-control" id="student_code" placeholder="Student unique code" value="{{ old('student_code') }}" tabindex="1" maxlength="100">
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'student_code'])
                                                 @endcomponent
@@ -102,7 +102,7 @@
                                         <div class="form-group">
                                             <label for="title" class="col-md-3 control-label"><b style="color: red;">* </b> Title : </label>
                                             <div class="col-md-9">
-                                                <input type="text" title="title" class="form-control" id="title" placeholder="Addressing title" value="{{ old('title') }}" tabindex="6" maxlength="100">
+                                                <input type="text" name="title" class="form-control" id="title" placeholder="Addressing title" value="{{ old('title') }}" tabindex="6" maxlength="100">
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'title'])
                                                 @endcomponent
@@ -144,6 +144,15 @@
                                                 <input type="text" name="fee" class="form-control decimal_number_only" id="fee" placeholder="Fee per Year" value="{{ old('fee') }}" tabindex="10" maxlength="100">
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'fee'])
+                                                @endcomponent
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="class_id" class="col-md-3 control-label"><b style="color: red;">* </b> Class : </label>
+                                            <div class="col-md-9">
+                                                <input type="text" name="class_id" class="form-control" id="class_id" placeholder="Class" value="{{ old('class_id') }}" tabindex="10" maxlength="100">
+                                                {{-- adding error_message p tag component --}}
+                                                @component('components.paragraph.error_message', ['fieldName' => 'class_id'])
                                                 @endcomponent
                                             </div>
                                         </div>

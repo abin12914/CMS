@@ -29,11 +29,6 @@ class StudentRepository
                 $students = $students->active(); //status == 1
             }
 
-            if($typeFlag) {
-                $typeId     = array_search('Personal', config('constants.studentTypes')); //type id=3 //personal student
-                $students   = $students->where('type', $typeId);
-            }
-
             foreach ($params as $key => $value) {
                 if(!empty($value)) {
                     $students = $students->where($key, $value);
@@ -64,24 +59,24 @@ class StudentRepository
     public function saveStudent($inputArray, $student=null)
     {
         $saveFlag   = false;
-        $typeId     = array_search('Personal', config('constants.studentTypes')); //type id=3 //personal student
 
         try {
             //student saving
             if(empty($student)) {
                 $student = new Student;
             }
-            $student->student_name      = $inputArray['student_name'];
-            $student->description       = $inputArray['description'];
-            $student->type              = $typeId; //type = personal student
-            $student->relation          = $inputArray['relation'];
-            $student->financial_status  = $inputArray['financial_status'];
-            $student->opening_balance   = $inputArray['opening_balance'];
-            $student->name              = $inputArray['name'];
-            $student->phone             = $inputArray['phone'];
-            $student->address           = $inputArray['address'];
-            $student->image             = $inputArray['image'];
-            $student->status            = $inputArray['status'];
+            $student->student_code  = $inputArray['student_code'];
+            $student->name          = $inputArray['name'];
+            $student->address       = $inputArray['address'];
+            $student->phone         = $inputArray['phone'];
+            $student->gender        = $inputArray['gender'];
+            $student->title         = $inputArray['title'];
+            $student->course_id     = $inputArray['course_id'];
+            $student->from_year     = $inputArray['from_year'];
+            $student->to_year       = $inputArray['to_year'];
+            $student->fee_per_duration_unit  = $inputArray['fee'];
+            $student->class_id      = $inputArray['class_id'];
+            $student->status        = 1;
             //student save
             $student->save();
 
@@ -91,7 +86,7 @@ class StudentRepository
                 $this->errorCode = $e->getCode();
             } else {
                 $this->errorCode = $this->repositoryCode + 2;
-            }
+            }dd($e);
 
             throw new AppCustomException("CustomError", $this->errorCode);
         }

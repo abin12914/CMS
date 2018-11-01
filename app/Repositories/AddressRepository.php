@@ -2,38 +2,38 @@
 
 namespace App\Repositories;
 
-use App\Models\Employee;
+use App\Models\Address;
 use Exception;
 use App\Exceptions\AppCustomException;
 
-class EmployeeRepository
+class AddressRepository
 {
     public $repositoryCode, $errorCode = 0;
 
     public function __construct()
     {
-        $this->repositoryCode = config('settings.repository_code.EmployeeRepository');
+        $this->repositoryCode = config('settings.repository_code.AddressRepository');
     }
 
     /**
      * Return accounts.
      */
-    public function getEmployees($params=[], $noOfRecords=null)
+    public function getAddresses($params=[], $noOfRecords=null)
     {
-        $employees = [];
+        $addresses = [];
 
         try {
-            $employees = Employee::with('account')->active();
+            $addresses = Address::with('account')->active();
 
             foreach ($params as $key => $value) {
                 if(!empty($value)) {
-                    $employees = $employees->where($key, $value);
+                    $addresses = $addresses->where($key, $value);
                 }
             }
             if(!empty($noOfRecords)) {
-                $employees = $employees->paginate($noOfRecords);
+                $addresses = $addresses->paginate($noOfRecords);
             } else {
-                $employees= $employees->get();
+                $addresses= $addresses->get();
             }
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
@@ -45,28 +45,28 @@ class EmployeeRepository
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        return $employees;
+        return $addresses;
     }
 
     /**
      * Action for saving accounts.
      */
-    public function saveEmployee($inputArray, $employee=null)
+    public function saveAddress($inputArray, $address=null)
     {
         $saveFlag = false;
 
         try {
-            if(empty($employee)) {
-                $employee = new Employee;
+            if(empty($address)) {
+                $address = new Address;
             }
 
-            //employee saving
-            $employee->account_id   = $inputArray['account_id'];
-            $employee->wage_type    = $inputArray['wage_type'];
-            $employee->wage_rate    = $inputArray['wage_rate'];
-            $employee->status       = 1;
-            //employee save
-            $employee->save();
+            //address saving
+            $address->account_id   = $inputArray['account_id'];
+            $address->wage_type    = $inputArray['wage_type'];
+            $address->wage_rate    = $inputArray['wage_rate'];
+            $address->status       = 1;
+            //address save
+            $address->save();
 
             $saveFlag = true;
         } catch (Exception $e) {
@@ -82,7 +82,7 @@ class EmployeeRepository
         if($saveFlag) {
             return [
                 'flag'  => true,
-                'id'    => $employee->id,
+                'id'    => $address->id,
             ];
         }
 
@@ -93,20 +93,20 @@ class EmployeeRepository
     }
 
     /**
-     * return employee.
+     * return address.
      */
-    public function getEmployee($id, $activeFlag=true)
+    public function getAddress($id, $activeFlag=true)
     {
-        $employee = [];
+        $address = [];
 
         try {
-            $employee = Employee::with('account');
+            $address = Address::with('account');
 
             if($activeFlag) {
-                $employee = $employee->active();
+                $address = $address->active();
             }
 
-            $employee = $employee->findOrFail($id);
+            $address = $address->findOrFail($id);
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
                 $this->errorCode = $e->getCode();
@@ -117,22 +117,22 @@ class EmployeeRepository
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        return $employee;
+        return $address;
     }
 
-    public function deleteEmployee($id, $forceFlag=false)
+    public function deleteAddress($id, $forceFlag=false)
     {
         $deleteFlag = false;
 
         try {
-            //get employee record
-            $employee   = $this->getEmployee($id);
+            //get address record
+            $address   = $this->getAddress($id);
 
             if($forceFlag) {
-                //removing employee permanently
-                $employee->forceDelete();
+                //removing address permanently
+                $address->forceDelete();
             } else {
-                $employee->delete();
+                $address->delete();
             }
 
             $deleteFlag = true;

@@ -28,26 +28,10 @@ class Student extends Model
     }
     
     /**
-     * Get the employee record associated with the student.
+     * Get the course record associated with the student.
      */
-    public function employee()
+    public function course()
     {
-        return $this->hasOne('App\Models\Employee', 'student_id');
-    }
-
-    /**
-     * Get the debit transaction records associated with the student.
-     */
-    public function debitTransactions()
-    {
-        return $this->hasMany('App\Models\Transaction', 'debit_student_id');
-    }
-
-    /**
-     * Get the credit transaction records associated with the student.
-     */
-    public function creditTransactions()
-    {
-        return $this->hasMany('App\Models\Transaction', 'credit_student_id');
+        return $this->belongsTo('App\Models\Course', 'course_id');
     }
 }

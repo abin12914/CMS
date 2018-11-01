@@ -25,12 +25,12 @@ class StudentFilterRequest extends FormRequest
      */
     public function rules()
     {
-        $relationTypes  = config('constants.studentRelationTypes');
+        $genderTypes = config('constants.genderTypes');
 
         return [
             'relation_type' =>  [
                                     'nullable',
-                                    Rule::in(array_keys($relationTypes)),
+                                    Rule::in(array_keys($genderTypes)),
                                 ],
             'student_id'    =>  [
                                     'nullable',

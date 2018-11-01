@@ -50,125 +50,12 @@
                     </li>
                 @endif
                 @if($loggedUser->isSuperAdmin() || $loggedUser->isAdmin())
-                    <li class="treeview {{ (Request::is('product/*') || Request::is('product'))? 'active' : '' }}">
-                        <a href="#">
-                            <i class="fa fa-industry"></i>
-                            <span>Product</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="{{ Request::is('product/create')? 'active' : '' }}">
-                                <a href="{{ route('product.create') }}">
-                                    <i class="fa fa-circle-o text-yellow"></i> Register
-                                </a>
-                            </li>
-                            <li class="{{ Request::is('product')? 'active' : '' }}">
-                                <a href="{{ route('product.index') }}">
-                                    <i class="fa fa-circle-o text-aqua"></i> List
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+
                 @endif
                 @if($loggedUser->isSuperAdmin() || $loggedUser->isAdmin() || $loggedUser->isUser())
-                    <li class="treeview {{ Request::is('reports/*')? 'active' : '' }}">
-                        <a href="#">
-                            <i class="fa fa-briefcase"></i>
-                            <span>Reports</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                    </li>
-                    <li class="treeview {{ ( Request::is('purchase/*') || Request::is('purchase') )? 'active' : '' }}">
-                        <a href="#">
-                            <i class="fa fa-line-chart"></i>
-                            <span>Purchase</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="{{ Request::is('purchase/create')? 'active' : '' }}">
-                                <a href="{{ route('purchase.create') }}">
-                                    <i class="fa fa-circle-o text-yellow"></i> Register
-                                </a>
-                            </li>
-                            <li class="{{ Request::is('purchase')? 'active' : '' }}">
-                                <a href="{{ route('purchase.index') }}">
-                                    <i class="fa fa-circle-o text-aqua"></i> List
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="treeview {{ ( Request::is('sale/*') || Request::is('sale') )? 'active' : '' }}">
-                        <a href="#">
-                            <i class="fa fa-cart-arrow-down"></i>
-                            <span>Sale</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="{{ Request::is('sale/create')? 'active' : '' }}">
-                                <a href="{{ route('sale.create') }}">
-                                    <i class="fa fa-circle-o text-yellow"></i> Register
-                                </a>
-                            </li>
-                            <li class="{{ Request::is('sale')? 'active' : '' }}">
-                                <a href="{{ route('sale.index') }}">
-                                    <i class="fa fa-circle-o text-aqua"></i> List
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="treeview {{ Request::is('expense/*') || Request::is('expense')? 'active' : '' }}">
-                        <a href="#">
-                            <i class="fa fa-wrench"></i>
-                            <span>Services & Expences</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="{{ Request::is('expense/create')? 'active' : '' }}">
-                                <a href="{{route('expense.create') }}">
-                                    <i class="fa fa-circle-o text-yellow"></i> Register
-                                </a>
-                            </li>
-                            <li class="{{ Request::is('expense')? 'active' : '' }}">
-                                <a href="{{ route('expense.index') }}">
-                                    <i class="fa fa-circle-o text-aqua"></i> List
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="treeview {{ Request::is('voucher/*') || Request::is('voucher')? 'active' : '' }}">
-                        <a href="#">
-                            <i class="fa fa-envelope-o"></i>
-                            <span>Vouchers & Reciepts</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="{{ Request::is('voucher/create')? 'active' : '' }}">
-                                <a href="{{route('voucher.create') }}">
-                                    <i class="fa fa-circle-o text-yellow"></i> Register
-                                </a>
-                            </li>
-                            <li class="{{ Request::is('voucher')? 'active' : '' }}">
-                                <a href="{{route('voucher.index') }}">
-                                    <i class="fa fa-circle-o text-aqua"></i> List
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
                     <li class="treeview {{ Request::is('student/*') || Request::is('student') ? 'active' : '' }}">
                         <a href="#">
-                            <i class="fa fa-book"></i>
+                            <i class="fa fa-users"></i>
                             <span>Students</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
@@ -187,22 +74,90 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="treeview {{ Request::is('employee/*') || Request::is('employee')? 'active' : '' }}">
+                    <li class="treeview {{ Request::is('certificate/*') || Request::is('certificate') ? 'active' : '' }}">
                         <a href="#">
-                            <i class="fa fa-male"></i>
-                            <span>Employees</span>
+                            <i class="fa fa-clipboard"></i>
+                            <span>Certificates</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="{{ Request::is('employee/create')? 'active' : '' }}">
-                                <a href="{{route('employee.create') }}">
+                            <li class="{{ Request::is('certificate/create')? 'active' : '' }}">
+                                <a href="{{route('certificate.create') }}">
+                                    <i class="fa fa-circle-o text-yellow"></i> Issue
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('certificate/create')? 'active' : '' }}">
+                                <a href="{{route('certificate.create') }}">
                                     <i class="fa fa-circle-o text-yellow"></i> Register
                                 </a>
                             </li>
-                            <li class="{{ Request::is('employee')? 'active' : '' }}">
-                                <a href="{{route('employee.index') }}">
+                            <li class="{{ Request::is('certificate')? 'active' : '' }}">
+                                <a href="{{route('certificate.index') }}">
+                                    <i class="fa fa-circle-o text-aqua"></i> List
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treeview {{ Request::is('course/*') || Request::is('course') ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="fa fa-tag"></i>
+                            <span>Courses</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ Request::is('course/create')? 'active' : '' }}">
+                                <a href="{{route('course.create') }}">
+                                    <i class="fa fa-circle-o text-yellow"></i> Register
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('course')? 'active' : '' }}">
+                                <a href="{{route('course.index') }}">
+                                    <i class="fa fa-circle-o text-aqua"></i> List
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treeview {{ Request::is('history/*') || Request::is('history') ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="fa fa-history"></i>
+                            <span>History</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ Request::is('history/create')? 'active' : '' }}">
+                                <a href="{{route('history.create') }}">
+                                    <i class="fa fa-circle-o text-yellow"></i> Register
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('history')? 'active' : '' }}">
+                                <a href="{{route('history.index') }}">
+                                    <i class="fa fa-circle-o text-aqua"></i> List
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treeview {{ Request::is('address/*') || Request::is('address') ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="fa fa-newspaper-o"></i>
+                            <span>Addresses</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ Request::is('address/create')? 'active' : '' }}">
+                                <a href="{{route('address.create') }}">
+                                    <i class="fa fa-circle-o text-yellow"></i> Register
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('address')? 'active' : '' }}">
+                                <a href="{{route('address.index') }}">
                                     <i class="fa fa-circle-o text-aqua"></i> List
                                 </a>
                             </li>

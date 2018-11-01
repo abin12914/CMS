@@ -67,102 +67,37 @@ class StudentController extends Controller
      */
     public function store(
         StudentRegistrationRequest $request,
-        TransactionRepository $transactionRepo,
         $id=null
     ) {
         $saveFlag           = false;
         $errorCode          = 0;
         $student            = null;
-        $studentTransaction = null;
-
-        $openingBalanceStudentId = config('constants.studentConstants.StudentOpeningBalance.id');
-
-        $financialStatus    = $request->get('financial_status');
-        $openingBalance     = $request->get('opening_balance');
-        $name               = $request->get('name');
-
-        $destination    = '/images/students/'; // image file upload path
-        $fileName       = "";
-
-        //upload image
-        if ($request->hasFile('image_file')) {
-            $file       = $request->file('image_file');
-            $extension  = $file->getClientOriginalExtension(); // getting image extension
-            $fileName   = $name.'_'.time().'.'.$extension; // renaming image
-            $file->move(public_path().$destination, $fileName); // uploading file to given path
-            $fileName   = $destination.$fileName;//file name for saving to db
-        }
 
         //wrappin db transactions
         DB::beginTransaction();
         try {
-            //confirming opening balance existency.
-            $openingBalanceStudent = $this->studentRepo->getStudent($openingBalanceStudentId);
-
             if(!empty($id)) {
                 $student = $this->studentRepo->getStudent($id);
-
-                if($student->financial_status == 2){
-                    $searchTransaction = [
-                        ['paramName' => 'debit_student_id', 'paramOperator' => '=', 'paramValue' => $student->id],
-                        ['paramName' => 'credit_student_id', 'paramOperator' => '=', 'paramValue' => $openingBalanceStudentId],
-                    ];
-                } else {
-                    $searchTransaction = [
-                        ['paramName' => 'debit_student_id', 'paramOperator' => '=', 'paramValue' => $openingBalanceStudentId],
-                        ['paramName' => 'credit_student_id', 'paramOperator' => '=', 'paramValue' => $student->id],
-                    ];
-                }
-
-                $studentTransaction = $transactionRepo->getTransactions($searchTransaction)->first();
             }
 
             //save to student table
             $studentResponse   = $this->studentRepo->saveStudent([
-                'student_name'      => $request->get('student_name'),
-                'description'       => $request->get('description'),
-                'relation'          => $request->get('relation_type'),
-                'financial_status'  => $financialStatus,
-                'opening_balance'   => $openingBalance,
-                'name'              => $name,
-                'phone'             => $request->get('phone'),
-                'address'           => $request->get('address'),
-                'image'             => $fileName,
-                'status'            => 1,
+                'student_code'  => $request->get('student_code'),
+                'name'          => $request->get('name'),
+                'address'       => $request->get('address'),
+                'phone'         => $request->get('phone'),
+                'gender'        => $request->get('gender'),
+                'title'         => $request->get('title'),
+                'course_id'     => $request->get('course_id'),
+                'from_year'     => $request->get('from_year'),
+                'to_year'       => $request->get('to_year'),
+                'fee'           => $request->get('fee'),
+                'class_id'      => $request->get('class_id'),
+                'status'        => 1,
             ], $student);
 
-            if($studentResponse['flag']) {
-                //opening balance transaction details
-                if($financialStatus == 1) { //incoming [student holder gives cash to company] [Creditor]
-                    $debitStudentId     = $openingBalanceStudentId; //cash flow into the opening balance student
-                    $creditStudentId    = $studentResponse['id']; //newly created student id [flow out from new student]
-                    $particulars        = "Opening balance of ". $name . " - Debit [Creditor]";
-                } else if($financialStatus == 2){ //outgoing [company gives cash to student holder] [Debitor]
-                    $debitStudentId     = $studentResponse['id']; //newly created student id [flow into new student]
-                    $creditStudentId    = $openingBalanceStudentId; //flow out from the opening balance student
-                    $particulars        = "Opening balance of ". $name . " - Credit [Debitor]";
-                } else {
-                    $debitStudentId     = $openingBalanceStudentId;
-                    $creditStudentId    = $studentResponse['id']; //newly created student id
-                    $particulars        = "Opening balance of ". $name . " - None";
-                    $openingBalance     = 0;
-                }
-            } else {
+            if(!$studentResponse['flag']) {
                 throw new AppCustomException("CustomError", $studentResponse['errorCode']);
-            }
-
-            //save to transaction table
-            $transactionResponse   = $transactionRepo->saveTransaction([
-                'debit_student_id'  => $debitStudentId,
-                'credit_student_id' => $creditStudentId,
-                'amount'            => $openingBalance,
-                'transaction_date'  => Carbon::now()->format('Y-m-d'),
-                'particulars'       => $particulars,
-                'branch_id'         => 0,
-            ], $studentTransaction);
-
-            if(!$transactionResponse['flag']) {
-                throw new AppCustomException("CustomError", $transactionResponse['errorCode']);
             }
 
             DB::commit();
@@ -236,6 +171,7 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
+        return redirect()->back()->with("message","Editing disabled!")->with("alert-class", "error");
         $errorCode  = 0;
         $student    = [];
 

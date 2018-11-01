@@ -14,15 +14,10 @@ return [
         2 => 'Female',
     ],
 
-    'accountTypes' => [
-        1 => 'Real',
-        2 => 'Nominal',
-        3 => 'Personal',
-    ],
-
-    'employeeWageTypes' => [
-        1 => 'Per Month',
-        2 => 'Per Day',
+    'courseDurationTypes' => [
+        1 => 'Month',
+        2 => 'Semester',
+        3 => 'Year',
     ],
 
     'transactionRelations' => [

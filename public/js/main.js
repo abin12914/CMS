@@ -26,6 +26,20 @@ $(function () {
         autoclose: true,
     });
 
+    $('#from_year').datepicker( {
+        format: " yyyy",
+        viewMode: "years", 
+        minViewMode: "years",
+        autoclose: true,
+    });
+
+    $('#to_year').datepicker( {
+        format: " yyyy",
+        viewMode: "years", 
+        minViewMode: "years",
+        autoclose: true,
+    });
+
     //Date picker for registrations
     $('.datepicker_reg').datepicker({
         todayHighlight: true,
