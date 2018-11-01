@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\Batch;
 
 class StudentRegistrationRequest extends FormRequest
 {
@@ -31,6 +32,7 @@ class StudentRegistrationRequest extends FormRequest
                                     'required',
                                     'min:3',
                                     'max:20',
+                                    Rule::unique('students')->ignore($this->student),
                                 ],
             'name'          =>  [
                                     'required',
@@ -56,28 +58,9 @@ class StudentRegistrationRequest extends FormRequest
                                     'min:2',
                                     'max:100',
                                 ],
-            'course_id'     =>  [
+            'batch_id'     =>  [
                                     'required',
-                                ],
-            'from_year'     =>  [
-                                    'required',
-                                    'digits:4',
-                                    'integer',
-                                    'min:1990',
-                                    'max:2030',
-                                ],
-            'to_year'       =>  [
-                                    'required',
-                                    'digits:4',
-                                    'integer',
-                                    'min:1990',
-                                    'max:2030',
-                                ],
-            'fee'           =>  [
-                                    'required',
-                                    'integer',
-                                    'min:1',
-                                    'max:999999',
+                                    Rule::in(Batch::pluck('id')->toArray()),
                                 ],
         ];
     }

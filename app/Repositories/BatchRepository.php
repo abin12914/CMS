@@ -23,7 +23,7 @@ class BatchRepository
         $batches = [];
 
         try {
-            $batches = Batch::with(['branch', 'transaction.debitAccount'])->active();
+            $batches = Batch::with(['course'])->active();
 
             foreach ($params as $param) {
                 if(!empty($param) && !empty($param['paramValue'])) {
@@ -49,7 +49,7 @@ class BatchRepository
                 $this->errorCode = $e->getCode();
             } else {
                 $this->errorCode = $this->repositoryCode + 1;
-            }
+            }dd($e);
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
@@ -68,12 +68,12 @@ class BatchRepository
             if(empty($batch)) {
                 $batch = new Batch;
             }
-            $batch->transaction_id = $inputArray['transaction_id'];
-            $batch->date           = $inputArray['date'];
-            $batch->service_id     = $inputArray['service_id'];
-            $batch->bill_amount    = $inputArray['bill_amount'];
-            $batch->branch_id      = $inputArray['branch_id'];
-            $batch->status         = 1;
+            $batch->batch_name  = $inputArray['batch_name'];
+            $batch->course_id   = $inputArray['course_id'];
+            $batch->from_year   = $inputArray['from_year'];
+            $batch->to_year     = $inputArray['to_year'];
+            $batch->fee_amount  = $inputArray['fee_amount'];
+            $batch->status      = 1;
             //batch save
             $batch->save();
 
