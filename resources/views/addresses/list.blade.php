@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Employee List')
+@section('title', 'Address List')
 @section('content')
 <div class="content-wrapper">
      <section class="content-header">
         <h1>
-            Employee
+            Address
             <small>List</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a> Employee</a></li>
+            <li><a> Address</a></li>
             <li class="active"> List</li>
         </ol>
     </section>
@@ -24,7 +24,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-header">
-                        <form action="{{ route('employee.index') }}" method="get" class="form-horizontal" autocomplete="off">
+                        <form action="{{ route('address.index') }}" method="get" class="form-horizontal" autocomplete="off">
                             <div class="row">
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
@@ -44,12 +44,12 @@
                                             @endcomponent
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="employee_id" class="control-label">Employee : </label>
-                                            {{-- adding employee select component --}}
-                                            @component('components.selects.employees', ['selectedEmployeeId' => $params['id'], 'selectName' => 'employee_id', 'tabindex' => 2])
+                                            <label for="address_id" class="control-label">Address : </label>
+                                            {{-- adding address select component --}}
+                                            @component('components.selects.addresses', ['selectedAddressId' => $params['id'], 'selectName' => 'address_id', 'tabindex' => 2])
                                             @endcomponent
                                             {{-- adding error_message p tag component --}}
-                                            @component('components.paragraph.error_message', ['fieldName' => 'employee_id'])
+                                            @component('components.paragraph.error_message', ['fieldName' => 'address_id'])
                                             @endcomponent
                                         </div>
                                         <div class="col-md-4">
@@ -86,7 +86,7 @@
                     {{-- page header for printers --}}
                     @include('sections.print-head')
                     <div class="box-header no-print">
-                        @if(!empty($params['wage_type']) || !empty($params['employee_id']))
+                        @if(!empty($params['wage_type']) || !empty($params['address_id']))
                             <b>Filters applied!</b>
                         @endif
                     </div>
@@ -97,7 +97,7 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 5%;">#</th>
-                                            <th style="width: 25%;">Employee Name</th>
+                                            <th style="width: 25%;">Address Name</th>
                                             <th style="width: 15%;">Wage Type</th>
                                             <th style="width: 15%;">Wage</th>
                                             <th style="width: 25%;">Account Name</th>
@@ -105,22 +105,22 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if(!empty($employees))
-                                            @foreach($employees as $index => $employee)
+                                        @if(!empty($addresses))
+                                            @foreach($addresses as $index => $address)
                                                 <tr>
-                                                    <td>{{ $index + $employees->firstItem() }}</td>
-                                                    <td>{{ $employee->account->name }}</td>
+                                                    <td>{{ $index + $addresses->firstItem() }}</td>
+                                                    <td>{{ $address->name }}</td>
                                                     @if(!empty($wageTypes))
                                                         <td>
-                                                            {{ !empty($wageTypes[$employee->wage_type]) ? $wageTypes[$employee->wage_type] : "Error!" }}
+                                                            {{ !empty($wageTypes[$address->wage_type]) ? $wageTypes[$address->wage_type] : "Error!" }}
                                                         </td>
                                                     @else
                                                         <td>Error</td>
                                                     @endif
-                                                    <td>{{ $employee->wage_rate }}</td>
-                                                    <td>{{ $employee->account->account_name }}</td>
+                                                    <td>{{ $address->wage_rate }}</td>
+                                                    <td>{{ $address->account_name }}</td>
                                                     <td class="no-print">
-                                                        <a href="{{ route('employee.show', ['id' => $employee->id]) }}">
+                                                        <a href="{{ route('address.show', ['id' => $address->id]) }}">
                                                             <button type="button" class="btn btn-info">Details</button>
                                                         </a>
                                                     </td>
@@ -133,12 +133,12 @@
                         </div>
                         <div class="row">
                             <div class="col-md-12">
-                                @if(!empty($employees))
+                                @if(!empty($addresses))
                                     <div>
-                                        Showing {{ $employees->firstItem(). " - ". $employees->lastItem(). " of ". $employees->total() }}
+                                        Showing {{ $addresses->firstItem(). " - ". $addresses->lastItem(). " of ". $addresses->total() }}
                                     </div>
                                     <div class=" no-print pull-right">
-                                        {{ $employees->appends(Request::all())->links() }}
+                                        {{ $addresses->appends(Request::all())->links() }}
                                     </div>
                                 @endif
                             </div>

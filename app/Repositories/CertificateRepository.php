@@ -2,38 +2,38 @@
 
 namespace App\Repositories;
 
-use App\Models\EmployeeWage;
+use App\Models\Certificate;
 use Exception;
 use App\Exceptions\AppCustomException;
 
-class EmployeeWageRepository
+class CertificateRepository
 {
     public $repositoryCode, $errorCode = 0;
 
     public function __construct()
     {
-        $this->repositoryCode = config('settings.repository_code.EmployeeWageRepository');
+        $this->repositoryCode = config('settings.repository_code.CertificateRepository');
     }
 
     /**
-     * Return employeeWages.
+     * Return accounts.
      */
-    public function getEmployeeWages($params=[], $noOfRecords=null)
+    public function getCertificates($params=[], $noOfRecords=null)
     {
-        $employeeWages = [];
+        $certificates = [];
 
         try {
-            $employeeWages = EmployeeWage::active();
-            
+            $certificates = Certificate::active();
+
             foreach ($params as $key => $value) {
                 if(!empty($value)) {
-                    $employeeWages = $employeeWages->where($key, $value);
+                    $certificates = $certificates->where($key, $value);
                 }
             }
-            if(!empty($noOfRecords) && $noOfRecords > 0) {
-                $employeeWages = $employeeWages->paginate($noOfRecords);
+            if(!empty($noOfRecords)) {
+                $certificates = $certificates->paginate($noOfRecords);
             } else {
-                $employeeWages= $employeeWages->get();
+                $certificates= $certificates->get();
             }
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
@@ -41,67 +41,73 @@ class EmployeeWageRepository
             } else {
                 $this->errorCode = $this->repositoryCode + 1;
             }
-            
+            dd($e);
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        return $employeeWages;
+        return $certificates;
     }
 
     /**
-     * Action for saving employeeWages.
+     * Action for saving accounts.
      */
-    public function saveEmployeeWage($inputArray, $employeeWage=null)
+    public function saveCertificate($inputArray, $certificate=null)
     {
-        $saveFlag   = false;
+        $saveFlag = false;
 
         try {
-            //employeeWage saving
-            if(empty($employeeWage)) {
-                $employeeWage = new EmployeeWage;
+            if(empty($certificate)) {
+                $certificate = new Certificate;
             }
-            $employeeWage->production_id    = $inputArray['production_id'];
-            $employeeWage->transaction_id   = $inputArray['transaction_id'];
-            $employeeWage->from_date        = $inputArray['from_date'];
-            $employeeWage->to_date          = $inputArray['to_date'];
-            $employeeWage->wage_type        = $inputArray['wage_type'];
-            $employeeWage->wage_amount      = $inputArray['wage_amount'];
-            $employeeWage->status           = 1;
-            //employeeWage save
-            $employeeWage->save();
+
+            //certificate saving
+            $certificate->name          = $inputArray['name'];
+            $certificate->designation   = $inputArray['designation'];
+            $certificate->certificate       = $inputArray['certificate'];
+            $certificate->title         = $inputArray['title'];
+            $certificate->status        = 1;
+            //certificate save
+            $certificate->save();
 
             $saveFlag = true;
         } catch (Exception $e) {
-            if($e->getMessage() == "CustomError") {
+             if($e->getMessage() == "CustomError") {
                 $this->errorCode = $e->getCode();
             } else {
                 $this->errorCode = $this->repositoryCode + 2;
             }
-
+            
             throw new AppCustomException("CustomError", $this->errorCode);
         }
-
+        
         if($saveFlag) {
             return [
                 'flag'  => true,
-                'id'    => $employeeWage->id,
+                'id'    => $certificate->id,
             ];
         }
+
         return [
             'flag'      => false,
-            'errorCode' => $this->repositoryCode + 3,
+            'errorCode' => $repositoryCode + 3,
         ];
     }
 
     /**
-     * return employeeWage.
+     * return certificate.
      */
-    public function getEmployeeWage($id)
+    public function getCertificate($id, $activeFlag=true)
     {
-        $employeeWage = [];
+        $certificate = [];
 
         try {
-            $employeeWage = EmployeeWage::active()->findOrFail($id);
+            $certificate = Certificate::with('account');
+
+            if($activeFlag) {
+                $certificate = $certificate->active();
+            }
+
+            $certificate = $certificate->findOrFail($id);
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
                 $this->errorCode = $e->getCode();
@@ -112,25 +118,24 @@ class EmployeeWageRepository
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        return $employeeWage;
+        return $certificate;
     }
 
-    public function deleteEmployeeWage($id, $forceFlag=false)
+    public function deleteCertificate($id, $forceFlag=false)
     {
         $deleteFlag = false;
 
         try {
-            //get employeeWage
-            $employeeWage = $this->getEmployeeWage($id);
+            //get certificate record
+            $certificate   = $this->getCertificate($id);
 
-            //force delete or soft delete
-            //related models will be deleted by deleting event handlers
             if($forceFlag) {
-                $employeeWage->forceDelete();
+                //removing certificate permanently
+                $certificate->forceDelete();
             } else {
-                $employeeWage->delete();
+                $certificate->delete();
             }
-            
+
             $deleteFlag = true;
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
@@ -141,7 +146,7 @@ class EmployeeWageRepository
             
             throw new AppCustomException("CustomError", $this->errorCode);
         }
-
+        
         if($deleteFlag) {
             return [
                 'flag'  => true,
@@ -151,7 +156,7 @@ class EmployeeWageRepository
 
         return [
             'flag'          => false,
-            'errorCode'    => $this->repositoryCode + 6,
+            'error_code'    => $this->repositoryCode + 6,
         ];
     }
 }

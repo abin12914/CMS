@@ -23,7 +23,7 @@ class AddressRepository
         $addresses = [];
 
         try {
-            $addresses = Address::with('account')->active();
+            $addresses = Address::active();
 
             foreach ($params as $key => $value) {
                 if(!empty($value)) {
@@ -41,7 +41,7 @@ class AddressRepository
             } else {
                 $this->errorCode = $this->repositoryCode + 1;
             }
-            
+            dd($e);
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
@@ -61,10 +61,11 @@ class AddressRepository
             }
 
             //address saving
-            $address->account_id   = $inputArray['account_id'];
-            $address->wage_type    = $inputArray['wage_type'];
-            $address->wage_rate    = $inputArray['wage_rate'];
-            $address->status       = 1;
+            $address->name          = $inputArray['name'];
+            $address->designation   = $inputArray['designation'];
+            $address->address       = $inputArray['address'];
+            $address->title         = $inputArray['title'];
+            $address->status        = 1;
             //address save
             $address->save();
 

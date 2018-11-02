@@ -4,9 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
-use App\Models\Employee;
+use App\Models\Address;
 
-class EmployeeFilterRequest extends FormRequest
+class AddressFilterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,16 +25,14 @@ class EmployeeFilterRequest extends FormRequest
      */
     public function rules()
     {
-        $wageTypes  = config('constants.employeeWageTypes');
-
         return [
-            'employee_id'   =>  [
+            'address_id'   =>  [
                                     'nullable',
-                                    Rule::in(Employee::pluck('id')->toArray()),
+                                    Rule::in(Address::pluck('id')->toArray()),
                                 ],
             'wage_type'     =>  [
                                     'nullable',
-                                    Rule::in(array_keys($wageTypes)),
+                                    Rule::in(array_keys([])),
                                 ],
             'page'          =>  [
                                     'nullable',

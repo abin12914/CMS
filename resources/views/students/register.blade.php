@@ -115,7 +115,7 @@
                                             <label for="batch_id" class="col-md-3 control-label"><b style="color: red;">* </b> Batch/Class : </label>
                                             <div class="col-md-9">
                                                 {{-- adding batch select component --}}
-                                                @component('components.selects.batches', ['selectedCourseId' => old('batch_id'), 'selectName' => 'batch_id', 'activeFlag' => false, 'tabindex' => 7])
+                                                @component('components.selects.batches', ['selectedBatchId' => old('batch_id'), 'selectName' => 'batch_id', 'activeFlag' => false, 'tabindex' => 7])
                                                 @endcomponent
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'batch_id'])

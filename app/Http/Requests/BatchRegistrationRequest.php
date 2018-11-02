@@ -28,7 +28,7 @@ class BatchRegistrationRequest extends FormRequest
         return [
             'batch_name'    =>  [
                                     'required',
-                                    'min:2',
+                                    'min:3',
                                     'max:100',
                                     Rule::unique('batches')->ignore($this->batch),
                                 ],

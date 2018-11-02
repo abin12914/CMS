@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Address Registration')
+@section('title', 'Certificate Registration')
 @section('content')
 <div class="content-wrapper">
      <section class="content-header">
         <h1>
-            Address
+            Certificate
             <small>Registration</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ route('address.index') }}"> Addresses</a></li>
+            <li><a href="{{ route('certificate.index') }}"> Certificates</a></li>
             <li class="active">Registration</li>
         </ol>
     </section>
@@ -26,56 +26,56 @@
                     <div class="box box-widget widget-user-2">
                         <div class="widget-user-header">
                             <div class="widget-user-image">
-                                <img class="img-circle" src="/images/public/default_address.png" alt="User Avatar">
+                                <img class="img-circle" src="/images/public/default_certificate.png" alt="User Avatar">
                             </div>
                             <!-- /.widget-user-image -->
-                            <h3 class="widget-user-username text-capitalize">&emsp;Address Registration</h3>
+                            <h3 class="widget-user-username text-capitalize">&emsp;Certificate Registration</h3>
                             <div class="widget-user-desc">&nbsp;&nbsp;&nbsp;&emsp; Fields marked with <i class="text-red">* </i> are mandatory.
                             </div>
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form action="{{route('address.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
+                        <form action="{{route('certificate.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
                             <div class="box-body">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
                                 <div class="row">
                                     <div class="col-md-11">
                                         <hr>
-                                        <h4 class="text-info">&emsp;&emsp;Address Info</h4>
+                                        <h4 class="text-info">&emsp;&emsp;Certificate Info</h4>
                                         <hr>
                                         <div class="form-group">
                                             <label for="name" class="col-md-3 control-label"><b style="color: red;">* </b> Name : </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="name" class="form-control" id="name" placeholder="Address name" value="{{ old('name') }}" tabindex="2" maxlength="100">
+                                                <input type="text" name="name" class="form-control" id="name" placeholder="Certificate name" value="{{ old('name') }}" tabindex="2" maxlength="100">
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'name'])
                                                 @endcomponent
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="designation" class="col-md-3 control-label"><b style="color: red;">* </b> Designation Name : </label>
+                                            <label for="designation" class="col-md-3 control-label"><b style="color: red;">* </b> Description : </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="designation" class="form-control alpha_only" id="designation" placeholder="Address descriptive name" value="{{ old('designation') }}" tabindex="2" maxlength="100">
+                                                <input type="text" name="designation" class="form-control alpha_only" id="designation" placeholder="Certificate descriptive name" value="{{ old('designation') }}" tabindex="2" maxlength="100">
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'descriptive_name'])
                                                 @endcomponent
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="address" class="col-md-3 control-label">Address : </label>
+                                            <label for="certificate" class="col-md-3 control-label">Authority : </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="address" class="form-control" id="address" placeholder="University" value="{{ old('address') }}" tabindex="4" minlength="10" maxlength="13">
+                                                <input type="text" name="certificate" class="form-control" id="certificate" placeholder="University" value="{{ old('certificate') }}" tabindex="4" minlength="10" maxlength="13">
                                                 {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'address'])
+                                                @component('components.paragraph.error_message', ['fieldName' => 'certificate'])
                                                 @endcomponent
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="title" class="col-md-3 control-label"><b style="color: red;">* </b> Title : </label>
+                                            <label for="certificate" class="col-md-3 control-label">Content : </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="title" class="form-control" id="title" placeholder="Center code" value="{{ old('title') }}" tabindex="6" maxlength="100">
+                                                <input type="text" name="certificate" class="form-control" id="certificate" placeholder="University" value="{{ old('certificate') }}" tabindex="4" minlength="10" maxlength="13">
                                                 {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'title'])
+                                                @component('components.paragraph.error_message', ['fieldName' => 'certificate'])
                                                 @endcomponent
                                             </div>
                                         </div>

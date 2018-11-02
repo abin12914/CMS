@@ -106,7 +106,7 @@
                                                     <td>{{ $index + $students->firstItem() }}</td>
                                                     <td>{{ $student->name }}</td>
                                                     <td>{{ $student->student_code }}</td>
-                                                    <td>{{ $student->course->course_name }} - {{ $student->course->university }}</td>
+                                                    <td>{{ $student->batch->course->course_name }} - {{ $student->batch->course->university }}</td>
                                                     <td>{{ $student->from_year }} - {{ $student->to_year }}</td>
                                                     <td class="no-print">
                                                         <a href="{{ route('student.show', $student->id) }}">

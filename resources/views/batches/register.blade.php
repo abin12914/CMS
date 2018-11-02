@@ -61,14 +61,14 @@
                                         <div class="form-group">
                                             <label for="from_year" class="col-md-3 control-label">Duration : From : </label>
                                             <div class="col-md-4">
-                                                <input type="text" name="from_year" class="form-control number_only" id="from_year" placeholder="From year" value="{{ old('from_year') }}" tabindex="4" minlength="10" maxlength="13">
+                                                <input type="text" name="from_year" class="form-control number_only" id="from_year" placeholder="From year" value="{{ old('from_year') }}" tabindex="4" minlength="4" maxlength="4">
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'from_year'])
                                                 @endcomponent
                                             </div>
                                             <label for="to_year" class="col-md-1 control-label">To : </label>
                                             <div class="col-md-4">
-                                                <input type="text" name="to_year" class="form-control number_only" id="to_year" placeholder="To year" value="{{ old('to_year') }}" tabindex="4" minlength="10" maxlength="13">
+                                                <input type="text" name="to_year" class="form-control number_only" id="to_year" placeholder="To year" value="{{ old('to_year') }}" tabindex="4" minlength="4" maxlength="4">
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'to_year'])
                                                 @endcomponent

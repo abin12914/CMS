@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Events\DeletingAddressEvent;
 
-class Product extends Model
+class Address extends Model
 {
     use SoftDeletes;
 
@@ -17,7 +18,16 @@ class Product extends Model
     protected $dates = ['deleted_at'];
 
     /**
-     * Scope a query to only include active accounts.
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        //'deleting' => DeletingEmployeeEvent::class,
+    ];
+    
+    /**
+     * Scope a query to only include active employees.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -25,21 +35,5 @@ class Product extends Model
     public function scopeActive($query)
     {
         return $query->where('status', 1);
-    }
-
-    /**
-     * The products that belong to the sale.
-     */
-    public function sales()
-    {
-        return $this->belongsToMany('App\Models\Sale', 'sale_product');
-    }
-
-    /**
-     * The products that belong to the purchase.
-     */
-    public function purchases()
-    {
-        return $this->belongsToMany('App\Models\Purchase', 'purchase_product');
     }
 }
