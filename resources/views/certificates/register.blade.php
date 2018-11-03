@@ -62,20 +62,20 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="certificate" class="col-md-3 control-label">Authority : </label>
+                                            <label for="authority_id" class="col-md-3 control-label">Authority : </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="certificate" class="form-control" id="certificate" placeholder="University" value="{{ old('certificate') }}" tabindex="4" minlength="10" maxlength="13">
+                                                <input type="text" name="authority_id" class="form-control" id="authority_id" placeholder="University" value="{{ old('authority_id') }}" tabindex="4" minlength="10" maxlength="13">
                                                 {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'certificate'])
+                                                @component('components.paragraph.error_message', ['fieldName' => 'authority_id'])
                                                 @endcomponent
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="certificate" class="col-md-3 control-label">Content : </label>
+                                            <label for="content" class="col-md-3 control-label">Content : </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="certificate" class="form-control" id="certificate" placeholder="University" value="{{ old('certificate') }}" tabindex="4" minlength="10" maxlength="13">
+                                                <textarea id="editor1" name="editor1" rows="10" cols="80"></textarea>
                                                 {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'certificate'])
+                                                @component('components.paragraph.error_message', ['fieldName' => 'content'])
                                                 @endcomponent
                                             </div>
                                         </div>
@@ -104,4 +104,14 @@
     </section>
     <!-- /.content -->
 </div>
+@endsection
+@section('scripts')
+    <script src="/bower_components/ckeditor/ckeditor.js"></script>
+    <script>
+        $(function () {
+            // Replace the <textarea id="editor1"> with a CKEditor
+            // instance, using default configuration.
+            CKEDITOR.replace('editor1');
+        })
+    </script>
 @endsection
