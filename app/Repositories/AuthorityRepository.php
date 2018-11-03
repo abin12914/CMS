@@ -2,38 +2,38 @@
 
 namespace App\Repositories;
 
-use App\Models\Certificate;
+use App\Models\Authority;
 use Exception;
 use App\Exceptions\AppCustomException;
 
-class CertificateRepository
+class AuthorityRepository
 {
     public $repositoryCode, $errorCode = 0;
 
     public function __construct()
     {
-        $this->repositoryCode = config('settings.repository_code.CertificateRepository');
+        $this->repositoryCode = config('settings.repository_code.AuthorityRepository');
     }
 
     /**
      * Return accounts.
      */
-    public function getCertificates($params=[], $noOfRecords=null)
+    public function getAuthorities($params=[], $noOfRecords=null)
     {
-        $certificates = [];
+        $authorities = [];
 
         try {
-            $certificates = Certificate::active();
+            $authorities = Authority::active();
 
             foreach ($params as $key => $value) {
                 if(!empty($value)) {
-                    $certificates = $certificates->where($key, $value);
+                    $authorities = $authorities->where($key, $value);
                 }
             }
             if(!empty($noOfRecords)) {
-                $certificates = $certificates->paginate($noOfRecords);
+                $authorities = $authorities->paginate($noOfRecords);
             } else {
-                $certificates= $certificates->get();
+                $authorities= $authorities->get();
             }
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
@@ -45,30 +45,29 @@ class CertificateRepository
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        return $certificates;
+        return $authorities;
     }
 
     /**
      * Action for saving accounts.
      */
-    public function saveCertificate($inputArray, $certificate=null)
+    public function saveAuthority($inputArray, $authority=null)
     {
         $saveFlag = false;
 
         try {
-            if(empty($certificate)) {
-                $certificate = new Certificate;
+            if(empty($authority)) {
+                $authority = new Authority;
             }
 
-            //certificate saving
-            $certificate->name                  = $inputArray['name'];
-            $certificate->description           = $inputArray['description'];
-            $certificate->authority_id          = $inputArray['authority_id'];
-            $certificate->certificate_type      = $inputArray['certificate_type'];
-            $certificate->certificate_content   = $inputArray['certificate_content'];
-            $certificate->status            = 1;
-            //certificate save
-            $certificate->save();
+            //authority saving
+            $authority->name          = $inputArray['name'];
+            $authority->designation   = $inputArray['designation'];
+            $authority->authority       = $inputArray['authority'];
+            $authority->title         = $inputArray['title'];
+            $authority->status        = 1;
+            //authority save
+            $authority->save();
 
             $saveFlag = true;
         } catch (Exception $e) {
@@ -77,13 +76,14 @@ class CertificateRepository
             } else {
                 $this->errorCode = $this->repositoryCode + 2;
             }
+            
             throw new AppCustomException("CustomError", $this->errorCode);
         }
         
         if($saveFlag) {
             return [
                 'flag'  => true,
-                'id'    => $certificate->id,
+                'id'    => $authority->id,
             ];
         }
 
@@ -94,20 +94,20 @@ class CertificateRepository
     }
 
     /**
-     * return certificate.
+     * return authority.
      */
-    public function getCertificate($id, $activeFlag=true)
+    public function getAuthority($id, $activeFlag=true)
     {
-        $certificate = [];
+        $authority = [];
 
         try {
-            $certificate = Certificate::with('account');
+            $authority = Authority::with('account');
 
             if($activeFlag) {
-                $certificate = $certificate->active();
+                $authority = $authority->active();
             }
 
-            $certificate = $certificate->findOrFail($id);
+            $authority = $authority->findOrFail($id);
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
                 $this->errorCode = $e->getCode();
@@ -118,22 +118,22 @@ class CertificateRepository
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        return $certificate;
+        return $authority;
     }
 
-    public function deleteCertificate($id, $forceFlag=false)
+    public function deleteAuthority($id, $forceFlag=false)
     {
         $deleteFlag = false;
 
         try {
-            //get certificate record
-            $certificate   = $this->getCertificate($id);
+            //get authority record
+            $authority   = $this->getAuthority($id);
 
             if($forceFlag) {
-                //removing certificate permanently
-                $certificate->forceDelete();
+                //removing authority permanently
+                $authority->forceDelete();
             } else {
-                $certificate->delete();
+                $authority->delete();
             }
 
             $deleteFlag = true;

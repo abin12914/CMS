@@ -18,15 +18,12 @@
         <!-- Main row -->
         <div class="row no-print">
             <div class="col-md-12">
-                <div class="col-md-2"></div>
-                {{-- @foreach($errors->all() as $er) 
-                {{ $er }}<br>
-                @endforeach --}}
-                <div class="col-md-8">
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
                     <div class="box box-widget widget-user-2">
                         <div class="widget-user-header">
                             <div class="widget-user-image">
-                                <img class="img-circle" src="/images/public/default_certificate.png" alt="User Avatar">
+                                <img class="img-circle" src="/images/public/default_certificate.jpeg" alt="User Avatar">
                             </div>
                             <!-- /.widget-user-image -->
                             <h3 class="widget-user-username text-capitalize">&emsp;Certificate Registration</h3>
@@ -38,48 +35,70 @@
                         <form action="{{route('certificate.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
                             <div class="box-body">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
+                                <hr>
+                                <h4 class="text-info">&emsp;&emsp;Certificate Info</h4>
+                                <hr>
                                 <div class="row">
-                                    <div class="col-md-11">
-                                        <hr>
-                                        <h4 class="text-info">&emsp;&emsp;Certificate Info</h4>
-                                        <hr>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10">
                                         <div class="form-group">
-                                            <label for="name" class="col-md-3 control-label"><b style="color: red;">* </b> Name : </label>
-                                            <div class="col-md-9">
-                                                <input type="text" name="name" class="form-control" id="name" placeholder="Certificate name" value="{{ old('name') }}" tabindex="2" maxlength="100">
-                                                {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'name'])
-                                                @endcomponent
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="name" class="control-label"><b style="color: red;">* </b> Name : </label>
+                                                    <input type="text" name="name" class="form-control" id="name" placeholder="Certificate name" value="{{ old('name') }}" tabindex="2" maxlength="100">
+                                                    {{-- adding error_message p tag component --}}
+                                                    @component('components.paragraph.error_message', ['fieldName' => 'name'])
+                                                    @endcomponent
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="description" class="control-label"><b style="color: red;">* </b> Description : </label>
+                                                    <input type="text" name="description" class="form-control" id="description" placeholder="Description" value="{{ old('description') }}" tabindex="2" maxlength="100">
+                                                    {{-- adding error_message p tag component --}}
+                                                    @component('components.paragraph.error_message', ['fieldName' => 'description'])
+                                                    @endcomponent
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="designation" class="col-md-3 control-label"><b style="color: red;">* </b> Description : </label>
-                                            <div class="col-md-9">
-                                                <input type="text" name="designation" class="form-control alpha_only" id="designation" placeholder="Certificate descriptive name" value="{{ old('designation') }}" tabindex="2" maxlength="100">
-                                                {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'descriptive_name'])
-                                                @endcomponent
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="authority_id" class="col-md-3 control-label">Authority : </label>
-                                            <div class="col-md-9">
-                                                <input type="text" name="authority_id" class="form-control" id="authority_id" placeholder="University" value="{{ old('authority_id') }}" tabindex="4" minlength="10" maxlength="13">
-                                                {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'authority_id'])
-                                                @endcomponent
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="content" class="col-md-3 control-label">Content : </label>
-                                            <div class="col-md-9">
-                                                <textarea id="editor1" name="editor1" rows="10" cols="80"></textarea>
-                                                {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'content'])
-                                                @endcomponent
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="authority_id" class="control-label"><b style="color: red;">* </b> Issuing authority : </label>
+                                                    {{-- adding authority select component --}}
+                                                    @component('components.selects.authorities', ['selectedAuthorityId' => old('authority_id'), 'selectName' => 'authority_id', 'activeFlag' => false, 'tabindex' => 7])
+                                                    @endcomponent
+                                                    {{-- adding error_message p tag component --}}
+                                                    @component('components.paragraph.error_message', ['fieldName' => 'authority_id'])
+                                                    @endcomponent
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="certificate_type" class="control-label"><b style="color: red;">* </b> Type : </label>
+                                                    {{-- adding certificate type select component --}}
+                                                    @component('components.selects.certificate_type', ['tabindex' => 7])
+                                                    @endcomponent
+                                                    {{-- adding error_message p tag component --}}
+                                                    @component('components.paragraph.error_message', ['fieldName' => 'certificate_type'])
+                                                    @endcomponent
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <hr>
+                                <h4 class="text-info">&emsp;&emsp;Certificate Content</h4>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10">
+                                        <div class="form-group">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <textarea id="certificate_content" name="certificate_content" rows="10" cols="80"></textarea>
+                                                    {{-- adding error_message p tag component --}}
+                                                    @component('components.paragraph.error_message', ['fieldName' => 'content'])
+                                                    @endcomponent
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="clearfix"> </div><br>
@@ -99,8 +118,8 @@
                     <!-- /.box primary -->
                 </div>
             </div>
+            <!-- /.row (main row) -->
         </div>
-        <!-- /.row (main row) -->
     </section>
     <!-- /.content -->
 </div>
@@ -109,9 +128,9 @@
     <script src="/bower_components/ckeditor/ckeditor.js"></script>
     <script>
         $(function () {
-            // Replace the <textarea id="editor1"> with a CKEditor
+            // Replace the <textarea id="certificate_content"> with a CKEditor
             // instance, using default configuration.
-            CKEDITOR.replace('editor1');
+            CKEDITOR.replace('certificate_content');
         })
     </script>
 @endsection

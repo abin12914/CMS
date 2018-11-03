@@ -55,9 +55,7 @@ class CertificateController extends Controller
      */
     public function create()
     {
-        return view('certificates.register', [
-                'wageTypes' => config('constants.certificateWageTypes'),
-            ]);
+        return view('certificates.register');
     }
 
     /**
@@ -82,10 +80,11 @@ class CertificateController extends Controller
             }
 
             $certificateResponse = $this->certificateRepo->saveCertificate([
-                'name'          => $request->get('name'),
-                'designation'   => $request->get('designation'),
-                'certificate'       => $request->get('certificate'),
-                'title'         => $request->get('title'),
+                'name'                  => $request->get('name'),
+                'description'           => $request->get('description'),
+                'authority_id'          => $request->get('authority_id'),
+                'certificate_type'      => $request->get('certificate_type'),
+                'certificate_content'   => $request->get('certificate_content'),
             ], $certificate);
 
             if(!$certificateResponse['flag']) {
