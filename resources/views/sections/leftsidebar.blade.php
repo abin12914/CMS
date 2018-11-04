@@ -120,22 +120,22 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="treeview {{ Request::is('history/*') || Request::is('history') ? 'active' : '' }}">
+                    <li class="treeview {{ Request::is('certification/*') || Request::is('certification') ? 'active' : '' }}">
                         <a href="#">
-                            <i class="fa fa-history"></i>
-                            <span>History</span>
+                            <i class="fa fa-file-text-o"></i>
+                            <span>Certification</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="{{ Request::is('history/create')? 'active' : '' }}">
-                                <a href="{{route('history.create') }}">
+                            <li class="{{ Request::is('certification/create')? 'active' : '' }}">
+                                <a href="{{route('certification.create') }}">
                                     <i class="fa fa-circle-o text-yellow"></i> Register
                                 </a>
                             </li>
-                            <li class="{{ Request::is('history')? 'active' : '' }}">
-                                <a href="{{route('history.index') }}">
+                            <li class="{{ Request::is('certification')? 'active' : '' }}">
+                                <a href="{{route('certification.index') }}">
                                     <i class="fa fa-circle-o text-aqua"></i> List
                                 </a>
                             </li>
@@ -157,6 +157,27 @@
                             </li>
                             <li class="{{ Request::is('address')? 'active' : '' }}">
                                 <a href="{{route('address.index') }}">
+                                    <i class="fa fa-circle-o text-aqua"></i> List
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treeview {{ Request::is('authority/*') || Request::is('authority') ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="fa fa-user-secret"></i>
+                            <span>Authorities</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ Request::is('authority/create')? 'active' : '' }}">
+                                <a href="{{route('authority.create') }}">
+                                    <i class="fa fa-circle-o text-yellow"></i> Register
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('authority')? 'active' : '' }}">
+                                <a href="{{route('authority.index') }}">
                                     <i class="fa fa-circle-o text-aqua"></i> List
                                 </a>
                             </li>

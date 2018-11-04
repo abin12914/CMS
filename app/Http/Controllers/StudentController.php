@@ -7,6 +7,7 @@ use App\Repositories\StudentRepository;
 use App\Repositories\TransactionRepository;
 use App\Http\Requests\StudentRegistrationRequest;
 use App\Http\Requests\StudentFilterRequest;
+use App\Http\Requests\StudentSearchRequest;
 use \Carbon\Carbon;
 use DB;
 use Exception;
@@ -231,48 +232,22 @@ class StudentController extends Controller
      * @param  int  $id
      * @return json
      */
-    public function getDetails($id=null, TransactionRepository $transactionRepo)
+    public function getStudentDetails(StudentSearchRequest $request)
     {
-        $oldBalance['debit']    = 0;
-        $oldBalance['credit']   = 0;
-
-        if(empty($id)) {
+        $params = $request->get('searchParams');
+        
+        $students = $this->studentRepo->getStudents($params, null, true, false);
+        
+        if(!empty($students) && count($students) > 0)
+        {
             return [
-                'flag'      => false,
-                'message'   => "Invalid param",
-            ];
-        }
-        $errorCode  = 0;
-        $student    = [];
-
-        try {
-            $student    = $this->studentRepo->getStudent($id,false);
-            $oldBalance = $transactionRepo->getOldBalance($id, null, null);
-        } catch (\Exception $e) {
-            if($e->getMessage() == "CustomError") {
-                $errorCode = $e->getCode();
-            } else {
-                $errorCode = 2;
-            }
-            
-            return [
-                'flag'      => false,
-                'message'   => "Record not found".$errorCode,
+                'flag'     => true,
+                'students' => $students,
             ];
         }
 
         return [
-            'flag'      => true,
-            'student'   => [
-                'name'      => $student->name,
-                'phone'     => $student->phone,
-                'address'   => $student->address,
-                'type'      => $student->type,
-            ],
-            'oldBalance' => [
-                'oldDebit'  => $oldBalance['debit'] ?: 0,
-                'oldCredit' => $oldBalance['credit'] ?: 0,
-            ],
+            'flag'      => false
         ];
     }
 }

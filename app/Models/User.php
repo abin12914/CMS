@@ -10,6 +10,13 @@ class User extends Authenticatable
 {
     use Notifiable;
 
+    private $userRoles=[];
+
+    public function __construct()
+    {
+        $this->userRoles = config('constants.userRoles');
+    }
+
     /**
      * The attributes that are mass assignable.
      *
@@ -40,14 +47,14 @@ class User extends Authenticatable
     }
 
     public function isSuperAdmin() {
-        return Auth::user()->role == 0;
+        return Auth::user()->role == $this->userRoles['superAdmin'];
     }
 
     public function isAdmin() {
-        return Auth::user()->role == 1;
+        return Auth::user()->role == $this->userRoles['admin'];
     }
 
     public function isUser() {
-        return Auth::user()->role == 2;
+        return Auth::user()->role == $this->userRoles['user'];
     }
 }

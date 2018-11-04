@@ -40,11 +40,19 @@ Route::group(['middleware' => 'auth.check'], function () {
         //address
         Route::resource('address', 'AddressController');
 
+        //authority
+        Route::resource('authority', 'AuthorityController');
+
         //certificate
         Route::get('/certificate/issue', 'CertificateController@issue')->name('certificate.issue');
         Route::resource('certificate', 'CertificateController');
 
-        //history
-        Route::resource('history', 'HistoryController');
+        //certification
+        Route::resource('certification', 'CertificationController');
+
+        //ajax urls
+        Route::group(['middleware' => 'is.ajax'], function () {
+            Route::post('/ajax/student/details', 'StudentController@getStudentDetails')->name('ajax.student.details');
+        });
     });
 });

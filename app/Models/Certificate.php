@@ -26,4 +26,12 @@ class Certificate extends Model
     {
         return $query->where('status', 1);
     }
+
+    /**
+     * Get the authority details associated with the certificate
+     */
+    public function authority()
+    {
+        return $this->belongsTo('App\Models\Authority','authority_id');
+    }
 }

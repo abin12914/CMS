@@ -17,17 +17,6 @@ $(function () {
         showAlert();
     }
 
-    CKEDITOR.on('dialogDefinition', function(event) {
-        if ('placeholder' == event.data.name) {
-            var input = event.data.definition.getContents('info').get('name');
-            input.type = 'select';
-            input.items = [ ['Company'], ['Email'], ['First Name'], ['Last Name'] ];
-            /*input.setup = function() {
-                this.setValue('Company');
-            };*/
-        }
-    });
-
     //Initialize Select2 Element for account type select box
     initializeSelect2();
 

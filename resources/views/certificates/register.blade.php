@@ -131,6 +131,17 @@
             // Replace the <textarea id="certificate_content"> with a CKEditor
             // instance, using default configuration.
             CKEDITOR.replace('certificate_content');
+
+            CKEDITOR.on('dialogDefinition', function(event) {
+                if ('placeholder' == event.data.name) {
+                    var input = event.data.definition.getContents('info').get('name');
+                    input.type = 'select';
+                    input.items = [ ['Company'], ['Email'], ['First Name'], ['Last Name'] ];
+                    /*input.setup = function() {
+                        this.setValue('Company');
+                    };*/
+                }
+            });
         })
     </script>
 @endsection

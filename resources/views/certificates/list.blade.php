@@ -1,15 +1,15 @@
 @extends('layouts.app')
-@section('title', 'Product List')
+@section('title', 'Certificate List')
 @section('content')
 <div class="content-wrapper">
      <section class="content-header">
         <h1>
-            Product
+            Certificate
             <small>List</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a> Product</a></li>
+            <li><a> Certificate</a></li>
             <li class="active"> List</li>
         </ol>
     </section>
@@ -22,33 +22,32 @@
                     @include('sections.print-head')
                     <div class="box-body">
                         <div class="row">
-                            <div class="col-md-12" style="overflow-x: scroll;">
+                            <div class="col-md-12">
                                 <table class="table table-responsive table-bordered table-hover">
                                     <thead>
                                         <tr>
                                             <th style="width: 5%;">#</th>
-                                            <th style="width: 25%;">Product Name</th>
-                                            <th style="width: 5%;">Unit</th>
-                                            <th style="width: 5%;">Code</th>
-                                            <th style="width: 10%;">Wastage / Unit</th>
-                                            <th style="width: 20%;">Description</th>
-                                            <th style="width: 20%;">Malayalam Name</th>
-                                            <th style="width: 10%;" class="no-print">Details</th>
+                                            <th style="width: 25%;">Certificate Name</th>
+                                            <th style="width: 30%;">Description</th>
+                                            <th style="width: 20%;">Authority</th>
+                                            <th style="width: 10%;">Certificate Type</th>
+                                            <th style="width: 10%;"  class="no-print">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @if(!empty($products))
-                                            @foreach($products as $index => $product)
+                                        @if(!empty($certificates))
+                                            @foreach($certificates as $index => $certificate)
                                                 <tr>
                                                     <td>{{ $index + 1 }}</td>
-                                                    <td>{{ $product->name }}</td>
-                                                    <td>{{ $product->uom_code }}</td>
-                                                    <td>{{ $product->product_code }}</td>
-                                                    <td>{{ $product->weighment_wastage }}</td>
-                                                    <td>{{ $product->description }}</td>
-                                                    <td>{{ $product->malayalam_name }}</td>
+                                                    <td>{{ $certificate->name }}</td>
+                                                    <td>{{ $certificate->description }}</td>
+                                                    <td>{{ $certificate->authority_id }}</td>
+                                                    <td>{{ $certificate->certificate_type }}</td>
                                                     <td class="no-print">
-                                                        <a href="{{ route('product.edit', $product->id) }}">
+                                                        <a href="{{ route('certificate.show', $certificate->id) }}">
+                                                            <button type="button" class="btn btn-info"><i class="fa fa-edit"></i> Show</button>
+                                                        </a>
+                                                        <a href="{{ route('certificate.edit', $certificate->id) }}">
                                                             <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</button>
                                                         </a>
                                                     </td>
