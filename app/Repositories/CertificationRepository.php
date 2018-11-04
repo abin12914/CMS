@@ -61,14 +61,15 @@ class CertificationRepository
             }
 
             //certification saving
-            $certification->name                  = $inputArray['name'];
-            $certification->description           = $inputArray['description'];
-            $certification->authority_id          = $inputArray['authority_id'];
-            $certification->certification_type      = $inputArray['certification_type'];
-            $certification->certification_content   = $inputArray['certification_content'];
-            $certification->status            = 1;
+            $certification->issue_date      = $inputArray['issue_date'];
+            $certification->user_id         = $inputArray['user_id'];
+            $certification->address_id      = $inputArray['address_id'];
+            $certification->certificate_id  = $inputArray['certificate_id'];
+            $certification->status          = 1;
             //certification save
             $certification->save();
+
+            $certification->students()->sync($inputArray['student_id']);
 
             $saveFlag = true;
         } catch (Exception $e) {
@@ -76,7 +77,7 @@ class CertificationRepository
                 $this->errorCode = $e->getCode();
             } else {
                 $this->errorCode = $this->repositoryCode + 2;
-            }
+            }dd($e);
             throw new AppCustomException("CustomError", $this->errorCode);
         }
         
@@ -101,7 +102,7 @@ class CertificationRepository
         $certification = [];
 
         try {
-            $certification = Certification::with('account');
+            $certification = Certification::with('address', 'certificate', 'students');
 
             if($activeFlag) {
                 $certification = $certification->active();
@@ -114,7 +115,7 @@ class CertificationRepository
             } else {
                 $this->errorCode = $this->repositoryCode + 4;
             }
-            
+            dd($e);
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 

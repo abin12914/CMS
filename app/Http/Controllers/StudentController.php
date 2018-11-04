@@ -236,7 +236,7 @@ class StudentController extends Controller
     {
         $params = $request->get('searchParams');
         
-        $students = $this->studentRepo->getStudents($params, null, true, false);
+        $students = $this->studentRepo->getStudents($params, null, true, false, ['batch', 'batch.course']);
         
         if(!empty($students) && count($students) > 0)
         {

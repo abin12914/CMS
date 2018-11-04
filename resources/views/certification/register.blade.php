@@ -9,7 +9,7 @@
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ route('address.index') }}"> Certificate</a></li>
+            <li><a href="{{ route('certification.index') }}"> Certificate</a></li>
             <li class="active">Issuing</li>
         </ol>
     </section>
@@ -24,7 +24,7 @@
                 <div class="box box-widget widget-user-2">
                     <div class="widget-user-header">
                         <div class="widget-user-image">
-                            <img class="img-circle" src="/images/public/default_address.png" alt="User Avatar">
+                            <img class="img-circle" src="/images/public/default_certification.png" alt="User Avatar">
                         </div>
                         <!-- /.widget-user-image -->
                         <h3 class="widget-user-username text-capitalize">&emsp;Certificate Issuing</h3>
@@ -33,7 +33,7 @@
                     </div>
                     <!-- /.box-header -->
                     <!-- form start -->
-                    <form action="{{route('address.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
+                    <form action="{{route('certification.store')}}" method="post" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
                         <div class="box-body">
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <div class="row">
@@ -54,21 +54,21 @@
                                                         @endcomponent
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <label for="authority_id" class="control-label"><b style="color: red;">* </b> Certificate : </label>
-                                                        {{-- adding authority select component --}}
-                                                        @component('components.selects.authorities', ['selectedAuthorityId' => old('authority_id'), 'selectName' => 'authority_id', 'activeFlag' => false, 'tabindex' => 7])
+                                                        <label for="certificate_id" class="control-label"><b style="color: red;">* </b> Certificate : </label>
+                                                        {{-- adding certificate select component --}}
+                                                        @component('components.selects.certificates', ['selectedCertificateId' => old('certificate_id'), 'selectName' => 'certificate_id', 'activeFlag' => false, 'tabindex' => 7])
                                                         @endcomponent
                                                         {{-- adding error_message p tag component --}}
-                                                        @component('components.paragraph.error_message', ['fieldName' => 'authority_id'])
+                                                        @component('components.paragraph.error_message', ['fieldName' => 'certificate_id'])
                                                         @endcomponent
                                                     </div>
                                                     <div class="col-md-4">
-                                                        <label for="authority_id" class="control-label"><b style="color: red;">* </b> Address : </label>
-                                                        {{-- adding authority select component --}}
-                                                        @component('components.selects.authorities', ['selectedAuthorityId' => old('authority_id'), 'selectName' => 'authority_id', 'activeFlag' => false, 'tabindex' => 7])
+                                                        <label for="address_id" class="control-label"><b style="color: red;">* </b> Address : </label>
+                                                        {{-- adding address select component --}}
+                                                        @component('components.selects.addresses', ['selectedAddressId' => old('address_id'), 'selectName' => 'address_id', 'activeFlag' => false, 'tabindex' => 7])
                                                         @endcomponent
                                                         {{-- adding error_message p tag component --}}
-                                                        @component('components.paragraph.error_message', ['fieldName' => 'authority_id'])
+                                                        @component('components.paragraph.error_message', ['fieldName' => 'address_id'])
                                                         @endcomponent
                                                     </div>
                                                 </div>
@@ -91,12 +91,12 @@
                                                         @endcomponent
                                                     </div>
                                                     <div class="col-md-6">
-                                                        <label for="authority_id" class="control-label">Batch : </label>
+                                                        <label for="batch_id" class="control-label">Batch : </label>
                                                         {{-- adding authority select component --}}
-                                                        @component('components.selects.authorities', ['selectedAuthorityId' => old('authority_id'), 'selectName' => 'authority_id', 'activeFlag' => false, 'tabindex' => 7])
+                                                        @component('components.selects.batches', ['selectedBatchId' => old('batch_id'), 'selectName' => 'batch_id', 'activeFlag' => false, 'tabindex' => 7])
                                                         @endcomponent
                                                         {{-- adding error_message p tag component --}}
-                                                        @component('components.paragraph.error_message', ['fieldName' => 'authority_id'])
+                                                        @component('components.paragraph.error_message', ['fieldName' => 'batch_id'])
                                                         @endcomponent
                                                     </div>
                                                 </div>
@@ -106,14 +106,14 @@
                                                     <table class="table table-bordered table-hover dataTable">
                                                         <thead>
                                                             <th style="width: 5%;">#</th>
-                                                            <th style="width: 30%;">Student Name & Code</th>
+                                                            <th style="width: 25%;">Student Name & Code</th>
                                                             <th style="width: 20%;">Address</th>
                                                             <th style="width: 15%;">Course</th>
                                                             <th style="width: 15%;">University</th>
                                                             <th style="width: 10%;">Fee</th>
-                                                            <th style="width: 5%;">Selection</th>
+                                                            <th style="width: 10%;"><input type="checkbox" name="select_all" id="student_id_select_all"></th>
                                                         </thead>
-                                                        <tbody id="student_table_body">
+                                                        <tbody class="students_table_body">
                                                         </tbody>
                                                     </table>
                                                 </div>

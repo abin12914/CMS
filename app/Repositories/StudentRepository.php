@@ -18,12 +18,16 @@ class StudentRepository
     /**
      * Return students.
      */
-    public function getStudents($params=[], $noOfRecords=null, $typeFlag=true, $activeFlag=true)
+    public function getStudents($params=[], $noOfRecords=null, $typeFlag=true, $activeFlag=true, $relations=[])
     {
         $students = [];
 
         try {
-            $students = Student::query();
+            if(!empty($relations)) {
+                $students = Student::with($relations);
+            } else {
+                $students = Student::query();
+            }
 
             if($activeFlag) {
                 $students = $students->active(); //status == 1
@@ -46,7 +50,7 @@ class StudentRepository
             } else {
                 $this->errorCode = $this->repositoryCode + 1;
             }
-            
+            dd($e);
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 

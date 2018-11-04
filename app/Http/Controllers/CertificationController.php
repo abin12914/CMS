@@ -11,15 +11,16 @@ use DB;
 use Exception;
 use App\Exceptions\AppCustomException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Auth;
 
 class CertificationController extends Controller
 {
-    protected $certificateRepo;
+    protected $certificationRepo;
     public $errorHead = null, $noOfRecordsPerPage = null;
 
-    public function __construct(CertificationRepository $certificateRepo)
+    public function __construct(CertificationRepository $certificationRepo)
     {
-        $this->certificateRepo      = $certificateRepo;
+        $this->certificationRepo      = $certificationRepo;
         $this->noOfRecordsPerPage   = config('settings.no_of_record_per_page');
         $this->errorHead            = config('settings.controller_code.CertificationController');
     }
@@ -39,8 +40,8 @@ class CertificationController extends Controller
             ];
         
         return view('certification.list', [
-                'certification'         => $this->certificateRepo->getCertifications($params, $noOfRecords),
-                'wageTypes'         => config('constants.certificateWageTypes'),
+                'certification'         => $this->certificationRepo->getCertifications($params, $noOfRecords),
+                'wageTypes'         => config('constants.certificationWageTypes'),
                 'params'            => $params,
                 'noOfRecords'       => $noOfRecords,
             ]);
@@ -68,25 +69,25 @@ class CertificationController extends Controller
     ) {
         $saveFlag            = false;
         $errorCode           = 0;
-        $certificate            = null;
+        $certification            = null;
 
         //wrappin db transactions
         DB::beginTransaction();
         try {
             if(!empty($id)) {
-                $certificate = $this->certificateRepo->getCertification($id);
+                $certification = $this->certificationRepo->getCertification($id);
             }
 
-            $certificateResponse = $this->certificateRepo->saveCertification([
-                'name'                  => $request->get('name'),
-                'description'           => $request->get('description'),
-                'authority_id'          => $request->get('authority_id'),
-                'certificate_type'      => $request->get('certificate_type'),
-                'certificate_content'   => $request->get('certificate_content'),
-            ], $certificate);
+            $certificationResponse = $this->certificationRepo->saveCertification([
+                'issue_date'     => Carbon::createFromFormat('d-m-Y', $request->get('certificate_date'))->format('Y-m-d'),
+                'user_id'        => Auth::id(),
+                'address_id'     => $request->get('address_id'),
+                'certificate_id' => $request->get('certificate_id'),
+                'student_id'     => $request->get('student_id'),
+            ], $certification);
 
-            if(!$certificateResponse['flag']) {
-                throw new AppCustomException("CustomError", $certificateResponse['errorCode']);
+            if(!$certificationResponse['flag']) {
+                throw new AppCustomException("CustomError", $certificationResponse['errorCode']);
             }
 
             DB::commit();
@@ -106,11 +107,11 @@ class CertificationController extends Controller
             if(!empty($id)) {
                 return [
                     'flag'  => true,
-                    'id'    => $certificateResponse['id']
+                    'id'    => $certificationResponse['id']
                 ];
             }
 
-            return redirect(route('certificate.show', $certificateResponse['id']))->with("message","Certification details saved successfully. Reference Number : ". $certificateResponse['id'])->with("alert-class", "success");
+            return redirect(route('certification.show', $certificationResponse['id']))->with("message","Certification details saved successfully. Reference Number : ". $certificationResponse['id'])->with("alert-class", "success");
         }
 
         if(!empty($id)) {
@@ -120,7 +121,7 @@ class CertificationController extends Controller
             ];
         }
         
-        return redirect()->back()->with("message","Failed to save the certificate details. Error Code : ". $this->errorHead. "/". $errorCode)->with("alert-class", "error");
+        return redirect()->back()->with("message","Failed to save the certification details. Error Code : ". $this->errorHead. "/". $errorCode)->with("alert-class", "error");
     }
 
     /**
@@ -132,10 +133,10 @@ class CertificationController extends Controller
     public function show($id)
     {
         $errorCode  = 0;
-        $certificate   = [];
+        $certification   = [];
 
         try {
-            $certificate = $this->certificateRepo->getCertification($id);
+            $certification = $this->certificationRepo->getCertification($id);
         } catch (Exception $e) {
         if($e->getMessage() == "CustomError") {
             $errorCode = $e->getCode();
@@ -146,8 +147,7 @@ class CertificationController extends Controller
         throw new ModelNotFoundException("Certification", $errorCode);
     }
         return view('certification.details', [
-                'certificate'  => $certificate,
-                'wageTypes' => config('constants.certificateWageTypes'),
+                'certification'  => $certification,
             ]);
     }
 
@@ -160,10 +160,10 @@ class CertificationController extends Controller
     public function edit($id)
     {
         $errorCode  = 0;
-        $certificate   = [];
+        $certification   = [];
 
         try {
-            $certificate = $this->certificateRepo->getCertification($id);
+            $certification = $this->certificationRepo->getCertification($id);
         } catch (\Exception $e) {
             if($e->getMessage() == "CustomError") {
                 $errorCode = $e->getCode();
@@ -175,8 +175,8 @@ class CertificationController extends Controller
         }
 
         return view('certification.edit', [
-            'certificate'  => $certificate,
-            'wageTypes' => config('constants.certificateWageTypes'),
+            'certification'  => $certification,
+            'wageTypes' => config('constants.certificationWageTypes'),
         ]);
     }
 
@@ -196,10 +196,10 @@ class CertificationController extends Controller
         $updateResponse = $this->store($request, $accountRepo, $transactionRepo, $id);
 
         if($updateResponse['flag']) {
-            return redirect(route('certificate.show', $updateResponse['id']))->with("message","Certification details updated successfully. Updated Record Number : ". $updateResponse['id'])->with("alert-class", "success");
+            return redirect(route('certification.show', $updateResponse['id']))->with("message","Certification details updated successfully. Updated Record Number : ". $updateResponse['id'])->with("alert-class", "success");
         }
         
-        return redirect()->back()->with("message","Failed to update the certificate details. Error Code : ". $this->errorHead. "/". $updateResponse['errorCode'])->with("alert-class", "error");
+        return redirect()->back()->with("message","Failed to update the certification details. Error Code : ". $this->errorHead. "/". $updateResponse['errorCode'])->with("alert-class", "error");
     }
 
     /**
