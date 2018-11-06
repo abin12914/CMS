@@ -13,11 +13,12 @@
     </section>
     <!-- Main content -->
     <section class="content">
-        <!-- Main row -->
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box box-widget widget-user-2">
-                    @foreach($certification->students as $student)
+        @foreach($certification->students as $student)
+        @for($i=0; $i < 50; $i++)
+            <!-- Main row -->
+            <div class="row" style="page-break-after: always;">
+                <div class="col-md-12">
+                    <div class="box box-widget widget-user-2">
                         <div class="box-body">
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <div class="row">
@@ -31,12 +32,13 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach
+                    </div>
+                    <!-- /.box primary -->
                 </div>
-                <!-- /.box primary -->
             </div>
-        </div>
-        <!-- /.row (main row) -->
+            <!-- /.row (main row) -->
+        @endfor
+        @endforeach
     </section>
     <!-- /.content -->
 </div>

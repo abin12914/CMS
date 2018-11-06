@@ -20,30 +20,15 @@ return [
         3 => 'Year',
     ],
 
-    'certificateRelations' => [
-        'course' => [
-            'relationName'  => 'purchase',
-            'displayName'   => 'Purchase'
-        ],
-        2 => [
-            'relationName'  => 'employeeWage',
-            'displayName'   => 'Employee Wage'
-        ],
-        3 => [
-            'relationName'  => 'sale',
-            'displayName'   => 'Sale'
-        ],
-        4 => [
-            'relationName'  => 'transportation',
-            'displayName'   => 'Transportation'
-        ],
-        5 => [
-            'relationName'  => 'expense',
-            'displayName'   => 'Expense'
-        ],
-        6 => [
-            'relationName'  => 'voucher',
-            'displayName'   => 'Voucher'
-        ]
+    'certificatePlaceholders' => [
+        'Course Name'           => '$certification->batch->course->course_name',
+        'Descriptive Name'      => '',
+        'University'            => '',
+        'Center Code'           => '',
+        'Course From'           => '',
+        'Course Fee Amount'     => '',
+        'Course From'           => '',
+        'Student Name'          => '',
+        'Student Address'       => '',
     ],
 ];
