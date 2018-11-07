@@ -132,14 +132,12 @@
             // instance, using default configuration.
             CKEDITOR.replace('certificate_content');
 
-            CKEDITOR.on('dialogDefinition', function(event) {
+            CKEDITOR.on('dialogDefinition', function(event, placeholders) {
                 if ('placeholder' == event.data.name) {
                     var input = event.data.definition.getContents('info').get('name');
                     input.type = 'select';
-                    input.items = [ ['Company'], ['Email'], ['First Name'], ['Last Name'] ];
-                    /*input.setup = function() {
-                        this.setValue('Company');
-                    };*/
+                    //input.items = [ ['Company'], ['Email'], ['First Name'], ['Last Name'] ];
+                    input.items = [ ['Course_Name'], ['Descriptive_Name'], ['University'], ['Center_Code'], ['Course_From'], ['Course_To'], ['Course_Fee_Amount'], ['Student_Name'], ['Student_Address'] ];
                 }
             });
         })

@@ -31,9 +31,9 @@ class CertificationRepository
                 }
             }
             if(!empty($noOfRecords)) {
-                $certifications = $certifications->paginate($noOfRecords);
+                $certifications = $certifications->withCount('students')->paginate($noOfRecords);
             } else {
-                $certifications= $certifications->get();
+                $certifications= $certifications->withCount('students')->get();
             }
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {

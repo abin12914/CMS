@@ -55,7 +55,10 @@ class CertificateController extends Controller
      */
     public function create()
     {
-        return view('certificates.register');
+        $holders        = [];
+        $placeHolders   = config('constants.certificatePlaceholders');
+
+        return view('certificates.register', compact('holders'));
     }
 
     /**

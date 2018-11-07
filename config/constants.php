@@ -21,14 +21,14 @@ return [
     ],
 
     'certificatePlaceholders' => [
-        'Course Name'           => '$certification->batch->course->course_name',
-        'Descriptive Name'      => '',
-        'University'            => '',
-        'Center Code'           => '',
-        'Course From'           => '',
-        'Course Fee Amount'     => '',
-        'Course From'           => '',
-        'Student Name'          => '',
-        'Student Address'       => '',
+        '[[CourseName]]'       => 'batch->course->course_name',
+        '[[DescriptiveName]]'  => 'batch->course->descriptive_name',
+        '[[University]]'       => 'batch->course->university',
+        '[[CenterCode]]'       => 'batch->course->center_code',
+        '[[CourseFrom]]'       => 'batch->from_year',
+        '[[CourseTo]]'         => 'batch->to_year',
+        '[[CourseFeeAmount]]'  => 'batch->fee_amount',
+        '[[StudentName]]'      => 'name',
+        '[[StudentAddress]]'   => 'address',
     ],
 ];

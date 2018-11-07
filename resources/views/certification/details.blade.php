@@ -13,8 +13,7 @@
     </section>
     <!-- Main content -->
     <section class="content">
-        @foreach($certification->students as $student)
-        @for($i=0; $i < 50; $i++)
+        @foreach($certification->students as $index => $student)
             <!-- Main row -->
             <div class="row" style="page-break-after: always;">
                 <div class="col-md-12">
@@ -23,12 +22,18 @@
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <strong>To</strong><br>
+                                    <strong>To</strong><p class="pull-right">{{ $certification->issue_date }}</p><br>
                                     {{ $certification->address->name }}<br>
                                     {{ $certification->address->designation }}<br>
                                     {{ $certification->address->address }}<br><br><br>
                                     {{ $certification->address->title }},<br><br>
-                                    &emsp;&emsp;{!! $certification->certificate->certificate_content !!}
+                                    &emsp;&emsp;{!! $studentCertification[$index] ?: '' !!}
+                                    <br><br><br>
+                                    Thanking You,<br>
+                                    Yours faithfully,<br><br>
+                                    {{ $certification->certificate->hide_name_flag != 0 ? $certification->certificate->authority->name : '' }}
+                                    {{ $certification->certificate->authority->designation }}
+                                    <br><br>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +42,6 @@
                 </div>
             </div>
             <!-- /.row (main row) -->
-        @endfor
         @endforeach
     </section>
     <!-- /.content -->

@@ -40,8 +40,7 @@ class CertificationController extends Controller
             ];
         
         return view('certification.list', [
-                'certification'         => $this->certificationRepo->getCertifications($params, $noOfRecords),
-                'wageTypes'         => config('constants.certificationWageTypes'),
+                'certifications'         => $this->certificationRepo->getCertifications($params, $noOfRecords),
                 'params'            => $params,
                 'noOfRecords'       => $noOfRecords,
             ]);
@@ -132,11 +131,20 @@ class CertificationController extends Controller
      */
     public function show($id)
     {
-        $errorCode  = 0;
-        $certification   = [];
+        $errorCode      = 0;
+        $certification  = [];
+        $placeHolders   = config('constants.certificatePlaceholders');
 
         try {
             $certification = $this->certificationRepo->getCertification($id);
+
+            $certificationContent = $certification->certificate->certificate_content;
+
+            foreach($placeHolders as $holder => $value){
+                foreach($certification->students as $index => $student) {
+                    $studentCertification[$index] = str_replace($holder, ($student->$value), $certificationContent);
+                }
+            }
         } catch (Exception $e) {
         if($e->getMessage() == "CustomError") {
             $errorCode = $e->getCode();
@@ -146,9 +154,7 @@ class CertificationController extends Controller
         //throwing methodnotfound exception when no model is fetched
         throw new ModelNotFoundException("Certification", $errorCode);
     }
-        return view('certification.details', [
-                'certification'  => $certification,
-            ]);
+        return view('certification.details', compact('certification','studentCertification'));
     }
 
     /**

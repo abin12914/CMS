@@ -42,11 +42,6 @@
                         <ul class="treeview-menu">
                             <li class="{{ Request::is('certificate/create')? 'active' : '' }}">
                                 <a href="{{route('certificate.create') }}">
-                                    <i class="fa fa-circle-o text-yellow"></i> Issue
-                                </a>
-                            </li>
-                            <li class="{{ Request::is('certificate/create')? 'active' : '' }}">
-                                <a href="{{route('certificate.create') }}">
                                     <i class="fa fa-circle-o text-yellow"></i> Register
                                 </a>
                             </li>
