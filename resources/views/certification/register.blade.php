@@ -65,7 +65,7 @@
                                                     <div class="col-md-4">
                                                         <label for="address_id" class="control-label"><b style="color: red;">* </b> Address : </label>
                                                         {{-- adding address select component --}}
-                                                        @component('components.selects.addresses', ['selectedAddressId' => old('address_id'), 'selectName' => 'address_id', 'activeFlag' => false, 'tabindex' => 7])
+                                                        @component('components.selects.addresses', ['selectedAddressId' => old('address_id'), 'selectName' => 'address_id', 'activeFlag' => true, 'tabindex' => 7])
                                                         @endcomponent
                                                         {{-- adding error_message p tag component --}}
                                                         @component('components.paragraph.error_message', ['fieldName' => 'address_id'])
