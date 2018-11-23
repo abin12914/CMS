@@ -29,19 +29,19 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <label for="authority_id" class="control-label">Authority : </label>
                                             {{-- adding authority select component --}}
-                                            @component('components.selects.authorities', ['selectedAuthorityId' => $params['id'], 'selectName' => 'authority_id', 'tabindex' => 2])
+                                            @component('components.selects.authorities', ['selectedAuthorityId' => $params['id'], 'selectName' => 'authority_id', 'tabindex' => 1])
                                             @endcomponent
                                             {{-- adding error_message p tag component --}}
                                             @component('components.paragraph.error_message', ['fieldName' => 'authority_id'])
                                             @endcomponent
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
                                             {{-- adding no of records text component --}}
-                                            @component('components.texts.no-of-records-text', ['noOfRecords' => $noOfRecords, 'tabindex' => 3])
+                                            @component('components.texts.no-of-records-text', ['noOfRecords' => $noOfRecords, 'tabindex' => 2])
                                             @endcomponent
                                             {{-- adding error_message p tag component --}}
                                             @component('components.paragraph.error_message', ['fieldName' => 'no_of_records'])
@@ -54,10 +54,10 @@
                             <div class="row">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-2">
-                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="5">Clear</button>
+                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="4">Clear</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="4"><i class="fa fa-search"></i> Search</button>
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="3"><i class="fa fa-search"></i> Search</button>
                                 </div>
                             </div>
                         </form>
@@ -96,8 +96,8 @@
                                                     <td>{{ $authority->name }}</td>
                                                     <td>{{ $authority->designation }}</td>
                                                     <td class="no-print">
-                                                        <a href="{{ route('authority.show', ['id' => $authority->id]) }}">
-                                                            <button type="button" class="btn btn-info">Details</button>
+                                                        <a href="{{ route('authority.edit', ['id' => $authority->id]) }}">
+                                                            <button type="button" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button>
                                                         </a>
                                                     </td>
                                                 </tr>

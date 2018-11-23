@@ -101,7 +101,7 @@ class CertificateRepository
         $certificate = [];
 
         try {
-            $certificate = Certificate::with('account');
+            $certificate = Certificate::query();
 
             if($activeFlag) {
                 $certificate = $certificate->active();

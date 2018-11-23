@@ -12,6 +12,14 @@ return [
         -1 => 'Not Specified',
         1 => 'Male',
         2 => 'Female',
+        3 => 'other',
+    ],
+
+    'studentTitles' => [
+        1 => 'Mr.',
+        2 => 'Ms',
+        3 => 'Mrs',
+        4 => 'M/S',
     ],
 
     'courseDurationTypes' => [
@@ -21,14 +29,19 @@ return [
     ],
 
     'certificatePlaceholders' => [
-        '[[CourseName]]'       => 'batch->course->course_name',
-        '[[DescriptiveName]]'  => 'batch->course->descriptive_name',
-        '[[University]]'       => 'batch->course->university',
-        '[[CenterCode]]'       => 'batch->course->center_code',
-        '[[CourseFrom]]'       => 'batch->from_year',
-        '[[CourseTo]]'         => 'batch->to_year',
-        '[[CourseFeeAmount]]'  => 'batch->fee_amount',
-        '[[StudentName]]'      => 'name',
-        '[[StudentAddress]]'   => 'address',
+        "[[CourseName]]"                => 'batch->course->course_name',
+        "[[DescriptiveName]]"           => 'batch->course->descriptive_name',
+        "[[University]]"                => 'batch->course->university->university_name',
+        "[[CenterCode]]"                => 'batch->course->center_code',
+        "[[CourseFrom]]"                => 'batch->from_year',
+        "[[CourseTo]]"                  => 'batch->to_year',
+        "[[CourseFeeAmount]]"           => 'batch->fee_amount',
+        "[[CourseFeePerYear]]"          => 'batch->fee_per_year',
+        "[[CourseFeePerSem]]"           => 'batch->fee_per_sem',
+        "[[CourseFeePerMonth]]"         => 'batch->fee_per_month',
+        "[[StudentName]]"               => 'name',
+        "[[StudentAddress]]"            => 'address',
+        "[[StudentRegistrationNumber]]" => 'registration_number',
+        "[[UniversityGrade]]"           => 'batch->course->university->university_grade',
     ],
 ];

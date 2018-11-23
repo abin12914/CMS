@@ -29,33 +29,19 @@
                                 <div class="col-md-1"></div>
                                 <div class="col-md-10">
                                     <div class="form-group">
-                                        <div class="col-md-4">
-                                            <label for="wage_type" class="control-label">Wage Type : </label>
-                                            <select class="form-control select2" name="wage_type" id="wage_type" style="width: 100%" tabindex="1">
-                                                <option value="">Select wage type</option>
-                                                @if(!empty($wageTypes) && (count($wageTypes) > 0))
-                                                    @foreach($wageTypes as $key => $wageType)
-                                                        <option value="{{ $key }}" {{ (old('wage_type') == $key || $params['wage_type'] == $key) ? 'selected' : '' }}>{{ $wageType }}</option>
-                                                    @endforeach
-                                                @endif
-                                            </select>
-                                            {{-- adding error_message p tag component --}}
-                                            @component('components.paragraph.error_message', ['fieldName' => 'wage_type'])
-                                            @endcomponent
-                                        </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <label for="address_id" class="control-label">Address : </label>
                                             {{-- adding address select component --}}
-                                            @component('components.selects.addresses', ['selectedAddressId' => $params['id'], 'selectName' => 'address_id', 'tabindex' => 2])
+                                            @component('components.selects.addresses', ['selectedAddressId' => $params['id'], 'selectName' => 'address_id', 'tabindex' => 1])
                                             @endcomponent
                                             {{-- adding error_message p tag component --}}
                                             @component('components.paragraph.error_message', ['fieldName' => 'address_id'])
                                             @endcomponent
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-6">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
                                             {{-- adding no of records text component --}}
-                                            @component('components.texts.no-of-records-text', ['noOfRecords' => $noOfRecords, 'tabindex' => 3])
+                                            @component('components.texts.no-of-records-text', ['noOfRecords' => $noOfRecords, 'tabindex' => 2])
                                             @endcomponent
                                             {{-- adding error_message p tag component --}}
                                             @component('components.paragraph.error_message', ['fieldName' => 'no_of_records'])
@@ -68,10 +54,10 @@
                             <div class="row">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-2">
-                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="5">Clear</button>
+                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="4">Clear</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="4"><i class="fa fa-search"></i> Search</button>
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="3"><i class="fa fa-search"></i> Search</button>
                                 </div>
                             </div>
                         </form>
@@ -97,11 +83,11 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 5%;">#</th>
-                                            <th style="width: 25%;">Address Name</th>
-                                            <th style="width: 15%;">Wage Type</th>
-                                            <th style="width: 15%;">Wage</th>
-                                            <th style="width: 25%;">Account Name</th>
-                                            <th style="width: 15%;" class="no-print">Details</th>
+                                            <th style="width: 20%;">Name</th>
+                                            <th style="width: 20%;">Designation</th>
+                                            <th style="width: 10%;">Title</th>
+                                            <th style="width: 35%;">Address</th>
+                                            <th style="width: 10%;" class="no-print">Details</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -110,18 +96,12 @@
                                                 <tr>
                                                     <td>{{ $index + $addresses->firstItem() }}</td>
                                                     <td>{{ $address->name }}</td>
-                                                    @if(!empty($wageTypes))
-                                                        <td>
-                                                            {{ !empty($wageTypes[$address->wage_type]) ? $wageTypes[$address->wage_type] : "Error!" }}
-                                                        </td>
-                                                    @else
-                                                        <td>Error</td>
-                                                    @endif
-                                                    <td>{{ $address->wage_rate }}</td>
-                                                    <td>{{ $address->account_name }}</td>
+                                                    <td>{{ $address->designation }}</td>
+                                                    <td>{{ $address->title }}</td>
+                                                    <td><pre>{{ $address->address }}</pre></td>
                                                     <td class="no-print">
-                                                        <a href="{{ route('address.show', ['id' => $address->id]) }}">
-                                                            <button type="button" class="btn btn-info">Details</button>
+                                                        <a href="{{ route('address.edit', ['id' => $address->id]) }}">
+                                                            <button type="button" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button>
                                                         </a>
                                                     </td>
                                                 </tr>

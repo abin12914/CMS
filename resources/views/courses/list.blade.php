@@ -29,9 +29,10 @@
                                             <th style="width: 5%;">#</th>
                                             <th style="width: 15%;">Course Name</th>
                                             <th style="width: 25%;">Descriptive Name</th>
-                                            <th style="width: 20%;">University</th>
-                                            <th style="width: 15%;">Center Code</th>
-                                            <th style="width: 10%;">Duration/s</th>
+                                            <th style="width: 15%;">University</th>
+                                            <th style="width: 10%;">Center Code</th>
+                                            <th style="width: 10%;">Grade</th>
+                                            <th style="width: 10%;">Duration</th>
                                             <th style="width: 10%;" class="no-print">Details</th>
                                         </tr>
                                     </thead>
@@ -42,8 +43,9 @@
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $course->course_name }}</td>
                                                     <td>{{ $course->descriptive_name }}</td>
-                                                    <td>{{ $course->university }}</td>
-                                                    <td>{{ $course->center_code }}</td>
+                                                    <td>{{ $course->university->university_name }}</td>
+                                                    <td>{{ $course->university->center_code }}</td>
+                                                    <td>{{ $course->university->university_grade }}</td>
                                                     <td>
                                                         {{ $course->duration }}
                                                         {{ (!empty(config('constants.courseDurationTypes')) && !empty(config('constants.courseDurationTypes')[$course->duration_type])) ? config('constants.courseDurationTypes')[$course->duration_type] : '' }}

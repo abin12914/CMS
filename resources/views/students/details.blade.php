@@ -89,7 +89,7 @@
                                                 <i class="fa fa-map-marker margin-r-5"></i> Course
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $student->course->course_name or "-" }} - {{ $student->course->university }} / {{ $student->class_id }}
+                                                {{ $student->batch->course->course_name or "-" }} - {{ $student->batch->course->university->university_name }} / {{ $student->batch->batch_name }}
                                             </p>
                                             <hr>
                                         </div>
@@ -100,16 +100,16 @@
                                                 <i class="fa fa-link margin-r-5"></i> Year
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $student->from_year }} - {{ $student->to_year }}
+                                                {{ $student->batch->from_year }} - {{ $student->batch->to_year }}
                                             </p>
                                             <hr>
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-inr margin-r-5"></i> Fee per Year
+                                                <i class="fa fa-inr margin-r-5"></i> Total Fee
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $student->fee_per_duration_unit }}
+                                                {{ $student->batch->fee_amount }}
                                             </p>
                                             <hr>
                                         </div>

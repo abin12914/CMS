@@ -25,7 +25,8 @@ class StudentRegistrationRequest extends FormRequest
      */
     public function rules()
     {
-        $genderTypes  = config('constants.genderTypes');
+        $genderTypes    = config('constants.genderTypes');
+        $studentTitles  = config('constants.studentTitles');
         
         return [
             'student_code'  =>  [
@@ -55,8 +56,7 @@ class StudentRegistrationRequest extends FormRequest
                                 ],
             'title'         =>  [
                                     'required',
-                                    'min:2',
-                                    'max:100',
+                                    Rule::in(array_keys($studentTitles)),
                                 ],
             'batch_id'     =>  [
                                     'required',

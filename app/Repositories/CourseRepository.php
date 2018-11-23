@@ -61,8 +61,7 @@ class CourseRepository
             }
             $course->course_name        = $inputArray['name'];
             $course->descriptive_name   = $inputArray['descriptive_name'];
-            $course->university         = $inputArray['university'];
-            $course->center_code        = $inputArray['center_code'];
+            $course->university_id      = $inputArray['university_id'];
             $course->duration           = $inputArray['duration'];
             $course->duration_type      = $inputArray['duration_type'];
             $course->status             = 1;
@@ -76,7 +75,7 @@ class CourseRepository
             } else {
                 $this->errorCode = $this->repositoryCode + 2;
             }
-            dd($e);
+
             throw new AppCustomException("CustomError", $this->errorCode);
         }
         

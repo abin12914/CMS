@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\BatchRepository;
-use App\Repositories\TransactionRepository;
-use App\Repositories\AccountRepository;
 use App\Http\Requests\BatchRegistrationRequest;
 use App\Http\Requests\BatchFilterRequest;
 use Carbon\Carbon;
@@ -37,14 +35,14 @@ class BatchController extends Controller
 
         $params = [
             'batch_id'  =>  [
-                                'paramName'     => 'branch_id',
+                                'paramName'     => 'batch_id',
                                 'paramOperator' => '=',
-                                'paramValue'    => $request->get('branch_id'),
+                                'paramValue'    => $request->get('batch_id'),
                             ],
             'course_id' =>  [
-                                'paramName'     => 'service_id',
+                                'paramName'     => 'course_id',
                                 'paramOperator' => '=',
-                                'paramValue'    => $request->get('service_id'),
+                                'paramValue'    => $request->get('course_id'),
                             ],
             'from_year' =>  [
                                 'paramName'     => 'from_year',
@@ -87,8 +85,8 @@ class BatchController extends Controller
         BatchRegistrationRequest $request,
         $id=null
     ) {
-        $saveFlag           = false;
-        $errorCode          = 0;
+        $saveFlag         = false;
+        $errorCode        = 0;
         $batch            = null;
         $batchTransaction = null;
 
@@ -106,6 +104,9 @@ class BatchController extends Controller
                 'from_year'     => $request->get('from_year'),
                 'to_year'       => $request->get('to_year'),
                 'fee_amount'    => $request->get('fee_amount'),
+                'fee_per_year'  => $request->get('fee_per_year'),
+                'fee_per_sem'   => $request->get('fee_per_sem'),
+                'fee_per_month' => $request->get('fee_per_month'),
             ], $batch);
 
             if(!$batchResponse['flag']) {
@@ -210,11 +211,9 @@ class BatchController extends Controller
      */
     public function update(
         BatchRegistrationRequest $request,
-        TransactionRepository $transactionRepo,
-        AccountRepository $accountRepo,
         $id
     ) {
-        $updateResponse = $this->store($request, $transactionRepo, $accountRepo, $id);
+        $updateResponse = $this->store($request, $id);
 
         if($updateResponse['flag']) {
             return redirect(route('batch.index'))->with("message","Batch details updated successfully. Updated Record Number : ". $updateResponse['id'])->with("alert-class", "success");

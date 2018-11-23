@@ -61,25 +61,18 @@
                                         <div class="form-group">
                                             <label for="university" class="col-md-3 control-label">University : </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="university" class="form-control" id="university" placeholder="University" value="{{ old('university') }}" tabindex="4" minlength="10" maxlength="13">
+                                                {{-- adding universities select component --}}
+                                                @component('components.selects.universities', ['selectedUniversityId' => old('university_id'), 'selectName' => 'university_id', 'tabindex' => 3])
+                                                @endcomponent
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'university'])
                                                 @endcomponent
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="center_code" class="col-md-3 control-label"><b style="color: red;">* </b> Center Code: </label>
-                                            <div class="col-md-9">
-                                                <input type="text" name="center_code" class="form-control" id="center_code" placeholder="Center code" value="{{ old('center_code') }}" tabindex="6" maxlength="100">
-                                                {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'center_code'])
-                                                @endcomponent
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
                                             <label for="duration" class="col-md-3 control-label"><b style="color: red;">* </b> Duration : </label>
                                             <div class="col-md-5">
-                                                <input type="text" name="duration" class="form-control" id="duration" placeholder="Duration" value="{{ old('duration') }}" tabindex="6" maxlength="100">
+                                                <input type="text" name="duration" class="form-control" id="duration" placeholder="Duration" value="{{ old('duration') }}" tabindex="4" maxlength="100">
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'duration'])
                                                 @endcomponent
@@ -107,10 +100,10 @@
                                 <div class="row">
                                     <div class="col-md-3"></div>
                                     <div class="col-md-3">
-                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="12">Clear</button>
+                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="7">Clear</button>
                                     </div>
                                     <div class="col-md-3">
-                                        <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="11">Submit</button>
+                                        <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="6">Submit</button>
                                     </div>
                                     <!-- /.col -->
                                 </div><br>

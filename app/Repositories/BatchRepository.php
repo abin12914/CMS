@@ -68,12 +68,15 @@ class BatchRepository
             if(empty($batch)) {
                 $batch = new Batch;
             }
-            $batch->batch_name  = $inputArray['batch_name'];
-            $batch->course_id   = $inputArray['course_id'];
-            $batch->from_year   = $inputArray['from_year'];
-            $batch->to_year     = $inputArray['to_year'];
-            $batch->fee_amount  = $inputArray['fee_amount'];
-            $batch->status      = 1;
+            $batch->batch_name   = $inputArray['batch_name'];
+            $batch->course_id    = $inputArray['course_id'];
+            $batch->from_year    = $inputArray['from_year'];
+            $batch->to_year      = $inputArray['to_year'];
+            $batch->fee_amount   = $inputArray['fee_amount'];
+            $batch->fee_per_year = $inputArray['fee_per_year'];
+            $batch->fee_per_sem   = $inputArray['fee_per_sem'];
+            $batch->fee_per_month = $inputArray['fee_per_month'];
+            $batch->status       = 1;
             //batch save
             $batch->save();
 

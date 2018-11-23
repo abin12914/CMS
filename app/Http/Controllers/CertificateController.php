@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\CertificateRepository;
-use App\Repositories\AccountRepository;
-use App\Repositories\TransactionRepository;
 use App\Http\Requests\CertificateRegistrationRequest;
 use App\Http\Requests\CertificateFilterRequest;
 use \Carbon\Carbon;
@@ -21,7 +19,7 @@ class CertificateController extends Controller
 
     public function __construct(CertificateRepository $certificateRepo)
     {
-        $this->certificateRepo         = $certificateRepo;
+        $this->certificateRepo      = $certificateRepo;
         $this->noOfRecordsPerPage   = config('settings.no_of_record_per_page');
         $this->errorHead            = config('settings.controller_code.CertificateController');
     }
@@ -36,13 +34,11 @@ class CertificateController extends Controller
         $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
-                'wage_type' => $request->get('wage_type'),
-                'id'        => $request->get('certificate_id'),
+                'id' => $request->get('certificate_id'),
             ];
         
         return view('certificates.list', [
                 'certificates'         => $this->certificateRepo->getCertificates($params, $noOfRecords),
-                'wageTypes'         => config('constants.certificateWageTypes'),
                 'params'            => $params,
                 'noOfRecords'       => $noOfRecords,
             ]);
@@ -55,10 +51,10 @@ class CertificateController extends Controller
      */
     public function create()
     {
-        $holders        = [];
+        //$holders        = [];
         $placeHolders   = config('constants.certificatePlaceholders');
 
-        return view('certificates.register', compact('holders'));
+        return view('certificates.register', compact('placeHolders'));
     }
 
     /**
@@ -115,7 +111,7 @@ class CertificateController extends Controller
                 ];
             }
 
-            return redirect(route('certificate.show', $certificateResponse['id']))->with("message","Certificate details saved successfully. Reference Number : ". $certificateResponse['id'])->with("alert-class", "success");
+            return redirect(route('certificate.index'))->with("message","Certificate details saved successfully. Reference Number : ". $certificateResponse['id'])->with("alert-class", "success");
         }
 
         if(!empty($id)) {

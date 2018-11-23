@@ -107,11 +107,14 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 5%;">#</th>
-                                            <th style="width: 20%;">Batch Name</th>
-                                            <th style="width: 25%;">Course</th>
-                                            <th style="width: 15%;">From</th>
-                                            <th style="width: 15%;">To</th>
-                                            <th style="width: 10%;">Fee</th>
+                                            <th style="width: 10%;">Batch Name</th>
+                                            <th style="width: 15%;">Course</th>
+                                            <th style="width: 10%;">From</th>
+                                            <th style="width: 10%;">To</th>
+                                            <th style="width: 10%;">Total Course Fee</th>
+                                            <th style="width: 10%;">Fee Per Year</th>
+                                            <th style="width: 10%;">Fee Per Semester</th>
+                                            <th style="width: 10%;">Fee Per Month</th>
                                             <th style="width: 10%;">Actions</th>
                                         </tr>
                                     </thead>
@@ -121,11 +124,18 @@
                                                 <tr>
                                                     <td>{{ $index + $batches->firstItem() }}</td>
                                                     <td>{{ $batch->batch_name }}</td>
-                                                    <td>{{ $batch->course->course_name }}-{{ $batch->course->university }}</td>
+                                                    <td>{{ $batch->course->course_name }}-{{ $batch->course->university->university_name }}</td>
                                                     <td>{{ $batch->from_year }}</td>
                                                     <td>{{ $batch->to_year }}</td>
                                                     <td>{{ $batch->fee_amount }}</td>
-                                                    <td></td>
+                                                    <td>{{ $batch->fee_per_year }}</td>
+                                                    <td>{{ $batch->fee_per_sem }}</td>
+                                                    <td>{{ $batch->fee_per_month }}</td>
+                                                    <td>
+                                                        <a href="{{ route('batch.edit', ['id' => $batch->id]) }}">
+                                                            <button type="button" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button>
+                                                        </a>
+                                                    </td>
                                                 </tr>
                                             @endforeach
                                         @endif

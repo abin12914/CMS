@@ -25,6 +25,8 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer('components.selects.authorities', "App\Http\ViewComposers\AuthorityComponentComposer");
         View::composer('components.selects.certificates', "App\Http\ViewComposers\CertificateComponentComposer");
         View::composer('components.selects.addresses', "App\Http\ViewComposers\AddressComponentComposer");
+        //universities to views
+        View::composer('components.selects.universities', "App\Http\ViewComposers\UniversityComponentComposer");
     }
 
     /**

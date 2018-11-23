@@ -2,7 +2,7 @@
     <option value="">Select address</option>
     @if(!empty($addressesCombo) && (count($addressesCombo) > 0))
         @foreach($addressesCombo as $address)
-            <option value="{{ $address->id }}" {{ (old($selectName) == $address->id || $selectedAddressId == $address->id) ? 'selected' : '' }}>{{ $address->name }}</option>
+            <option value="{{ $address->id }}" {{ (old($selectName) == $address->id || $selectedAddressId == $address->id) ? 'selected' : '' }}>{{ $address->name }} - {{ $address->designation }}, {{ $address->address }}</option>
         @endforeach
     @endif
 </select>

@@ -56,7 +56,8 @@ class StudentController extends Controller
     public function create()
     {
         return view('students.register', [
-                'genderTypes' => config('constants.genderTypes'),
+                'genderTypes'   => config('constants.genderTypes'),
+                'studentTitles' => config('constants.studentTitles'),
             ]);
     }
 

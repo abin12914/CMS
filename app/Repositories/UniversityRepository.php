@@ -2,38 +2,38 @@
 
 namespace App\Repositories;
 
-use App\Models\Address;
+use App\Models\University;
 use Exception;
 use App\Exceptions\AppCustomException;
 
-class AddressRepository
+class UniversityRepository
 {
     public $repositoryCode, $errorCode = 0;
 
     public function __construct()
     {
-        $this->repositoryCode = config('settings.repository_code.AddressRepository');
+        $this->repositoryCode = config('settings.repository_code.UniversityRepository');
     }
 
     /**
      * Return accounts.
      */
-    public function getAddresses($params=[], $noOfRecords=null)
+    public function getUniversities($params=[], $noOfRecords=null)
     {
-        $addresses = [];
+        $universities = [];
 
         try {
-            $addresses = Address::active();
+            $universities = University::active();
 
             foreach ($params as $key => $value) {
                 if(!empty($value)) {
-                    $addresses = $addresses->where($key, $value);
+                    $universities = $universities->where($key, $value);
                 }
             }
             if(!empty($noOfRecords)) {
-                $addresses = $addresses->paginate($noOfRecords);
+                $universities = $universities->paginate($noOfRecords);
             } else {
-                $addresses= $addresses->get();
+                $universities= $universities->get();
             }
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
@@ -41,33 +41,33 @@ class AddressRepository
             } else {
                 $this->errorCode = $this->repositoryCode + 1;
             }
-            dd($e);
+
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        return $addresses;
+        return $universities;
     }
 
     /**
      * Action for saving accounts.
      */
-    public function saveAddress($inputArray, $address=null)
+    public function saveUniversity($inputArray, $university=null)
     {
-        $saveFlag = false;
+        /*$saveFlag = false;
 
         try {
-            if(empty($address)) {
-                $address = new Address;
+            if(empty($university)) {
+                $university = new University;
             }
 
-            //address saving
-            $address->name          = $inputArray['name'];
-            $address->designation   = $inputArray['designation'];
-            $address->address       = $inputArray['address'];
-            $address->title         = $inputArray['title'];
-            $address->status        = 1;
-            //address save
-            $address->save();
+            //university saving
+            $university->name          = $inputArray['name'];
+            $university->designation   = $inputArray['designation'];
+            $university->university       = $inputArray['university'];
+            $university->title         = $inputArray['title'];
+            $university->status        = 1;
+            //university save
+            $university->save();
 
             $saveFlag = true;
         } catch (Exception $e) {
@@ -83,31 +83,31 @@ class AddressRepository
         if($saveFlag) {
             return [
                 'flag'  => true,
-                'id'    => $address->id,
+                'id'    => $university->id,
             ];
         }
 
         return [
             'flag'      => false,
             'errorCode' => $repositoryCode + 3,
-        ];
+        ];*/
     }
 
     /**
-     * return address.
+     * return university.
      */
-    public function getAddress($id, $activeFlag=true)
+    public function getUniversity($id, $activeFlag=true)
     {
-        $address = [];
+        $university = [];
 
         try {
-            $address = Address::query();
+            $university = University::query();
 
             if($activeFlag) {
-                $address = $address->active();
+                $university = $university->active();
             }
 
-            $address = $address->findOrFail($id);
+            $university = $university->findOrFail($id);
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
                 $this->errorCode = $e->getCode();
@@ -118,22 +118,22 @@ class AddressRepository
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        return $address;
+        return $university;
     }
 
-    public function deleteAddress($id, $forceFlag=false)
+    public function deleteUniversity($id, $forceFlag=false)
     {
         $deleteFlag = false;
 
         try {
-            //get address record
-            $address   = $this->getAddress($id);
+            //get university record
+            $university   = $this->getUniversity($id);
 
             if($forceFlag) {
-                //removing address permanently
-                $address->forceDelete();
+                //removing university permanently
+                $university->forceDelete();
             } else {
-                $address->delete();
+                $university->delete();
             }
 
             $deleteFlag = true;

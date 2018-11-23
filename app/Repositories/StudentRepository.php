@@ -75,11 +75,7 @@ class StudentRepository
             $student->phone         = $inputArray['phone'];
             $student->gender        = $inputArray['gender'];
             $student->title         = $inputArray['title'];
-            $student->course_id     = $inputArray['course_id'];
-            $student->from_year     = $inputArray['from_year'];
-            $student->to_year       = $inputArray['to_year'];
-            $student->fee_per_duration_unit  = $inputArray['fee'];
-            $student->class_id      = $inputArray['class_id'];
+            $student->batch_id      = $inputArray['batch_id'];
             $student->status        = 1;
             //student save
             $student->save();

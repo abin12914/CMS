@@ -30,10 +30,6 @@ class AddressFilterRequest extends FormRequest
                                     'nullable',
                                     Rule::in(Address::pluck('id')->toArray()),
                                 ],
-            'wage_type'     =>  [
-                                    'nullable',
-                                    Rule::in(array_keys([])),
-                                ],
             'page'          =>  [
                                     'nullable',
                                     'integer',

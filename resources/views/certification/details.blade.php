@@ -22,12 +22,13 @@
                             <input type="hidden" name="_token" value="{{csrf_token()}}">
                             <div class="row">
                                 <div class="col-md-12">
+                                    <div class="box-header visible-print-block" style="margin-top: 200px;"></div>
                                     <strong>To</strong><p class="pull-right">{{ $certification->issue_date }}</p><br>
                                     {{ $certification->address->name }}<br>
                                     {{ $certification->address->designation }}<br>
                                     {{ $certification->address->address }}<br><br><br>
                                     {{ $certification->address->title }},<br><br>
-                                    &emsp;&emsp;{!! $studentCertification[$index] ?: '' !!}
+                                    &emsp;&emsp;{!! $studentCertification[$student->id] ?: '' !!}
                                     <br><br><br>
                                     Thanking You,<br>
                                     Yours faithfully,<br><br>

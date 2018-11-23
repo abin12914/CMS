@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use App\Events\DeletingUniversityEvent;
 
-class Course extends Model
+class University extends Model
 {
     use SoftDeletes;
 
@@ -14,10 +15,19 @@ class Course extends Model
      *
      * @var array
      */
-    protected $dates = ['deleted_at'];
+    protected $dates = ['created_at', 'updated_at', 'deleted_at'];
 
     /**
-     * Scope a query to only include active accounts.
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        //'deleting' => DeletingEmployeeEvent::class,
+    ];
+    
+    /**
+     * Scope a query to only include active employees.
      *
      * @param \Illuminate\Database\Eloquent\Builder $query
      * @return \Illuminate\Database\Eloquent\Builder
@@ -25,13 +35,5 @@ class Course extends Model
     public function scopeActive($query)
     {
         return $query->where('status', 1);
-    }
-
-    /**
-     * Get the university details associated with the course
-     */
-    public function university()
-    {
-        return $this->belongsTo('App\Models\University','university_id');
     }
 }

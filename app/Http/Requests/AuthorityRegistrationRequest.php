@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rule;
 
-class AuthorityFilterRequest extends FormRequest
+class AuthorityRegistrationRequest  extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,18 +24,15 @@ class AuthorityFilterRequest extends FormRequest
     public function rules()
     {
         return [
-            'authority_id'   =>  [
-                                    'nullable',
-                                ],
-            'page'          =>  [
-                                    'nullable',
-                                    'integer',
-                                ],
-            'no_of_records' =>  [
-                                    'nullable',
-                                    'min:2',
+            'name'          =>  [
+                                    'required',
+                                    'min:3',
                                     'max:100',
-                                    'integer',
+                                ],
+            'designation'   =>  [
+                                    'required',
+                                    'min:3',
+                                    'max:100',
                                 ],
         ];
     }

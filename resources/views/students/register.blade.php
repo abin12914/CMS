@@ -102,7 +102,16 @@
                                         <div class="form-group">
                                             <label for="title" class="col-md-3 control-label"><b style="color: red;">* </b> Title : </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="title" class="form-control" id="title" placeholder="Addressing title" value="{{ old('title') }}" tabindex="6" maxlength="100">
+                                                <select class="form-control select2" name="title" id="title" tabindex="5" style="width: 100%;">
+                                                    <option value="" {{ empty(old('title')) ? 'selected' : '' }}>Select title</option>
+                                                    @if(!empty($studentTitles))
+                                                        @foreach($studentTitles as $key => $studentTitle)
+                                                            <option value="{{ $key }}" {{ (old('title') == $key) ? 'selected' : '' }}>
+                                                                {{ $studentTitle }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'title'])
                                                 @endcomponent

@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Models\University;
 
 class CourseRegistrationRequest extends FormRequest
 {
@@ -37,15 +38,9 @@ class CourseRegistrationRequest extends FormRequest
                                         'min:2',
                                         'max:255',
                                     ],
-            'university'        =>  [
+            'university_id'     =>  [
                                         'required',
-                                        'min:2',
-                                        'max:255',
-                                    ],
-            'center_code'       =>  [
-                                        'required',
-                                        'min:2',
-                                        'max:100',
+                                        Rule::in(University::pluck('id')->toArray()),
                                     ],
             'duration'          =>  [
                                         'required',

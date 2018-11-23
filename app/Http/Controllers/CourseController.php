@@ -52,22 +52,26 @@ class CourseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CourseRegistrationRequest $request)
+    public function store(CourseRegistrationRequest $request, $id=null)
     {
-        $saveFlag       = false;
-        $errorCode      = 0;
+        $saveFlag   = false;
+        $errorCode  = 0;
+        $course     = null;
 
         //wrappin db transactions
         DB::beginTransaction();
         try {
+            if(!empty($id)) {
+                $course = $this->courseRepo->getCourse($id);
+            }
+
             $response   = $this->courseRepo->saveCourse([
                 'name'              => $request->get('name'),
                 'descriptive_name'  => $request->get('descriptive_name'),
-                'university'        => $request->get('university'),
-                'center_code'       => $request->get('center_code'),
+                'university_id'     => $request->get('university_id'),
                 'duration_type'     => $request->get('duration_type'),
                 'duration'          => $request->get('duration'),
-            ]);
+            ], $course);
 
             if(!$response['flag']) {
                 throw new AppCustomException("CustomError", $response['errorCode']);
@@ -87,7 +91,21 @@ class CourseController extends Controller
         }
 
         if($saveFlag) {
-            return redirect(route('course.index'))->with("message","Course details saved successfully. Reference Number : ". $response['id'])->with("alert-class", "success");
+            if(!empty($id)) {
+                return [
+                    'flag'  => true,
+                    'id'    => $response['id']
+                ];
+            }
+
+            return redirect(route('course.index', $response['id']))->with("message","Course details saved successfully. Reference Number : ". $response['id'])->with("alert-class", "success");
+        }
+
+        if(!empty($id)) {
+            return [
+                'flag'          => false,
+                'errorCode'    => $errorCode
+            ];
         }
         
         return redirect()->back()->with("message","Failed to save the course details. Error Code : ". $this->errorHead. "/". $errorCode)->with("alert-class", "error");
@@ -114,9 +132,11 @@ class CourseController extends Controller
      */
     public function edit($id)
     {
-        return redirect()->back()->with("message","Editing disabled!")->with("alert-class", "error");
+        $courseDurationTypes  = config('constants.courseDurationTypes');
+
         return view('courses.edit', [
-                'course' => $this->courseRepo->getCourse($id),
+                'course'                => $this->courseRepo->getCourse($id),
+                'courseDurationTypes'   => $courseDurationTypes,
             ]);
     }
 
@@ -127,49 +147,24 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(CourseRegistrationRequest $request, $id)
-    {
-        $saveFlag       = false;
-        $errorCode      = 0;
+    public function update(
+        CourseRegistrationRequest $request,
+        $id
+    ) {
+        $updateResponse = $this->store($request, $id);
 
-        //wrappin db transactions
-        DB::beginTransaction();
-        try {
-            //get course
-            $course = $this->courseRepo->getCourse($id);
-
-            $response   = $this->courseRepo->saveCourse([
-                'name'              => $request->get('course_name'),
-                'place'             => $request->get('place'),
-                'address'           => $request->get('address'),
-                'gstin'             => $request->get('gstin'),
-                'primary_phone'     => $request->get('primary_phone'),
-                'secondary_phone'   => $request->get('secondary_phone'),
-                'level'             => $request->get('course_level'),
-            ], $course);
-
-            if(!$response['flag']) {
-                throw new AppCustomException("CustomError", $response['errorCode']);
-            }
-
-            DB::commit();
-            $saveFlag = true;
-        } catch (Exception $e) {
-            //roll back in case of exceptions
-            DB::rollback();
-
-            if($e->getMessage() == "CustomError") {
-                $errorCode = $e->getCode();
-            } else {
-                $errorCode = 1;
-            }
+        if($updateResponse['flag']) {
+            return redirect(route('course.index', $updateResponse['id']))->with("message","Course details updated successfully. Updated Record Number : ". $updateResponse['id'])->with("alert-class", "success");
         }
+        
+        return redirect()->back()->with("message","Failed to update the course details. Error Code : ". $this->errorHead. "/". $updateResponse['errorCode'])->with("alert-class", "error");
+        
 
-        if($saveFlag) {
+        /*if($saveFlag) {
             return redirect(route('course.index'))->with("message","Course details updated successfully. Updated Record Number : ". $response['id'])->with("alert-class", "success");
         }
         
-        return redirect()->back()->with("message","Failed to update the course details. Error Code : ". $this->errorHead. "/". $errorCode)->with("alert-class", "error");
+        return redirect()->back()->with("message","Failed to update the course details. Error Code : ". $this->errorHead. "/". $errorCode)->with("alert-class", "error");*/
     }
 
     /**

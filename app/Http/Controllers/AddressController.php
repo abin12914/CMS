@@ -4,11 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Repositories\AddressRepository;
-use App\Repositories\AccountRepository;
-use App\Repositories\TransactionRepository;
 use App\Http\Requests\AddressRegistrationRequest;
 use App\Http\Requests\AddressFilterRequest;
-use \Carbon\Carbon;
 use DB;
 use Exception;
 use App\Exceptions\AppCustomException;
@@ -33,16 +30,14 @@ class AddressController extends Controller
      */
     public function index(AddressFilterRequest $request)
     {
-        $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
+        $noOfRecords = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
-                'wage_type' => $request->get('wage_type'),
-                'id'        => $request->get('address_id'),
+                'id' => $request->get('address_id'),
             ];
         
         return view('addresses.list', [
                 'addresses'         => $this->addressRepo->getAddresses($params, $noOfRecords),
-                'wageTypes'         => config('constants.addressWageTypes'),
                 'params'            => $params,
                 'noOfRecords'       => $noOfRecords,
             ]);
@@ -55,9 +50,7 @@ class AddressController extends Controller
      */
     public function create()
     {
-        return view('addresses.register', [
-                'wageTypes' => config('constants.addressWageTypes'),
-            ]);
+        return view('addresses.register');
     }
 
     /**
@@ -113,7 +106,7 @@ class AddressController extends Controller
                 ];
             }
 
-            return redirect(route('address.show', $addressResponse['id']))->with("message","Address details saved successfully. Reference Number : ". $addressResponse['id'])->with("alert-class", "success");
+            return redirect(route('address.index', $addressResponse['id']))->with("message","Address details saved successfully. Reference Number : ". $addressResponse['id'])->with("alert-class", "success");
         }
 
         if(!empty($id)) {
@@ -150,7 +143,6 @@ class AddressController extends Controller
     }
         return view('addresses.details', [
                 'address'  => $address,
-                'wageTypes' => config('constants.addressWageTypes'),
             ]);
     }
 
@@ -179,7 +171,6 @@ class AddressController extends Controller
 
         return view('addresses.edit', [
             'address'  => $address,
-            'wageTypes' => config('constants.addressWageTypes'),
         ]);
     }
 
@@ -192,14 +183,12 @@ class AddressController extends Controller
      */
     public function update(
         AddressRegistrationRequest $request,
-        AccountRepository $accountRepo,
-        TransactionRepository $transactionRepo,
         $id
     ) {
-        $updateResponse = $this->store($request, $accountRepo, $transactionRepo, $id);
+        $updateResponse = $this->store($request, $id);
 
         if($updateResponse['flag']) {
-            return redirect(route('address.show', $updateResponse['id']))->with("message","Address details updated successfully. Updated Record Number : ". $updateResponse['id'])->with("alert-class", "success");
+            return redirect(route('address.index', $updateResponse['id']))->with("message","Address details updated successfully. Updated Record Number : ". $updateResponse['id'])->with("alert-class", "success");
         }
         
         return redirect()->back()->with("message","Failed to update the address details. Error Code : ". $this->errorHead. "/". $updateResponse['errorCode'])->with("alert-class", "error");

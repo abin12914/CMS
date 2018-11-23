@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Repositories\AuthorityRepository;
 use App\Http\Requests\AuthorityRegistrationRequest;
 use App\Http\Requests\AuthorityFilterRequest;
-use \Carbon\Carbon;
 use DB;
 use Exception;
 use App\Exceptions\AppCustomException;
@@ -34,15 +33,13 @@ class AuthorityController extends Controller
         $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
-                'wage_type' => $request->get('wage_type'),
-                'id'        => $request->get('authority_id'),
+                'id' => $request->get('authority_id'),
             ];
         
         return view('authorities.list', [
-                'authorities'         => $this->authorityRepo->getAuthorities($params, $noOfRecords),
-                'wageTypes'         => config('constants.authorityWageTypes'),
-                'params'            => $params,
-                'noOfRecords'       => $noOfRecords,
+                'authorities'   => $this->authorityRepo->getAuthorities($params, $noOfRecords),
+                'params'        => $params,
+                'noOfRecords'   => $noOfRecords,
             ]);
     }
 
@@ -53,9 +50,7 @@ class AuthorityController extends Controller
      */
     public function create()
     {
-        return view('authorities.register', [
-                'wageTypes' => config('constants.authorityWageTypes'),
-            ]);
+        return view('authorities.register');
     }
 
     /**
@@ -68,9 +63,9 @@ class AuthorityController extends Controller
         AuthorityRegistrationRequest $request,
         $id=null
     ) {
-        $saveFlag            = false;
-        $errorCode           = 0;
-        $authority            = null;
+        $saveFlag   = false;
+        $errorCode  = 0;
+        $authority  = null;
 
         //wrappin db transactions
         DB::beginTransaction();
@@ -82,8 +77,6 @@ class AuthorityController extends Controller
             $authorityResponse = $this->authorityRepo->saveAuthority([
                 'name'          => $request->get('name'),
                 'designation'   => $request->get('designation'),
-                'authority'       => $request->get('authority'),
-                'title'         => $request->get('title'),
             ], $authority);
 
             if(!$authorityResponse['flag']) {
@@ -111,7 +104,7 @@ class AuthorityController extends Controller
                 ];
             }
 
-            return redirect(route('authority.show', $authorityResponse['id']))->with("message","Authority details saved successfully. Reference Number : ". $authorityResponse['id'])->with("alert-class", "success");
+            return redirect(route('authority.index'))->with("message","Authority details saved successfully. Reference Number : ". $authorityResponse['id'])->with("alert-class", "success");
         }
 
         if(!empty($id)) {
@@ -148,7 +141,6 @@ class AuthorityController extends Controller
     }
         return view('authorities.details', [
                 'authority'  => $authority,
-                'wageTypes' => config('constants.authorityWageTypes'),
             ]);
     }
 
@@ -177,7 +169,6 @@ class AuthorityController extends Controller
 
         return view('authorities.edit', [
             'authority'  => $authority,
-            'wageTypes' => config('constants.authorityWageTypes'),
         ]);
     }
 
@@ -190,14 +181,12 @@ class AuthorityController extends Controller
      */
     public function update(
         AuthorityRegistrationRequest $request,
-        AccountRepository $accountRepo,
-        TransactionRepository $transactionRepo,
         $id
     ) {
-        $updateResponse = $this->store($request, $accountRepo, $transactionRepo, $id);
+        $updateResponse = $this->store($request, $id);
 
         if($updateResponse['flag']) {
-            return redirect(route('authority.show', $updateResponse['id']))->with("message","Authority details updated successfully. Updated Record Number : ". $updateResponse['id'])->with("alert-class", "success");
+            return redirect(route('authority.index'))->with("message","Authority details updated successfully. Updated Record Number : ". $updateResponse['id'])->with("alert-class", "success");
         }
         
         return redirect()->back()->with("message","Failed to update the authority details. Error Code : ". $this->errorHead. "/". $updateResponse['errorCode'])->with("alert-class", "error");

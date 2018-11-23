@@ -56,6 +56,24 @@ class BatchRegistrationRequest extends FormRequest
                                     'min:1',
                                     'max:999999',
                                 ],
+            'fee_per_year'  =>  [
+                                    'nullable',
+                                    'numeric',
+                                    'min:1',
+                                    'max:999999',
+                                ],
+            'fee_per_sem'   =>  [
+                                    'nullable',
+                                    'numeric',
+                                    'min:1',
+                                    'max:999999',
+                                ],
+            'fee_per_month' =>  [
+                                    'nullable',
+                                    'numeric',
+                                    'min:1',
+                                    'max:999999',
+                                ],
         ];
     }
 }

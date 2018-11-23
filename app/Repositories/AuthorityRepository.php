@@ -63,8 +63,6 @@ class AuthorityRepository
             //authority saving
             $authority->name          = $inputArray['name'];
             $authority->designation   = $inputArray['designation'];
-            $authority->authority       = $inputArray['authority'];
-            $authority->title         = $inputArray['title'];
             $authority->status        = 1;
             //authority save
             $authority->save();
@@ -101,7 +99,7 @@ class AuthorityRepository
         $authority = [];
 
         try {
-            $authority = Authority::with('account');
+            $authority = Authority::query();
 
             if($activeFlag) {
                 $authority = $authority->active();
