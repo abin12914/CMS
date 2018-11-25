@@ -140,71 +140,125 @@ class CertificationController extends Controller
 
             $certificationContent = $certification->certificate->certificate_content;
 
-            foreach($certification->students as $index => $student) {
+            if($certification->certificate->certificate_type == 1) {
+                foreach($certification->students as $index => $student) {
 
-                if($student->gender == 1) {
-                    $studentCertification[$student->id] = str_replace('She', 'He', $certificationContent);
-                    $studentCertification[$student->id] = str_replace('Her', 'His', $studentCertification[$student->id]);
-                    $studentCertification[$student->id] = str_replace('she', 'he', $studentCertification[$student->id]);
-                    $studentCertification[$student->id] = str_replace('her', 'his', $studentCertification[$student->id]);
-                } else if($student->gender == 2) {
-                    $studentCertification[$student->id] = preg_replace('/\bHe\b/', 'She', $certificationContent);
-                    $studentCertification[$student->id] = str_replace('His', 'Her', $studentCertification[$student->id]);
-                    $studentCertification[$student->id] = preg_replace('/\bhe\b/', 'she', $studentCertification[$student->id]);
-                    $studentCertification[$student->id] = str_replace('his', 'her', $studentCertification[$student->id]);
-                } else {
-                    $studentCertification[$student->id] = $certificationContent;
+                    if($student->gender == 1) {
+                        $studentCertification[$student->id] = str_replace('She', 'He', $certificationContent);
+                        $studentCertification[$student->id] = str_replace('Her', 'His', $studentCertification[$student->id]);
+                        $studentCertification[$student->id] = str_replace('she', 'he', $studentCertification[$student->id]);
+                        $studentCertification[$student->id] = str_replace('her', 'his', $studentCertification[$student->id]);
+                    } else if($student->gender == 2) {
+                        $studentCertification[$student->id] = preg_replace('/\bHe\b/', 'She', $certificationContent);
+                        $studentCertification[$student->id] = str_replace('His', 'Her', $studentCertification[$student->id]);
+                        $studentCertification[$student->id] = preg_replace('/\bhe\b/', 'she', $studentCertification[$student->id]);
+                        $studentCertification[$student->id] = str_replace('his', 'her', $studentCertification[$student->id]);
+                    } else {
+                        $studentCertification[$student->id] = $certificationContent;
+                    }
+
+                    foreach($placeHolders as $holder => $value){
+                        switch ($value) {
+                            case 'batch->course->course_name':
+                                $input = $student->batch->course->course_name;
+                                break;
+                            case 'batch->course->descriptive_name':
+                                $input = $student->batch->course->descriptive_name;
+                                break;
+                            case 'batch->course->university->university_name':
+                                $input = $student->batch->course->university->university_name;
+                                break;
+                            case 'batch->course->center_code':
+                                $input = $student->batch->course->university->center_code;
+                                break;
+                            case 'batch->from_year':
+                                $input = $student->batch->from_year;
+                                break;
+                            case 'batch->to_year':
+                                $input = $student->batch->to_year;
+                                break;
+                            case 'batch->fee_amount':
+                                $input = $student->batch->fee_amount;
+                                break;
+                            case 'batch->fee_per_year':
+                                $input = $student->batch->fee_per_year;
+                                break;
+                            case 'batch->fee_per_sem':
+                                $input = $student->batch->fee_per_sem;
+                                break;
+                            case 'batch->fee_per_month':
+                                $input = $student->batch->fee_per_month;
+                                break;
+                            case 'name':
+                                $input = $student->name;
+                                break;
+                            case 'address':
+                                $input = $student->address;
+                                break;
+                            case 'registration_number':
+                                $input = $student->registration_number;
+                                break;
+                            case 'batch->course->university->university_grade':
+                                $input = $student->batch->course->university->university_grade;
+                                break;
+                            default:
+                                $input = '';
+                                break;
+                        }
+                        $studentCertification[$student->id] = str_replace($holder, $input, $studentCertification[$student->id]);
+                    }
                 }
-
+            } else {
+                $studentCertification[0] = $certificationContent;
                 foreach($placeHolders as $holder => $value){
                     switch ($value) {
                         case 'batch->course->course_name':
-                            $input = $student->batch->course->course_name;
+                            $input = $certification->students[0]->batch->course->course_name;
                             break;
                         case 'batch->course->descriptive_name':
-                            $input = $student->batch->course->descriptive_name;
+                            $input = $certification->students[0]->batch->course->descriptive_name;
                             break;
                         case 'batch->course->university->university_name':
-                            $input = $student->batch->course->university->university_name;
+                            $input = $certification->students[0]->batch->course->university->university_name;
                             break;
                         case 'batch->course->center_code':
-                            $input = $student->batch->course->university->center_code;
+                            $input = $certification->students[0]->batch->course->university->center_code;
                             break;
                         case 'batch->from_year':
-                            $input = $student->batch->from_year;
+                            $input = $certification->students[0]->batch->from_year;
                             break;
                         case 'batch->to_year':
-                            $input = $student->batch->to_year;
+                            $input = $certification->students[0]->batch->to_year;
                             break;
                         case 'batch->fee_amount':
-                            $input = $student->batch->fee_amount;
+                            $input = $certification->students[0]->batch->fee_amount;
                             break;
                         case 'batch->fee_per_year':
-                            $input = $student->batch->fee_per_year;
+                            $input = $certification->students[0]->batch->fee_per_year;
                             break;
                         case 'batch->fee_per_sem':
-                            $input = $student->batch->fee_per_sem;
+                            $input = $certification->students[0]->batch->fee_per_sem;
                             break;
                         case 'batch->fee_per_month':
-                            $input = $student->batch->fee_per_month;
+                            $input = $certification->students[0]->batch->fee_per_month;
                             break;
                         case 'name':
-                            $input = $student->name;
+                            $input = '';
                             break;
                         case 'address':
-                            $input = $student->address;
+                            $input = '';
                             break;
                         case 'registration_number':
-                            $input = $student->registration_number;
+                            $input = '';
                             break;
                         case 'batch->course->university->university_grade':
-                            $input = $student->batch->course->university->university_grade;
+                            $input = $certification->students[0]->batch->course->university->university_grade;
                             break;
                         default:
                             $input = '';
                             break;
                     }
-                    $studentCertification[$student->id] = str_replace($holder, $input, $studentCertification[$student->id]);
+                    $studentCertification[0] = str_replace($holder, $input, $studentCertification[0]);
                 }
             }
         } catch (Exception $e) {

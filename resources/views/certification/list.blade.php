@@ -42,7 +42,11 @@
                                                     <td>{{ $index + 1 }}</td>
                                                     <td>{{ $certification->issue_date }}</td>
                                                     <td>{{ $certification->certificate->name }}</td>
-                                                    <td>{{ $certification->address->designation }}, {{ $certification->address->address }}</td>
+                                                    @if($certification->address_id == -1)
+                                                        <td>To Whomsoever it may concern</td>
+                                                    @else
+                                                        <td>{{ $certification->address->designation }}, {{ $certification->address->address }}</td>
+                                                    @endif
                                                     <td>{{ $certification->students_count }}</td>
                                                     <td>{{ $certification->user->name }}</td>
                                                     <td class="no-print">
