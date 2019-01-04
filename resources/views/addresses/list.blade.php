@@ -32,7 +32,7 @@
                                         <div class="col-md-6">
                                             <label for="address_id" class="control-label">Address : </label>
                                             {{-- adding address select component --}}
-                                            @component('components.selects.addresses', ['selectedAddressId' => $params['id'], 'selectName' => 'address_id', 'tabindex' => 1])
+                                            @component('components.selects.addresses', ['selectedAddressId' => $params['id'], 'selectName' => 'address_id', 'activeFlag' => false, 'tabindex' => 1])
                                             @endcomponent
                                             {{-- adding error_message p tag component --}}
                                             @component('components.paragraph.error_message', ['fieldName' => 'address_id'])
