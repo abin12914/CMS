@@ -9,10 +9,8 @@ return [
     ],
 
     'genderTypes' => [
-        -1 => 'Not Specified',
         1 => 'Male',
         2 => 'Female',
-        3 => 'other',
     ],
 
     'studentTitles' => [
@@ -35,6 +33,8 @@ return [
         "[[CenterCode]]"                => 'batch->course->center_code',
         "[[CourseFrom]]"                => 'batch->from_year',
         "[[CourseTo]]"                  => 'batch->to_year',
+        "[[CourseDuration]]"            => 'batch->course->duration',
+        "[[ClassStartDate]]"            => 'batch->class_start_date',
         "[[CourseFeeAmount]]"           => 'batch->fee_amount',
         "[[CourseFeePerYear]]"          => 'batch->fee_per_year',
         "[[CourseFeePerSem]]"           => 'batch->fee_per_sem',

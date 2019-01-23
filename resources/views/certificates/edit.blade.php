@@ -138,7 +138,7 @@
                     var input = event.data.definition.getContents('info').get('name');
                     input.type = 'select';
                     //input.items = [ ['Company'], ['Email'], ['First Name'], ['Last Name'] ];
-                    input.items = [ ['CourseName'], ['DescriptiveName'], ['University'], ['CenterCode'], ['UniversityGrade'], ['CourseFrom'], ['CourseTo'], ['CourseFeeAmount'], ['CourseFeePerYear'], ['CourseFeePerSem'], ['CourseFeePerMonth'], ['StudentName'], ['StudentAddress'], ['StudentRegistrationNumber'] ];
+                    input.items = [ ['CourseName'], ['DescriptiveName'], ['University'], ['CenterCode'], ['UniversityGrade'], ['CourseFrom'], ['CourseTo'], ['CourseDuration'], ['ClassStartDate'], ['CourseFeeAmount'], ['CourseFeePerYear'], ['CourseFeePerSem'], ['CourseFeePerMonth'], ['StudentName'], ['StudentAddress'], ['StudentRegistrationNumber'] ];
                 }
             });
         })

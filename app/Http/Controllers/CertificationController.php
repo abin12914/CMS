@@ -177,6 +177,14 @@ class CertificationController extends Controller
                             case 'batch->to_year':
                                 $input = $student->batch->to_year;
                                 break;
+                            case 'batch->course->duration':
+                                if(!empty(config('constants.courseDurationTypes')) && isset(config('constants.courseDurationTypes')[$student->batch->course->duration_type])) {
+                                    $input = $student->batch->course->duration. " ". (config('constants.courseDurationTypes')[$student->batch->course->duration_type]);
+                                }
+                                break;
+                            case 'batch->class_start_date':
+                                $input = $student->batch->class_start_date;
+                                break;
                             case 'batch->fee_amount':
                                 $input = $student->batch->fee_amount;
                                 break;
@@ -229,6 +237,14 @@ class CertificationController extends Controller
                             break;
                         case 'batch->to_year':
                             $input = $certification->students[0]->batch->to_year;
+                            break;
+                        case 'batch->course->duration':
+                            if(!empty(config('constants.courseDurationTypes')) && isset(config('constants.courseDurationTypes')[$certification->students[0]->batch->course->duration_type])) {
+                                $input = $certification->students[0]->batch->course->duration. " ". (config('constants.courseDurationTypes')[$certification->students[0]->batch->course->duration_type]);
+                            }
+                            break;
+                        case 'batch->class_start_date':
+                            $input = $certification->students[0]->batch->class_start_date;
                             break;
                         case 'batch->fee_amount':
                             $input = $certification->students[0]->batch->fee_amount;
