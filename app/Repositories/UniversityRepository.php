@@ -53,19 +53,18 @@ class UniversityRepository
      */
     public function saveUniversity($inputArray, $university=null)
     {
-        /*$saveFlag = false;
+        $saveFlag = false;
 
         try {
             if(empty($university)) {
-                $university = new University;
+                $university = new Authority;
             }
 
             //university saving
-            $university->name          = $inputArray['name'];
-            $university->designation   = $inputArray['designation'];
-            $university->university       = $inputArray['university'];
-            $university->title         = $inputArray['title'];
-            $university->status        = 1;
+            $university->university_name  = $inputArray['university_name'];
+            $university->center_code      = $inputArray['center_code'];
+            $university->university_grade = $inputArray['university_grade'];
+            $university->status           = 1;
             //university save
             $university->save();
 
@@ -90,7 +89,7 @@ class UniversityRepository
         return [
             'flag'      => false,
             'errorCode' => $repositoryCode + 3,
-        ];*/
+        ];
     }
 
     /**

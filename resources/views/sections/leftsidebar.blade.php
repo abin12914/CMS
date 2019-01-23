@@ -178,6 +178,27 @@
                             </li>
                         </ul>
                     </li>
+                    <li class="treeview {{ Request::is('university/*') || Request::is('university') ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="fa fa-building-o"></i>
+                            <span>Universities</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ Request::is('university/create')? 'active' : '' }}">
+                                <a href="{{route('university.create') }}">
+                                    <i class="fa fa-circle-o text-yellow"></i> Register
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('university')? 'active' : '' }}">
+                                <a href="{{route('university.index') }}">
+                                    <i class="fa fa-circle-o text-aqua"></i> List
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 @endif
             </ul>
         @endif

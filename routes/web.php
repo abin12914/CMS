@@ -44,6 +44,9 @@ Route::group(['middleware' => 'auth.check'], function () {
         //authority
         Route::resource('authority', 'AuthorityController');
 
+        //university
+        Route::resource('university', 'UniversityController');
+
         //certificate
         Route::get('/certificate/issue', 'CertificateController@issue')->name('certificate.issue');
         Route::resource('certificate', 'CertificateController');
