@@ -31,22 +31,43 @@
                 @if($loggedUser->isSuperAdmin() || $loggedUser->isAdmin())
                 @endif --}}
                 @if($loggedUser->isSuperAdmin() || $loggedUser->isAdmin() || $loggedUser->isUser())
-                    <li class="treeview {{ Request::is('certificate/*') || Request::is('certificate') ? 'active' : '' }}">
+                    <li class="treeview {{ Request::is('certification/*') || Request::is('certification') ? 'active' : '' }}">
                         <a href="#">
-                            <i class="fa fa-clipboard"></i>
-                            <span>Certificates</span>
+                            <i class="fa fa-file-text-o"></i>
+                            <span>Certification</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="{{ Request::is('certificate/create')? 'active' : '' }}">
-                                <a href="{{route('certificate.create') }}">
+                            <li class="{{ Request::is('certification/create')? 'active' : '' }}">
+                                <a href="{{route('certification.create') }}">
                                     <i class="fa fa-circle-o text-yellow"></i> Register
                                 </a>
                             </li>
-                            <li class="{{ Request::is('certificate')? 'active' : '' }}">
-                                <a href="{{route('certificate.index') }}">
+                            <li class="{{ Request::is('certification')? 'active' : '' }}">
+                                <a href="{{route('certification.index') }}">
+                                    <i class="fa fa-circle-o text-aqua"></i> List
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="treeview {{ Request::is('address/*') || Request::is('address') ? 'active' : '' }}">
+                        <a href="#">
+                            <i class="fa fa-newspaper-o"></i>
+                            <span>Addresses</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ Request::is('address/create')? 'active' : '' }}">
+                                <a href="{{route('address.create') }}">
+                                    <i class="fa fa-circle-o text-yellow"></i> Register
+                                </a>
+                            </li>
+                            <li class="{{ Request::is('address')? 'active' : '' }}">
+                                <a href="{{route('address.index') }}">
                                     <i class="fa fa-circle-o text-aqua"></i> List
                                 </a>
                             </li>
@@ -115,43 +136,22 @@
                             </li>
                         </ul>
                     </li>
-                    <li class="treeview {{ Request::is('certification/*') || Request::is('certification') ? 'active' : '' }}">
+                    <li class="treeview {{ Request::is('certificate/*') || Request::is('certificate') ? 'active' : '' }}">
                         <a href="#">
-                            <i class="fa fa-file-text-o"></i>
-                            <span>Certification</span>
+                            <i class="fa fa-clipboard"></i>
+                            <span>Certificates</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="{{ Request::is('certification/create')? 'active' : '' }}">
-                                <a href="{{route('certification.create') }}">
+                            <li class="{{ Request::is('certificate/create')? 'active' : '' }}">
+                                <a href="{{route('certificate.create') }}">
                                     <i class="fa fa-circle-o text-yellow"></i> Register
                                 </a>
                             </li>
-                            <li class="{{ Request::is('certification')? 'active' : '' }}">
-                                <a href="{{route('certification.index') }}">
-                                    <i class="fa fa-circle-o text-aqua"></i> List
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="treeview {{ Request::is('address/*') || Request::is('address') ? 'active' : '' }}">
-                        <a href="#">
-                            <i class="fa fa-newspaper-o"></i>
-                            <span>Addresses</span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <li class="{{ Request::is('address/create')? 'active' : '' }}">
-                                <a href="{{route('address.create') }}">
-                                    <i class="fa fa-circle-o text-yellow"></i> Register
-                                </a>
-                            </li>
-                            <li class="{{ Request::is('address')? 'active' : '' }}">
-                                <a href="{{route('address.index') }}">
+                            <li class="{{ Request::is('certificate')? 'active' : '' }}">
+                                <a href="{{route('certificate.index') }}">
                                     <i class="fa fa-circle-o text-aqua"></i> List
                                 </a>
                             </li>

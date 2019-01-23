@@ -113,9 +113,10 @@
                                             <th style="width: 10%;">To</th>
                                             <th style="width: 10%;">Total Course Fee</th>
                                             <th style="width: 10%;">Fee Per Year</th>
-                                            <th style="width: 10%;">Fee Per Semester</th>
-                                            <th style="width: 10%;">Fee Per Month</th>
-                                            <th style="width: 10%;">Actions</th>
+                                            <th style="width: 8%;">Fee Per Semester</th>
+                                            <th style="width: 8%;">Fee Per Month</th>
+                                            <th style="width: 9%;">Class Start Date</th>
+                                            <th style="width: 5%;" class="no-print">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -124,15 +125,16 @@
                                                 <tr>
                                                     <td>{{ $index + $batches->firstItem() }}</td>
                                                     <td>{{ $batch->batch_name }}</td>
-                                                    <td>{{ $batch->course->course_name }}-{{ $batch->course->university->university_name }}</td>
+                                                    <td>{{ $batch->course->course_name }}<br>{{ $batch->course->university->university_name }}</td>
                                                     <td>{{ $batch->from_year }}</td>
                                                     <td>{{ $batch->to_year }}</td>
                                                     <td>{{ $batch->fee_amount }}</td>
                                                     <td>{{ $batch->fee_per_year }}</td>
                                                     <td>{{ $batch->fee_per_sem }}</td>
                                                     <td>{{ $batch->fee_per_month }}</td>
-                                                    <td>
-                                                        <a href="{{ route('batch.edit', ['id' => $batch->id]) }}">
+                                                    <td>{{ $batch->class_start_date->format('d-m-Y') }}</td>
+                                                    <td class="no-print">
+                                                        <a href="{{ route('batch.edit', $batch->id) }}">
                                                             <button type="button" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button>
                                                         </a>
                                                     </td>

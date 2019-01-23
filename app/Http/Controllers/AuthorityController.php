@@ -63,7 +63,6 @@ class AuthorityController extends Controller
         AuthorityRegistrationRequest $request,
         $id=null
     ) {
-        $saveFlag   = false;
         $errorCode  = 0;
         $authority  = null;
 
@@ -84,7 +83,15 @@ class AuthorityController extends Controller
             }
 
             DB::commit();
-            $saveFlag = true;
+            
+            if(!empty($id)) {
+                return [
+                    'flag'  => true,
+                    'id'    => $authorityResponse['id']
+                ];
+            }
+
+            return redirect(route('authority.index'))->with("message","Authority details saved successfully. Reference Number : ". $authorityResponse['id'])->with("alert-class", "success");
         } catch (Exception $e) {
             //roll back in case of exceptions
             DB::rollback();
@@ -94,17 +101,6 @@ class AuthorityController extends Controller
             } else {
                 $errorCode = 1;
             }
-        }
-
-        if($saveFlag) {
-            if(!empty($id)) {
-                return [
-                    'flag'  => true,
-                    'id'    => $authorityResponse['id']
-                ];
-            }
-
-            return redirect(route('authority.index'))->with("message","Authority details saved successfully. Reference Number : ". $authorityResponse['id'])->with("alert-class", "success");
         }
 
         if(!empty($id)) {

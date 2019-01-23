@@ -55,7 +55,7 @@
                                         <div class="form-group">
                                             <label for="designation" class="col-md-3 control-label"><b style="color: red;">* </b> Designation Name : </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="designation" class="form-control alpha_only" id="designation" placeholder="Designation name" value="{{ old('designation') }}" tabindex="2" maxlength="100">
+                                                <input type="text" name="designation" class="form-control" id="designation" placeholder="Designation name" value="{{ old('designation') }}" tabindex="2" maxlength="100">
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'descriptive_name'])
                                                 @endcomponent

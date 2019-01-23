@@ -27,11 +27,12 @@
                                     <thead>
                                         <tr>
                                             <th style="width: 5%;">#</th>
-                                            <th style="width: 10%;">Certificate Name</th>
-                                            <th style="width: 10%;">Description</th>
-                                            <th style="width: 10%;">Authority</th>
-                                            <th style="width: 60%;">Certificate Content</th>
-                                            <th style="width: 5%;"  class="no-print">Actions</th>
+                                            <th style="width: 20%;">Certificate Name</th>
+                                            <th style="width: 20%;">Description</th>
+                                            <th style="width: 15%;">Authority</th>
+                                            <th style="width: 10%;">Type</th>
+                                            <th style="width: 20%;">Certificate Content</th>
+                                            <th style="width: 10%;"  class="no-print">Actions</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -42,15 +43,16 @@
                                                     <td>{{ $certificate->name }}</td>
                                                     <td>{{ $certificate->description }}</td>
                                                     <td>{{ $certificate->authority->name }}, {{ $certificate->authority->designation }}</td>
+                                                    <td>{{ $certificate->certificate_type == 1 ? 'For Single Student' : 'For Group Of Students' }}</td>
                                                     <td>
                                                         <div>
-                                                            <{{ $certificate->certificate_content }}
+                                                            <{{ implode(' ', array_slice(explode(' ', $certificate->certificate_content), 0, 5)) }}....
                                                         </div>
                                                     </td>
                                                     <td class="no-print">
-                                                        {{-- <a href="{{ route('certificate.show', $certificate->id) }}">
-                                                            <button type="button" class="btn btn-info"><i class="fa fa-edit"></i> Show</button>
-                                                        </a> --}}
+                                                        <a href="{{ route('certificate.show', $certificate->id) }}">
+                                                            <button type="button" class="btn btn-info"><i class="fa fa-edit"></i> View</button>
+                                                        </a>
                                                         <a href="{{ route('certificate.edit', $certificate->id) }}">
                                                             <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</button>
                                                         </a>

@@ -49,7 +49,10 @@
                                                 <i class="fa fa-book margin-r-5"></i> Student Name
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $student->title }} {{ $student->name }}
+                                                @if(!empty(config('constants.studentTitles'))&& isset(config('constants.studentTitles')[$student->title]))
+                                                    {{ config('constants.studentTitles')[$student->title] }}
+                                                @endif
+                                                {{ $student->name }}
                                             </p>
                                             <hr>
                                         </div>
@@ -89,7 +92,7 @@
                                                 <i class="fa fa-map-marker margin-r-5"></i> Course
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $student->batch->course->course_name or "-" }} - {{ $student->batch->course->university->university_name }} / {{ $student->batch->batch_name }}
+                                                {{ $student->batch->course->course_name or "-" }}<br>{{ $student->batch->course->university->university_name }} / {{ $student->batch->batch_name }}
                                             </p>
                                             <hr>
                                         </div>

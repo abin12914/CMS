@@ -73,7 +73,7 @@
                                                 <div class="col-md-6">
                                                     <label for="certificate_type" class="control-label"><b style="color: red;">* </b> Type : </label>
                                                     {{-- adding certificate type select component --}}
-                                                    @component('components.selects.certificate_type', ['tabindex' => 7])
+                                                    @component('components.selects.certificate_type', ['selectedType' => old('certificate_type'), 'tabindex' => 7])
                                                     @endcomponent
                                                     {{-- adding error_message p tag component --}}
                                                     @component('components.paragraph.error_message', ['fieldName' => 'certificate_type'])

@@ -54,7 +54,7 @@
                                             <div class="col-md-9">
                                                 <input type="text" name="designation" class="form-control alpha_only" id="designation" placeholder="Designation name" value="{{ old('designation') }}" tabindex="2" maxlength="100">
                                                 {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'descriptive_name'])
+                                                @component('components.paragraph.error_message', ['fieldName' => 'designation'])
                                                 @endcomponent
                                             </div>
                                         </div>

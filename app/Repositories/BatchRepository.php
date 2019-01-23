@@ -61,26 +61,28 @@ class BatchRepository
      */
     public function saveBatch($inputArray=[], $batch=null)
     {
-        $saveFlag   = false;
-
         try {
             //batch saving
             if(empty($batch)) {
                 $batch = new Batch;
             }
-            $batch->batch_name   = $inputArray['batch_name'];
-            $batch->course_id    = $inputArray['course_id'];
-            $batch->from_year    = $inputArray['from_year'];
-            $batch->to_year      = $inputArray['to_year'];
-            $batch->fee_amount   = $inputArray['fee_amount'];
-            $batch->fee_per_year = $inputArray['fee_per_year'];
-            $batch->fee_per_sem   = $inputArray['fee_per_sem'];
-            $batch->fee_per_month = $inputArray['fee_per_month'];
-            $batch->status       = 1;
+            $batch->batch_name       = $inputArray['batch_name'];
+            $batch->course_id        = $inputArray['course_id'];
+            $batch->from_year        = $inputArray['from_year'];
+            $batch->to_year          = $inputArray['to_year'];
+            $batch->fee_amount       = $inputArray['fee_amount'];
+            $batch->fee_per_year     = $inputArray['fee_per_year'];
+            $batch->fee_per_sem      = $inputArray['fee_per_sem'];
+            $batch->fee_per_month    = $inputArray['fee_per_month'];
+            $batch->class_start_date = $inputArray['class_start_date'];
+            $batch->status           = 1;
             //batch save
             $batch->save();
 
-            $saveFlag = true;
+            return [
+                'flag'  => true,
+                'id'    => $batch->id,
+            ];
         } catch (Exception $e) {
             if($e->getMessage() == "CustomError") {
                 $this->errorCode = $e->getCode();
@@ -90,12 +92,6 @@ class BatchRepository
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
-        if($saveFlag) {
-            return [
-                'flag'  => true,
-                'id'    => $batch->id,
-            ];
-        }
         return [
             'flag'      => false,
             'errorCode' => $this->repositoryCode + 3,

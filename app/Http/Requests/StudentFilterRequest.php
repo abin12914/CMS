@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Models\Student;
+use App\Models\Batch;
 
 class StudentFilterRequest extends FormRequest
 {
@@ -25,12 +26,10 @@ class StudentFilterRequest extends FormRequest
      */
     public function rules()
     {
-        $genderTypes = config('constants.genderTypes');
-
         return [
-            'relation_type' =>  [
+            'batch_id' =>  [
                                     'nullable',
-                                    Rule::in(array_keys($genderTypes)),
+                                    Rule::in(Batch::pluck('id')->toArray()),
                                 ],
             'student_id'    =>  [
                                     'nullable',

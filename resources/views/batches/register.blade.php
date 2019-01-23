@@ -86,7 +86,7 @@
                                         <div class="form-group">
                                             <label for="fee_per_year" class="col-md-3 control-label">Fee Per Year: </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="fee_per_year" class="form-control" id="fee_per_year" placeholder="Fee per year" value="{{ old('fee_per_year') }}" tabindex="5" maxlength="100">
+                                                <input type="text" name="fee_per_year" class="form-control" id="fee_per_year" placeholder="Fee per year" value="{{ old('fee_per_year') }}" tabindex="6" maxlength="100">
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'fee_per_year'])
                                                 @endcomponent
@@ -95,7 +95,7 @@
                                         <div class="form-group">
                                             <label for="fee_per_sem" class="col-md-3 control-label">Fee Per Semester: </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="fee_per_sem" class="form-control" id="fee_per_sem" placeholder="Fee per semester" value="{{ old('fee_per_sem') }}" tabindex="5" maxlength="100">
+                                                <input type="text" name="fee_per_sem" class="form-control" id="fee_per_sem" placeholder="Fee per semester" value="{{ old('fee_per_sem') }}" tabindex="7" maxlength="100">
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'fee_per_sem'])
                                                 @endcomponent
@@ -104,9 +104,18 @@
                                         <div class="form-group">
                                             <label for="fee_per_month" class="col-md-3 control-label">Fee Per Month: </label>
                                             <div class="col-md-9">
-                                                <input type="text" name="fee_per_month" class="form-control" id="fee_per_month" placeholder="Fee per month" value="{{ old('fee_per_month') }}" tabindex="5" maxlength="100">
+                                                <input type="text" name="fee_per_month" class="form-control" id="fee_per_month" placeholder="Fee per month" value="{{ old('fee_per_month') }}" tabindex="8" maxlength="100">
                                                 {{-- adding error_message p tag component --}}
                                                 @component('components.paragraph.error_message', ['fieldName' => 'fee_per_month'])
+                                                @endcomponent
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="class_start_date" class="col-md-3 control-label"><b style="color: red;">* </b> Class Start Date: </label>
+                                            <div class="col-md-9">
+                                                <input type="text" name="class_start_date" class="form-control datepicker_reg" id="class_start_date" placeholder="Starting date of this acadamic year" value="{{ old('class_start_date') }}" tabindex="9" maxlength="100">
+                                                {{-- adding error_message p tag component --}}
+                                                @component('components.paragraph.error_message', ['fieldName' => 'class_start_date'])
                                                 @endcomponent
                                             </div>
                                         </div>
@@ -117,10 +126,10 @@
                                 <div class="row">
                                     <div class="col-md-3"></div>
                                     <div class="col-md-3">
-                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="7">Clear</button>
+                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="11">Clear</button>
                                     </div>
                                     <div class="col-md-3">
-                                        <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="6">Submit</button>
+                                        <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="10">Submit</button>
                                     </div>
                                     <!-- /.col -->
                                 </div><br>

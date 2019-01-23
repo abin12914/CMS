@@ -15,9 +15,7 @@ class Batch extends Model
      *
      * @var array
      */
-    protected $dates = ['date', 'deleted_at'];
-
-    public $timestamps = false;
+    protected $dates = ['deleted_at', 'class_start_date'];
 
     /**
      * Scope a query to only include active expenses.

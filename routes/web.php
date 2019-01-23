@@ -39,6 +39,7 @@ Route::group(['middleware' => 'auth.check'], function () {
 
         //address
         Route::resource('address', 'AddressController');
+        Route::get('/iframe/address', 'AddressController@iframeCreate')->name('iframe.address.create');
 
         //authority
         Route::resource('authority', 'AuthorityController');

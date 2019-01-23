@@ -23,7 +23,6 @@ class Authority extends Model
      * @var array
      */
     protected $dispatchesEvents = [
-        //'deleting' => DeletingEmployeeEvent::class,
     ];
     
     /**

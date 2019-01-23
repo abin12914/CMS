@@ -23,7 +23,6 @@ class Address extends Model
      * @var array
      */
     protected $dispatchesEvents = [
-        //'deleting' => DeletingEmployeeEvent::class,
     ];
     
     /**

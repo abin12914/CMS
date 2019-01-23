@@ -30,12 +30,12 @@
                                 <div class="col-md-10">
                                     <div class="form-group">
                                         <div class="col-md-4">
-                                            <label for="relation_type" class="control-label">Course : </label>
+                                            <label for="batch_id" class="control-label">Batch : </label>
                                             {{-- adding course select component --}}
-                                                @component('components.selects.courses', ['selectedCourseId' => old('course_id'), 'selectName' => 'course_id', 'activeFlag' => false, 'tabindex' => 7])
+                                                @component('components.selects.batches', ['selectedBatchId' => old('batch_id'), 'selectName' => 'batch_id', 'activeFlag' => false, 'tabindex' => 1])
                                                 @endcomponent
                                                 {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'course_id'])
+                                                @component('components.paragraph.error_message', ['fieldName' => 'batch_id'])
                                                 @endcomponent
                                         </div>
                                         <div class="col-md-4">
@@ -50,7 +50,7 @@
                                         <div class="col-md-4">
                                             <label for="no_of_records" class="control-label">No Of Records Per Page : </label>
                                             {{-- adding no of records text component --}}
-                                            @component('components.texts.no-of-records-text', ['noOfRecords' => $noOfRecords, 'tabindex' => 4])
+                                            @component('components.texts.no-of-records-text', ['noOfRecords' => $noOfRecords, 'tabindex' => 3])
                                             @endcomponent
                                             {{-- adding error_message p tag component --}}
                                             @component('components.paragraph.error_message', ['fieldName' => 'no_of_records'])
@@ -63,10 +63,10 @@
                             <div class="row">
                                 <div class="col-md-4"></div>
                                 <div class="col-md-2">
-                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="6">Clear</button>
+                                    <button type="reset" class="btn btn-default btn-block btn-flat"  value="reset" tabindex="5">Clear</button>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="5"><i class="fa fa-search"></i> Search</button>
+                                    <button type="submit" class="btn btn-primary btn-block btn-flat submit-button" tabindex="4"><i class="fa fa-search"></i> Search</button>
                                 </div>
                             </div>
                         </form>
@@ -106,8 +106,8 @@
                                                     <td>{{ $index + $students->firstItem() }}</td>
                                                     <td>{{ $student->name }}</td>
                                                     <td>{{ $student->student_code }}</td>
-                                                    <td>{{ $student->batch->course->course_name }} - {{ $student->batch->course->university }}</td>
-                                                    <td>{{ $student->from_year }} - {{ $student->to_year }}</td>
+                                                    <td>{{ $student->batch->course->course_name }}<br>{{ $student->batch->course->university->university_name }}</td>
+                                                    <td>{{ $student->batch->from_year }} - {{ $student->batch->to_year }}</td>
                                                     <td class="no-print">
                                                         <a href="{{ route('student.show', $student->id) }}">
                                                             <button type="button" class="btn btn-info">Details</button>

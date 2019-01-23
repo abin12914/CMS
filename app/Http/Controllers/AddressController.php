@@ -35,6 +35,12 @@ class AddressController extends Controller
         $params = [
                 'id' => $request->get('address_id'),
             ];
+
+        if($request->ajax()) {
+            return [
+                'addresses' => $this->addressRepo->getAddresses($params, null),
+            ];
+        }
         
         return view('addresses.list', [
                 'addresses'         => $this->addressRepo->getAddresses($params, $noOfRecords),
@@ -63,9 +69,9 @@ class AddressController extends Controller
         AddressRegistrationRequest $request,
         $id=null
     ) {
-        $saveFlag            = false;
-        $errorCode           = 0;
-        $address            = null;
+        $saveFlag  = false;
+        $errorCode = 0;
+        $address   = null;
 
         //wrappin db transactions
         DB::beginTransaction();
@@ -86,7 +92,15 @@ class AddressController extends Controller
             }
 
             DB::commit();
-            $saveFlag = true;
+            
+            if(!empty($id) || $request->ajax()) {
+                return [
+                    'flag'  => true,
+                    'id'    => $addressResponse['id']
+                ];
+            }
+
+            return redirect(route('address.index', $addressResponse['id']))->with("message","Address details saved successfully. Reference Number : ". $addressResponse['id'])->with("alert-class", "success");
         } catch (Exception $e) {
             //roll back in case of exceptions
             DB::rollback();
@@ -96,17 +110,6 @@ class AddressController extends Controller
             } else {
                 $errorCode = 1;
             }
-        }
-
-        if($saveFlag) {
-            if(!empty($id)) {
-                return [
-                    'flag'  => true,
-                    'id'    => $addressResponse['id']
-                ];
-            }
-
-            return redirect(route('address.index', $addressResponse['id']))->with("message","Address details saved successfully. Reference Number : ". $addressResponse['id'])->with("alert-class", "success");
         }
 
         if(!empty($id)) {
@@ -203,5 +206,15 @@ class AddressController extends Controller
     public function destroy($id)
     {
         return redirect()->back()->with("message", "Deletion restricted.")->with("alert-class", "error");
+    }
+
+    /**
+     * Show the form for creating a new resource in an iframe.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function iframeCreate()
+    {
+        return view('addresses.iframe.register');
     }
 }

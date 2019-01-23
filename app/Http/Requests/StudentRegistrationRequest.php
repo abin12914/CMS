@@ -41,11 +41,12 @@ class StudentRegistrationRequest extends FormRequest
                                     'max:100',
                                 ],
             'address'       =>  [
-                                    'nullable',
+                                    'required',
+                                    'min:3',
                                     'max:200',
                                 ],
             'phone'         =>  [
-                                    'required',
+                                    'nullable',
                                     'numeric',
                                     'digits_between:10,13',
                                     Rule::unique('students')->ignore($this->student),

@@ -95,13 +95,13 @@
                                             @foreach($addresses as $index => $address)
                                                 <tr>
                                                     <td>{{ $index + $addresses->firstItem() }}</td>
-                                                    <td>{{ $address->name }}</td>
+                                                    <td>{{ !empty($address->name) ? $address->name : 'N/A' }}</td>
                                                     <td>{{ $address->designation }}</td>
                                                     <td>{{ $address->title }}</td>
                                                     <td><pre>{{ $address->address }}</pre></td>
                                                     <td class="no-print">
-                                                        <a href="{{ route('address.edit', ['id' => $address->id]) }}">
-                                                            <button type="button" class="btn btn-default"><i class="fa fa-edit"></i> Edit</button>
+                                                        <a href="{{ route('address.edit', $address->id) }}">
+                                                            <button type="button" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</button>
                                                         </a>
                                                     </td>
                                                 </tr>

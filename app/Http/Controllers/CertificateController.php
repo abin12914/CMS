@@ -190,11 +190,9 @@ class CertificateController extends Controller
      */
     public function update(
         CertificateRegistrationRequest $request,
-        AccountRepository $accountRepo,
-        TransactionRepository $transactionRepo,
         $id
     ) {
-        $updateResponse = $this->store($request, $accountRepo, $transactionRepo, $id);
+        $updateResponse = $this->store($request, $id);
 
         if($updateResponse['flag']) {
             return redirect(route('certificate.show', $updateResponse['id']))->with("message","Certificate details updated successfully. Updated Record Number : ". $updateResponse['id'])->with("alert-class", "success");

@@ -85,7 +85,6 @@ class BatchController extends Controller
         BatchRegistrationRequest $request,
         $id=null
     ) {
-        $saveFlag         = false;
         $errorCode        = 0;
         $batch            = null;
         $batchTransaction = null;
@@ -99,14 +98,15 @@ class BatchController extends Controller
 
             //save to batch table
             $batchResponse = $this->batchRepo->saveBatch([
-                'batch_name'    => $request->get('batch_name'),
-                'course_id'     => $request->get('course_id'),
-                'from_year'     => $request->get('from_year'),
-                'to_year'       => $request->get('to_year'),
-                'fee_amount'    => $request->get('fee_amount'),
-                'fee_per_year'  => $request->get('fee_per_year'),
-                'fee_per_sem'   => $request->get('fee_per_sem'),
-                'fee_per_month' => $request->get('fee_per_month'),
+                'batch_name'        => $request->get('batch_name'),
+                'course_id'         => $request->get('course_id'),
+                'from_year'         => $request->get('from_year'),
+                'to_year'           => $request->get('to_year'),
+                'fee_amount'        => $request->get('fee_amount'),
+                'fee_per_year'      => $request->get('fee_per_year'),
+                'fee_per_sem'       => $request->get('fee_per_sem'),
+                'fee_per_month'     => $request->get('fee_per_month'),
+                'class_start_date'  => Carbon::createFromFormat('d-m-Y', $request->get('class_start_date'))->format('Y-m-d'),
             ], $batch);
 
             if(!$batchResponse['flag']) {
@@ -114,7 +114,15 @@ class BatchController extends Controller
             }
 
             DB::commit();
-            $saveFlag = true;
+            
+            if(!empty($id)) {
+                return [
+                    'flag'  => true,
+                    'id'    => $batchResponse['id']
+                ];
+            }
+
+            return redirect(route('batch.index'))->with("message","Batch details saved successfully. Reference Number : ". $batchResponse['id'])->with("alert-class", "success");
         } catch (Exception $e) {
             //roll back in case of exceptions
             DB::rollback();
@@ -124,17 +132,6 @@ class BatchController extends Controller
             } else {
                 $errorCode = 1;
             }
-        }
-
-        if($saveFlag) {
-            if(!empty($id)) {
-                return [
-                    'flag'  => true,
-                    'id'    => $batchResponse['id']
-                ];
-            }
-
-            return redirect(route('batch.index'))->with("message","Batch details saved successfully. Reference Number : ". $batchResponse['id'])->with("alert-class", "success");
         }
         
         if(!empty($id)) {

@@ -36,8 +36,8 @@ class StudentController extends Controller
         $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
-                'relation'      => $request->get('relation_type'),
-                'id'            => $request->get('student_id'),
+                'batch_id' => $request->get('batch_id'),
+                'id'       => $request->get('student_id'),
             ];
         
         return view('students.list', [
@@ -169,13 +169,8 @@ class StudentController extends Controller
      */
     public function edit($id)
     {
-        return redirect()->back()->with("message","Editing disabled!")->with("alert-class", "error");
         $errorCode  = 0;
         $student    = [];
-
-        $relationTypes = config('constants.studentRelationTypes');
-        //excluding the relationtype 'employee'[index = 1] for student update
-        unset($relationTypes[1]);
 
         try {
             $student = $this->studentRepo->getStudent($id, false);
@@ -191,7 +186,8 @@ class StudentController extends Controller
 
         return view('students.edit', [
             'student'       => $student,
-            'relationTypes' => $relationTypes,
+            'genderTypes'   => config('constants.genderTypes'),
+            'studentTitles' => config('constants.studentTitles'),
         ]);
     }
 
@@ -204,10 +200,9 @@ class StudentController extends Controller
      */
     public function update(
         StudentRegistrationRequest $request,
-        TransactionRepository $transactionRepo,
         $id)
     {
-        $updateResponse = $this->store($request, $transactionRepo, $id);
+        $updateResponse = $this->store($request, $id);
 
         if($updateResponse['flag']) {
             return redirect(route('student.show', $updateResponse['id']))->with("message","Student details updated successfully. Updated Record Number : ". $updateResponse['id'])->with("alert-class", "success");
@@ -237,7 +232,7 @@ class StudentController extends Controller
     {
         $params = $request->get('searchParams');
         
-        $students = $this->studentRepo->getStudents($params, null, true, false, ['batch', 'batch.course']);
+        $students = $this->studentRepo->getStudents($params, null, true, false, ['batch', 'batch.course', 'batch.course.university']);
         
         if(!empty($students) && count($students) > 0)
         {

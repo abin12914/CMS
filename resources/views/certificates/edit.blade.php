@@ -1,16 +1,16 @@
 @extends('layouts.app')
-@section('title', 'Product Edit')
+@section('title', 'Certificate Edit')
 @section('content')
 <div class="content-wrapper">
      <section class="content-header">
         <h1>
-            Edit
-            <small>Product</small>
+            Certificate
+            <small>Edit</small>
         </h1>
         <ol class="breadcrumb">
             <li><a href="{{ route('dashboard') }}"><i class="fa fa-dashboard"></i> Home</a></li>
-            <li><a href="{{ route('product.index') }}"> Product</a></li>
-            <li class="active"> Edit</li>
+            <li><a href="{{ route('certificate.index') }}"> Certificates</a></li>
+            <li class="active">Edit</li>
         </ol>
     </section>
     <!-- Main content -->
@@ -18,77 +18,86 @@
         <!-- Main row -->
         <div class="row no-print">
             <div class="col-md-12">
-                <div class="col-md-2"></div>
-                <div class="col-md-8">
-                    <div class="box box-primary">
-                        <div class="box-header with-border">
-                            <h3 class="box-title" style="float: left;">Product Details</h3>
-                                <p>&nbsp&nbsp&nbsp(Fields marked with <b style="color: red;">* </b>are mandatory.)</p>
+                <div class="col-md-1"></div>
+                <div class="col-md-10">
+                    <div class="box box-widget widget-user-2">
+                        <div class="widget-user-header">
+                            <div class="widget-user-image">
+                                <img class="img-circle" src="/images/public/default_certificate.jpeg" alt="User Avatar">
+                            </div>
+                            <!-- /.widget-user-image -->
+                            <h3 class="widget-user-username text-capitalize">&emsp;Certificate Edit</h3>
+                            <div class="widget-user-desc">&nbsp;&nbsp;&nbsp;&emsp; Fields marked with <i class="text-red">* </i> are mandatory.
+                            </div>
                         </div>
                         <!-- /.box-header -->
                         <!-- form start -->
-                        <form action="{{route('product.update', $product->id)}}" method="post" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
+                        <form action="{{route('certificate.update', $certificate->id)}}" method="post" class="form-horizontal" enctype="multipart/form-data" autocomplete="off">
                             <div class="box-body">
                                 <input type="hidden" name="_token" value="{{csrf_token()}}">
-                                {{ method_field('PUT') }}
+                                <input type="hidden" name="_method" value="PUT">
+                                <hr>
+                                <h4 class="text-info">&emsp;&emsp;Certificate Info</h4>
+                                <hr>
                                 <div class="row">
-                                    <div class="col-md-11">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10">
                                         <div class="form-group">
-                                            <label for="product_name" class="col-md-3 control-label"><b style="color: red;">* </b> Product Name : </label>
-                                            <div class="col-md-9">
-                                                <input type="text" name="product_name" class="form-control" id="product_name" placeholder="Product Name" value="{{ !empty(old('product_name')) ? old('product_name') : $product->name }}" tabindex="1" maxlength="100">
-                                                {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'product_name'])
-                                                @endcomponent
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="name" class="control-label"><b style="color: red;">* </b> Name : </label>
+                                                    <input type="text" name="name" class="form-control" id="name" placeholder="Certificate name" value="{{ old('name', $certificate->name) }}" tabindex="1" maxlength="100">
+                                                    {{-- adding error_message p tag component --}}
+                                                    @component('components.paragraph.error_message', ['fieldName' => 'name'])
+                                                    @endcomponent
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="description" class="control-label"><b style="color: red;">* </b> Description : </label>
+                                                    <input type="text" name="description" class="form-control" id="description" placeholder="Description" value="{{ old('description', $certificate->description) }}" tabindex="2" maxlength="100">
+                                                    {{-- adding error_message p tag component --}}
+                                                    @component('components.paragraph.error_message', ['fieldName' => 'description'])
+                                                    @endcomponent
+                                                </div>
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="uom_code" class="col-md-3 control-label"><b style="color: red;">* </b> Unit : </label>
-                                            <div class="col-md-9">
-                                                <input type="text" name="uom_code" class="form-control" id="uom_code" placeholder="Unique Quantity Code" value="{{ !empty(old('uom_code')) ? old('uom_code') : $product->uom_code }}" tabindex="3" maxlength="3">
-                                                {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'uom_code'])
-                                                @endcomponent
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <label for="authority_id" class="control-label"><b style="color: red;">* </b> Issuing authority : </label>
+                                                    {{-- adding authority select component --}}
+                                                    @component('components.selects.authorities', ['selectedAuthorityId' => old('authority_id', $certificate->authority_id), 'selectName' => 'authority_id', 'activeFlag' => false, 'tabindex' => 3])
+                                                    @endcomponent
+                                                    {{-- adding error_message p tag component --}}
+                                                    @component('components.paragraph.error_message', ['fieldName' => 'authority_id'])
+                                                    @endcomponent
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <label for="certificate_type" class="control-label"><b style="color: red;">* </b> Type : </label>
+                                                    {{-- adding certificate type select component --}}
+                                                    @component('components.selects.certificate_type', ['selectedType' => old('certificate_type', $certificate->certificate_type),'tabindex' => 4])
+                                                    @endcomponent
+                                                    {{-- adding error_message p tag component --}}
+                                                    @component('components.paragraph.error_message', ['fieldName' => 'certificate_type'])
+                                                    @endcomponent
+                                                </div>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                                <hr>
+                                <h4 class="text-info">&emsp;&emsp;Certificate Content</h4>
+                                <hr>
+                                <div class="row">
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-10">
                                         <div class="form-group">
-                                            <label for="description" class="col-md-3 control-label"><b style="color: red;">* </b>Description : </label>
-                                            <div class="col-md-9">
-                                                @if(!empty(old('description')))
-                                                    <textarea class="form-control" name="description" id="description" rows="3" placeholder="Description" style="resize: none;" tabindex="4" maxlength="199">{{ old('description') }}</textarea>
-                                                @else
-                                                    <textarea class="form-control" name="description" id="description" rows="3" placeholder="Description" style="resize: none;" tabindex="4" maxlength="199">{{  $product->description }}</textarea>
-                                                @endif
-                                                {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'description'])
-                                                @endcomponent
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="malayalam_name" class="col-md-3 control-label"><b style="color: red;">* </b> Malayalam Name : </label>
-                                            <div class="col-md-9">
-                                                <input type="text" name="malayalam_name" class="form-control" id="malayalam_name" placeholder="Malayalam Name" value="{{ !empty(old('malayalam_name')) ? old('malayalam_name') : $product->malayalam_name }}" tabindex="5" maxlength="100">
-                                                {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'malayalam_name'])
-                                                @endcomponent
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="product_code" class="col-md-3 control-label"><b style="color: red;">* </b> Product Code : </label>
-                                            <div class="col-md-9">
-                                                <input type="text" name="product_code" class="form-control" id="product_code" placeholder="Loading Charge Per Piece" value="{{ !empty(old('product_code')) ? old('product_code') : $product->product_code }}" tabindex="6" maxlength="4">
-                                                {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'product_code'])
-                                                @endcomponent
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="weighment_wastage" class="col-md-3 control-label"> Wastage : </label>
-                                            <div class="col-md-9">
-                                                <input type="text" name="weighment_wastage" class="form-control" id="weighment_wastage" placeholder="Wastage" value="{{ !empty(old('weighment_wastage')) ? old('weighment_wastage') : $product->weighment_wastage }}" tabindex="6" maxlength="4">
-                                                {{-- adding error_message p tag component --}}
-                                                @component('components.paragraph.error_message', ['fieldName' => 'weighment_wastage'])
-                                                @endcomponent
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <textarea id="certificate_content" name="certificate_content" rows="10" cols="80" tabindex="5">{{ $certificate->certificate_content }}</textarea>
+                                                    {{-- adding error_message p tag component --}}
+                                                    @component('components.paragraph.error_message', ['fieldName' => 'content'])
+                                                    @endcomponent
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -97,10 +106,10 @@
                                 <div class="row">
                                     <div class="col-md-3"></div>
                                     <div class="col-md-3">
-                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="8">Clear</button>
+                                        <button type="reset" class="btn btn-default btn-block btn-flat" tabindex="7">Clear</button>
                                     </div>
                                     <div class="col-md-3">
-                                        <button type="button" class="btn btn-warning btn-block btn-flat update_button" tabindex="7">Update</button>
+                                        <button type="button" class="btn btn-warning btn-block btn-flat update_button" tabindex="6">Submit</button>
                                     </div>
                                     <!-- /.col -->
                                 </div><br>
@@ -110,9 +119,28 @@
                     <!-- /.box primary -->
                 </div>
             </div>
+            <!-- /.row (main row) -->
         </div>
-        <!-- /.row (main row) -->
     </section>
     <!-- /.content -->
 </div>
+@endsection
+@section('scripts')
+    <script src="/bower_components/ckeditor/ckeditor.js"></script>
+    <script>
+        $(function () {
+            // Replace the <textarea id="certificate_content"> with a CKEditor
+            // instance, using default configuration.
+            CKEDITOR.replace('certificate_content');
+
+            CKEDITOR.on('dialogDefinition', function(event, placeholders) {
+                if ('placeholder' == event.data.name) {
+                    var input = event.data.definition.getContents('info').get('name');
+                    input.type = 'select';
+                    //input.items = [ ['Company'], ['Email'], ['First Name'], ['Last Name'] ];
+                    input.items = [ ['CourseName'], ['DescriptiveName'], ['University'], ['CenterCode'], ['UniversityGrade'], ['CourseFrom'], ['CourseTo'], ['CourseFeeAmount'], ['CourseFeePerYear'], ['CourseFeePerSem'], ['CourseFeePerMonth'], ['StudentName'], ['StudentAddress'], ['StudentRegistrationNumber'] ];
+                }
+            });
+        })
+    </script>
 @endsection
