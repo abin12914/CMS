@@ -134,6 +134,11 @@
                                     <i class="fa fa-circle-o text-aqua"></i> List
                                 </a>
                             </li>
+                            <li class="{{ Request::is('student/address')? 'active' : '' }}">
+                                <a href="{{route('student.address.list') }}">
+                                    <i class="fa fa-circle-o text-black"></i> Address
+                                </a>
+                            </li>
                         </ul>
                     </li>
                     <li class="treeview {{ Request::is('certificate/*') || Request::is('certificate') ? 'active' : '' }}">

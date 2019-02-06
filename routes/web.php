@@ -35,6 +35,7 @@ Route::group(['middleware' => 'auth.check'], function () {
         Route::resource('batch', 'BatchController');
 
         //student
+        Route::get('/student/address', 'StudentController@getAddressList')->name('student.address.list');
         Route::resource('student', 'StudentController');
 
         //address

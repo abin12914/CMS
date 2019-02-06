@@ -55,7 +55,6 @@ class StudentController extends Controller
         
         return view('students.list', [
             'students'      => $this->studentRepo->getStudents($params, $noOfRecords, true, false),
-            'relationTypes' => config('constants.studentRelationTypes'),
             'params'        => $params,
             'noOfRecords'   => $noOfRecords,
         ]);
@@ -170,8 +169,6 @@ class StudentController extends Controller
 
         return view('students.details', [
             'student'       => $student,
-            'relationTypes' => config('constants.studentRelationTypes'),
-            'studentTypes'  => config('constants.$studentTypes'),
         ]);
     }
 
@@ -259,5 +256,34 @@ class StudentController extends Controller
         return [
             'flag'      => false
         ];
+    }
+
+    /**
+     * Display a listing of the student's address.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getAddressList(Request $request)
+    {
+        //$noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
+
+        $params = [
+            'batch_id'  =>  [
+                                'paramName'     => 'batch_id',
+                                'paramOperator' => '=',
+                                'paramValue'    => $request->get('batch_id'),
+                            ],
+            'id'        =>  [
+                                'paramName'     => 'id',
+                                'paramOperator' => '=',
+                                'paramValue'    => $request->get('student_id'),
+                            ],
+        ];
+        
+        return view('students.address-list', [
+            'students'      => $this->studentRepo->getStudents($params, null, true, false),
+            'params'        => $params,
+            //'noOfRecords'   => $noOfRecords,
+        ]);
     }
 }
