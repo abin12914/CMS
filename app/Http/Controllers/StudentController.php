@@ -36,9 +36,22 @@ class StudentController extends Controller
         $noOfRecords    = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
 
         $params = [
+            'batch_id'  =>  [
+                                'paramName'     => 'batch_id',
+                                'paramOperator' => '=',
+                                'paramValue'    => $request->get('batch_id'),
+                            ],
+            'id'        =>  [
+                                'paramName'     => 'id',
+                                'paramOperator' => '=',
+                                'paramValue'    => $request->get('student_id'),
+                            ],
+        ];
+
+        /*$params = [
                 'batch_id' => $request->get('batch_id'),
                 'id'       => $request->get('student_id'),
-            ];
+            ];*/
         
         return view('students.list', [
             'students'      => $this->studentRepo->getStudents($params, $noOfRecords, true, false),
@@ -84,14 +97,15 @@ class StudentController extends Controller
 
             //save to student table
             $studentResponse   = $this->studentRepo->saveStudent([
-                'student_code'  => $request->get('student_code'),
-                'name'          => $request->get('name'),
-                'address'       => $request->get('address'),
-                'phone'         => $request->get('phone'),
-                'gender'        => $request->get('gender'),
-                'title'         => $request->get('title'),
-                'batch_id'      => $request->get('batch_id'),
-                'status'        => 1,
+                'student_code'          => $request->get('student_code'),
+                'name'                  => $request->get('name'),
+                'address'               => $request->get('address'),
+                'phone'                 => $request->get('phone'),
+                'gender'                => $request->get('gender'),
+                'title'                 => $request->get('title'),
+                'batch_id'              => $request->get('batch_id'),
+                'registration_number'   => $request->get('registration_number'),
+                'status'                => 1,
             ], $student);
 
             if(!$studentResponse['flag']) {

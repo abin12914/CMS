@@ -57,7 +57,7 @@ class UniversityRepository
 
         try {
             if(empty($university)) {
-                $university = new Authority;
+                $university = new University;
             }
 
             //university saving

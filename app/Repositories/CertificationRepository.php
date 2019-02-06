@@ -41,7 +41,7 @@ class CertificationRepository
             } else {
                 $this->errorCode = $this->repositoryCode + 1;
             }
-            dd($e);
+
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
@@ -77,7 +77,7 @@ class CertificationRepository
                 $this->errorCode = $e->getCode();
             } else {
                 $this->errorCode = $this->repositoryCode + 2;
-            }dd($e);
+            }
             throw new AppCustomException("CustomError", $this->errorCode);
         }
         
@@ -115,7 +115,7 @@ class CertificationRepository
             } else {
                 $this->errorCode = $this->repositoryCode + 4;
             }
-            dd($e);
+
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 

@@ -89,10 +89,10 @@
                                         </div>
                                         <div class="col-md-6">
                                             <strong>
-                                                <i class="fa fa-map-marker margin-r-5"></i> Course
+                                                <i class="fa fa-map-marker margin-r-5"></i> Course & University
                                             </strong>
                                             <p class="text-muted multi-line">
-                                                {{ $student->batch->course->course_name or "-" }}<br>{{ $student->batch->course->university->university_name }} / {{ $student->batch->batch_name }}
+                                                {{ $student->batch->course->course_name or "-" }} / {{ $student->batch->course->university->university_name }}
                                             </p>
                                             <hr>
                                         </div>
@@ -100,10 +100,30 @@
                                     <div class="row">
                                         <div class="col-md-6">
                                             <strong>
+                                                <i class="fa fa-user-o margin-r-5"></i> Batch
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $student->batch->batch_name }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <strong>
                                                 <i class="fa fa-link margin-r-5"></i> Year
                                             </strong>
                                             <p class="text-muted multi-line">
                                                 {{ $student->batch->from_year }} - {{ $student->batch->to_year }}
+                                            </p>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <strong>
+                                                <i class="fa fa-map-pin margin-r-5"></i> Registration Number
+                                            </strong>
+                                            <p class="text-muted multi-line">
+                                                {{ $student->registration_number ?? 'N/A' }}
                                             </p>
                                             <hr>
                                         </div>

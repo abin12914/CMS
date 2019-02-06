@@ -33,9 +33,14 @@ class StudentRepository
                 $students = $students->active(); //status == 1
             }
 
-            foreach ($params as $key => $value) {
+            /*foreach ($params as $key => $value) {
                 if(!empty($value)) {
                     $students = $students->where($key, $value);
+                }
+            }*/
+            foreach ($params as $param) {
+                if(!empty($param) && !empty($param['paramValue'])) {
+                    $students = $students->where($param['paramName'], $param['paramOperator'], $param['paramValue']);
                 }
             }
 
@@ -50,7 +55,7 @@ class StudentRepository
             } else {
                 $this->errorCode = $this->repositoryCode + 1;
             }
-            dd($e);
+
             throw new AppCustomException("CustomError", $this->errorCode);
         }
 
@@ -69,14 +74,15 @@ class StudentRepository
             if(empty($student)) {
                 $student = new Student;
             }
-            $student->student_code  = $inputArray['student_code'];
-            $student->name          = $inputArray['name'];
-            $student->address       = $inputArray['address'];
-            $student->phone         = $inputArray['phone'];
-            $student->gender        = $inputArray['gender'];
-            $student->title         = $inputArray['title'];
-            $student->batch_id      = $inputArray['batch_id'];
-            $student->status        = 1;
+            $student->student_code          = $inputArray['student_code'];
+            $student->name                  = $inputArray['name'];
+            $student->address               = $inputArray['address'];
+            $student->phone                 = $inputArray['phone'];
+            $student->gender                = $inputArray['gender'];
+            $student->title                 = $inputArray['title'];
+            $student->batch_id              = $inputArray['batch_id'];
+            $student->registration_number   = $inputArray['registration_number'];
+            $student->status                = 1;
             //student save
             $student->save();
 
@@ -86,7 +92,7 @@ class StudentRepository
                 $this->errorCode = $e->getCode();
             } else {
                 $this->errorCode = $this->repositoryCode + 2;
-            }dd($e);
+            }
 
             throw new AppCustomException("CustomError", $this->errorCode);
         }

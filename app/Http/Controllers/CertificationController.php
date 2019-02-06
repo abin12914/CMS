@@ -282,7 +282,7 @@ class CertificationController extends Controller
             $errorCode = $e->getCode();
         } else {
             $errorCode = 2;
-        }dd($e);
+        }
         //throwing methodnotfound exception when no model is fetched
         throw new ModelNotFoundException("Certification", $errorCode);
     }

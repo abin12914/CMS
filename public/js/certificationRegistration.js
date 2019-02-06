@@ -29,12 +29,36 @@ $(function () {
         });
     });
 
+    $('body').on("keydown", "#student_code", function (evt) {
+        //escape enter key form submission
+        if(evt.keyCode == 13 || evt.key == 'Enter') {
+            evt.preventDefault();
+        }
+    });
+
+    $('body').on("keydown", "#student_name", function (evt) {
+        //escape enter key form submission
+        if(evt.keyCode == 13 || evt.key == 'Enter') {
+            evt.preventDefault();
+        }
+    });
+
     // ajax for importing student
     $('body').on("keyup", "#student_code", function (evt) {
         var studentCode = $(this).val();
         
-        if(studentCode && studentCode != 'undefined') {
-            var searchArray = {'student_code': studentCode};
+        if(studentCode && studentCode != 'undefined' && studentCode.length > 2) {
+            $('#student_name').val('');
+            $('#batch_id').val('');
+            $('#batch_id').trigger('change');
+
+            var searchArray = {
+                'student_code': {
+                    'paramName'     : 'student_code',
+                    'paramOperator' : 'like',
+                    'paramValue'    : '%'+studentCode+'%',
+                }
+            };
             //function call
             renderStudents(searchArray);            
         } else {
@@ -48,8 +72,19 @@ $(function () {
     $('body').on("keyup", "#student_name", function (evt) {
         var studentName = $(this).val();
         
-        if(studentName && studentName != 'undefined') {
-            var searchArray = {'name': studentName};
+        if(studentName && studentName != 'undefined' && studentName.length > 2) {
+            $('#student_code').val('');
+            $('#batch_id').val('');
+            $('#batch_id').trigger('change');
+
+            var searchArray = {
+                'name': {
+                    'paramName'     : 'name',
+                    'paramOperator' : 'like',
+                    'paramValue'    : '%'+studentName+'%',
+                }
+            };
+            /*var searchArray = {'name': studentName};*/
             //function call
             renderStudents(searchArray);            
         } else {
@@ -64,7 +99,17 @@ $(function () {
         var batchId = $(this).val();
         
         if(batchId && batchId != 'undefined') {
-            var searchArray = {'batch_id': batchId};
+            $('#student_name').val('');
+            $('#student_code').val('');
+
+            var searchArray = {
+                'batch_id': {
+                    'paramName'     : 'batch_id',
+                    'paramOperator' : '=',
+                    'paramValue'    : batchId,
+                }
+            };
+            /*var searchArray = {'batch_id': batchId};*/
             //function call
             renderStudents(searchArray);  
         } else {
@@ -97,10 +142,11 @@ function renderStudents(searchArray) {
                         htmlCode += "<tr>"+
                                         "<td>"+ (index+1)+ "</td>"+
                                         "<td>"+ " "+ student.name+ " - "+ student.student_code+ "</td>"+
+                                        "<td>"+ (student.gender == 1 ? 'Male' : 'Female') + "</td>"+
                                         "<td>"+ student.address+ "</td>"+
                                         "<td>"+ student.batch.course.course_name+ " ["+ student.batch.from_year+ " - "+ student.batch.to_year+ "]"+ "</td>"+
                                         "<td>"+ student.batch.course.university.university_name+ "</td>"+
-                                        "<td>"+ student.batch.fee_amount+"</td>"+
+                                        "<td>"+ (student.registration_number || 'N/A') +"</td>"+
                                         "<td><label><input type='checkbox' class='minimal student_id' name='student_id[]' value='"+ student.id+ "'></label></td>"+
                                     "</tr>";
                         $('.students_table_body').html(htmlCode);

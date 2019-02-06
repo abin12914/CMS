@@ -29,40 +29,47 @@ class StudentRegistrationRequest extends FormRequest
         $studentTitles  = config('constants.studentTitles');
         
         return [
-            'student_code'  =>  [
-                                    'required',
-                                    'min:3',
-                                    'max:20',
-                                    Rule::unique('students')->ignore($this->student),
-                                ],
-            'name'          =>  [
-                                    'required',
-                                    'min:3',
-                                    'max:100',
-                                ],
-            'address'       =>  [
-                                    'required',
-                                    'min:3',
-                                    'max:200',
-                                ],
-            'phone'         =>  [
-                                    'nullable',
-                                    'numeric',
-                                    'digits_between:10,13',
-                                    Rule::unique('students')->ignore($this->student),
-                                ],
-            'gender'        =>  [
-                                    'required',
-                                    Rule::in(array_keys($genderTypes)),
-                                ],
-            'title'         =>  [
-                                    'required',
-                                    Rule::in(array_keys($studentTitles)),
-                                ],
-            'batch_id'     =>  [
-                                    'required',
-                                    Rule::in(Batch::pluck('id')->toArray()),
-                                ],
+            'student_code'          =>  [
+                                            'required',
+                                            'min:3',
+                                            'max:20',
+                                            Rule::unique('students')->ignore($this->student),
+                                        ],
+            'name'                  =>  [
+                                            'required',
+                                            'min:3',
+                                            'max:100',
+                                        ],
+            'address'               =>  [
+                                            'required',
+                                            'min:3',
+                                            'max:200',
+                                        ],
+            'phone'                 =>  [
+                                            'nullable',
+                                            'numeric',
+                                            'digits_between:10,13',
+                                            Rule::unique('students')->ignore($this->student),
+                                        ],
+            'gender'                =>  [
+                                            'required',
+                                            Rule::in(array_keys($genderTypes)),
+                                        ],
+            'title'                 =>  [
+                                            'required',
+                                            Rule::in(array_keys($studentTitles)),
+                                        ],
+            'batch_id'              =>  [
+                                            'required',
+                                            Rule::in(Batch::pluck('id')->toArray()),
+                                        ],
+            'registration_number'   =>  [
+                                            'nullable',
+                                            'string',
+                                            'min:2',
+                                            'max:20',
+                                            Rule::unique('students', 'registration_number')->ignore($this->student),
+                                        ],
         ];
     }
 }

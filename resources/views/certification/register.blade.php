@@ -98,7 +98,7 @@
                                                     </div>
                                                     <div class="col-md-4">
                                                         <label for="student_name" class="control-label">Student Name : </label>
-                                                        <input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student code" value="{{ old('student_name') }}" tabindex="4" maxlength="100">
+                                                        <input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name" value="{{ old('student_name') }}" tabindex="4" maxlength="100">
                                                         {{-- adding error_message p tag component --}}
                                                         @component('components.paragraph.error_message', ['fieldName' => 'student_name'])
                                                         @endcomponent
@@ -119,11 +119,12 @@
                                                     <table class="table table-bordered table-hover dataTable">
                                                         <thead>
                                                             <th style="width: 5%;">#</th>
-                                                            <th style="width: 25%;">Student Name & Code</th>
+                                                            <th style="width: 20%;">Student Name & Code</th>
+                                                            <th style="width: 5%;">Gender</th>
                                                             <th style="width: 20%;">Address</th>
                                                             <th style="width: 15%;">Course</th>
                                                             <th style="width: 15%;">University</th>
-                                                            <th style="width: 10%;">Fee</th>
+                                                            <th style="width: 10%;">Reg. Number</th>
                                                             <th style="width: 10%;"><input type="checkbox" name="select_all" id="student_id_select_all"></th>
                                                         </thead>
                                                         <tbody class="students_table_body">
