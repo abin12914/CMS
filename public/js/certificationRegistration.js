@@ -36,6 +36,13 @@ $(function () {
         }
     });
 
+    $('body').on("keydown", "#registration_number", function (evt) {
+        //escape enter key form submission
+        if(evt.keyCode == 13 || evt.key == 'Enter') {
+            evt.preventDefault();
+        }
+    });
+
     $('body').on("keydown", "#student_name", function (evt) {
         //escape enter key form submission
         if(evt.keyCode == 13 || evt.key == 'Enter') {
@@ -48,6 +55,7 @@ $(function () {
         var studentCode = $(this).val();
         
         if(studentCode && studentCode != 'undefined' && studentCode.length > 2) {
+            $('#registration_number').val('');
             $('#student_name').val('');
             $('#batch_id').val('');
             $('#batch_id').trigger('change');
@@ -69,11 +77,38 @@ $(function () {
     });
 
     // ajax for importing student
+    $('body').on("keyup", "#registration_number", function (evt) {
+        var studentRegistrationNumber = $(this).val();
+        
+        if(studentRegistrationNumber && studentRegistrationNumber != 'undefined' && studentRegistrationNumber.length > 2) {
+            $('#student_code').val('');
+            $('#student_name').val('');
+            $('#batch_id').val('');
+            $('#batch_id').trigger('change');
+
+            var searchArray = {
+                'registration_number': {
+                    'paramName'     : 'registration_number',
+                    'paramOperator' : 'like',
+                    'paramValue'    : '%'+studentRegistrationNumber+'%',
+                }
+            };
+            //function call
+            renderStudents(searchArray);            
+        } else {
+            $('.students_table_body').html('');
+        }
+        $('.student_id').prop('checked', false);
+        $('#student_id_select_all').prop('checked', false);
+    });
+
+    // ajax for importing student
     $('body').on("keyup", "#student_name", function (evt) {
         var studentName = $(this).val();
         
         if(studentName && studentName != 'undefined' && studentName.length > 2) {
             $('#student_code').val('');
+            $('#registration_number').val('');
             $('#batch_id').val('');
             $('#batch_id').trigger('change');
 

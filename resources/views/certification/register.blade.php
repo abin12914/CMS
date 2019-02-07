@@ -89,21 +89,28 @@
                                         <div class="col-md-10">
                                             <div class="form-group">
                                                 <div class="row">
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <label for="student_code" class="control-label">Student Code : </label>
                                                         <input type="text" name="student_code" class="form-control" id="student_code" placeholder="Student code" value="{{ old('student_code') }}" tabindex="4" maxlength="100">
                                                         {{-- adding error_message p tag component --}}
                                                         @component('components.paragraph.error_message', ['fieldName' => 'student_code'])
                                                         @endcomponent
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
+                                                        <label for="registration_number" class="control-label">Student Reg. Number : </label>
+                                                        <input type="text" name="registration_number" class="form-control" id="registration_number" placeholder="Student registration number" value="{{ old('registration_number') }}" tabindex="4" maxlength="100">
+                                                        {{-- adding error_message p tag component --}}
+                                                        @component('components.paragraph.error_message', ['fieldName' => 'registration_number'])
+                                                        @endcomponent
+                                                    </div>
+                                                    <div class="col-md-3">
                                                         <label for="student_name" class="control-label">Student Name : </label>
                                                         <input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name" value="{{ old('student_name') }}" tabindex="4" maxlength="100">
                                                         {{-- adding error_message p tag component --}}
                                                         @component('components.paragraph.error_message', ['fieldName' => 'student_name'])
                                                         @endcomponent
                                                     </div>
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <label for="batch_id" class="control-label">Batch : </label>
                                                         {{-- adding authority select component --}}
                                                         @component('components.selects.batches', ['selectedBatchId' => old('batch_id'), 'selectName' => 'batch_id', 'activeFlag' => false, 'tabindex' => 5])

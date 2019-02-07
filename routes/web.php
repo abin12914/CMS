@@ -49,8 +49,8 @@ Route::group(['middleware' => 'auth.check'], function () {
         Route::resource('university', 'UniversityController');
 
         //certificate
-        Route::get('/certificate/issue', 'CertificateController@issue')->name('certificate.issue');
-        Route::resource('certificate', 'CertificateController');
+        //Route::get('/certificate/issue', 'CertificateController@issue')->name('certificate.issue');
+        //Route::resource('certificate', 'CertificateController');
 
         //certification
         Route::resource('certification', 'CertificationController');
@@ -59,5 +59,10 @@ Route::group(['middleware' => 'auth.check'], function () {
         Route::group(['middleware' => 'is.ajax'], function () {
             Route::post('/ajax/student/details', 'StudentController@getStudentDetails')->name('ajax.student.details');
         });
+    });
+
+    Route::group(['middleware' => ['user.role:0,1,2']], function () {
+        //certificate
+        Route::resource('certificate', 'CertificateController');
     });
 });
