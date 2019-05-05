@@ -14,13 +14,12 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 class AddressController extends Controller
 {
     protected $addressRepo;
-    public $errorHead = null, $noOfRecordsPerPage = null;
+    public $errorHead = null;
 
     public function __construct(AddressRepository $addressRepo)
     {
-        $this->addressRepo         = $addressRepo;
-        $this->noOfRecordsPerPage   = config('settings.no_of_record_per_page');
-        $this->errorHead            = config('settings.controller_code.AddressController');
+        $this->addressRepo  = $addressRepo;
+        $this->errorHead    = config('settings.controller_code.AddressController');
     }
 
     /**
@@ -30,10 +29,14 @@ class AddressController extends Controller
      */
     public function index(AddressFilterRequest $request)
     {
-        $noOfRecords = !empty($request->get('no_of_records')) ? $request->get('no_of_records') : $this->noOfRecordsPerPage;
+        $noOfRecords = $request->get('no_of_records') ?? config('settings.no_of_record_per_page');
 
         $params = [
-                'id' => $request->get('address_id'),
+                'address_id' => [
+                    'paramName'     => 'id',
+                    'paramOperator' => '=',
+                    'paramValue'    => $request->get('address_id'),
+                ],
             ];
 
         if($request->ajax()) {
